@@ -1,0 +1,41 @@
+The goal of this assignment is to develop a framework for implementing genetic algorithms in parallel using MPI. Then using this framework you will develop strategies for playing the iterated prisoner's dilema.
+
+Task 1
+
+Write some serial C code that implements the functionality required for a genetic algorithm. Steps involved include
+
+Selection of parents based on fitness
+Crossover of parents
+Random mutation
+Assuming you use the memory efficient method of representing chromosones, the crossover and mutation operations will involve bitwise arithmetic and so you will need to become comfortable with the following operators ~ & ^ |
+
+Use the simple example from class (number of 1s in a string) to test your code with different string lengths, population sizes, mutation rates etc. Make sure to support the case where the chromosone is longer than 32 bits - ie you need to use an array of ints.
+
+Hint: A useful trick is to graph the total fitness of the population over time. This should increase. If it is not, then there may be something wrong with your code!
+
+Task 2
+
+Modify the fitness function so the code plays the iterated prisoner's dilema. Your strategy for playing should be based on the outcomes in the previous two games. As noted in class, this gives 16 possible combinations which can be stored in an int. You will need to figure out a way of mapping the outcomes of previous games to the bits in the int.
+
+You will also need to come up with a method to determine your tactics in the first two games. This can either be hardcoded, random or added to the chromosome encoding of the game.
+
+Allow command line arguments to be given specifying
+
+Size of population
+Number of generations
+Number of iterations of PD to play
+Crossover rate (usually high)
+Mutation rate (usually low)
+Task 3
+
+Using the Master-Slave model, implement the genetic algorithm developed above in MPI. The master process should handle the selection, crossover and mutation. Each slave should handle the fitness evaluation of members of the population.
+
+Do you see the overall fitness continue to increase or does it do something else? Can you explain what is going on?
+
+Bonus Tasks
+
+Investigate the island model for genetic algorithms and add this functionality to your code. Add an extra command line argument to switch between using the island model and the normal model.
+Change the game from Prisoners' Dilema to Rock-Paper-Scissors where the strategy is just a single choice that is always played. Make a win worth 10, draw 2 and loss 0. Graph the fitness per chromosone type (Rock, Paper or Scissors). Explain what you see.
+Submit a tgz with your code files, graphs and a 2(ish) page writeup of what you did and any observations you have made on the behaviour and performance of your code.
+
+

@@ -1,0 +1,149 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage{verbatim}
+\usepackage{textcomp}
+\usepackage{changepage}
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+
+\usepackage{setspace}
+\renewcommand{\baselinestretch}{1.3}
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{color}
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{TRINITY COLLEGE DUBLIN, school of Mathematics} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Assignment \#3, Module: MA5612 \\ % The assignment title
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Gustavo Ramirez} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+\begin{comment}
+\section{Problem description}
+
+\begin{enumerate}
+\item 
+\item 
+\item 
+\item 
+\end{enumerate}
+
+\end{comment}
+
+\newpage
+
+
+\begin{comment}
+
+USEFUL LINKS:
+
+official sources for terminology:
+-----
+http://www.intel.com/content/www/us/en/support/topics/glossary.html
+https://www-01.ibm.com/software/globalization/terminology/a.html
+-----
+
+
+
+
+about IMB processors:
+-----
+
+insert in google: list of ibm processors
+https://en.wikipedia.org/wiki/List_of_IBM_products
+https://www-01.ibm.com/software/passportadvantage/guide_to_identifying_processor_family.html
+http://www.nextplatform.com/2015/08/10/ibm-roadmap-extends-power-chips-to-2020-and-beyond/
+http://www.theverge.com/2015/7/9/8919091/ibm-7nm-transistor-processor
+https://www.ibm.com/developerworks/ibmi/library/i-ibmi-7_2-and-ibm-power8/
+-----
+
+
+
+
+\end{comment}
+
+
+\subsection{\textbf{Solution}}
+
+In general, the program is structured in the following way (two of the implemented functions are omitted, because they're not relevant to the general structure of the program):
+
+\begin{itemize}
+\item query\_cache [function]: one important detail, on the internal specific structure of this implemented cache, is on the implementation of the LRU characteristic of this cache. For this, each line in each subset is characterized by a number; a 0 represents a highly used line, whereas a 3 (2) represents the least used cache line for 4-way (2-way). For the LRU behaviour of the cache, is also useful to know that, for this particular implementation, all cache lines are initialized to -1, regarding addresses. This way, cache lines with a -1 in the address will be prefered for substitution over those with information in the address field.
+\item get\_set\_id: for the full implementation of this function (which returns a set id, given a hexadecimal address in string form), two more functions were implemented, both for parsing between hexadecimal, decimal, binary (some in string format, some in int format).
+\item main(): first, it's important to notice that the order in which the parameters are specified when executing the program, is irrelevant (i.e. the program can be called like ./cache -s 128 -l 16 -a 2 -f addressfile or ./cache -l 16 -a 2 -s 128 -f addressfile). 
+\end{itemize}
+
+
+
+After execution (and on hit rates):
+
+\begin{itemize}
+\item a file named execution\_2WAY\_cache.txt was generated for the case of executing the 2-way cache
+\item a file named execution\_4WAY\_cache.txt was generated for the case of executing the 4-way cache
+\end{itemize}
+
+From the first file, can be seen that a 12.5 \% of hit rate was obtained for the 2-way cache, and from the second a 6.25 \% for the 4-way cache.
+
+
+\end{document}

@@ -1,0 +1,30 @@
+Please note: There must be a Makefile in the directory, with the following two top-level targets, as well as the individual targets mentioned below:
+
+make	Build all targets
+make test	Run tests against all targets
+Write a C program ("ex01numbers.c") which behaves as follows. It should accept a single command-line argument which must be an integer "n" (hint: atoi()). It should then loop from 1 to n, and for each number, print out if it is a triangular number, a square number, or both.
+
+In mathematics, a square number, sometimes also called a perfect square, is an integer that is the square of an integer; in other words, it is the product of some integer with itself. So, for example, 9 is a square number, since it can be written as 3 × 3.
+A triangular number or triangle number counts the objects that can form an equilateral triangle. The nth triangle number is the sum of the n natural numbers from 1 to n. For example, 21 is a triangular number since it is 1+2+3+4+5+6, and so is the 6th triangular number.
+Note: be careful if testing floating-point numbers for equality.
+
+Include the Makefile targets: "make ex01numbers" and "make ex01numbers-test", to build the code and run some test cases, respectively.
+
+Write a C program ("ex02sqrt.c") which behaves as follows. It should accept a single command-line argument which can be a floating-point number "n" (hint: atof()). It should then calculate the square root of n, using the "High/Low Method" (similar to the bisection method). The method should be accurate to at least 3 decimal places. Making this configurable as a run-time parameter would be an advantage (e.g. as a command-line argument). Note: you cannot use the Math library sqrt() function. In particular, to find the first low/high estimates you must use another method, e.g. looping over integers and calculating their squares.
+
+Include the Makefile targets: "make ex02sqrt" and "make ex0sqrt-test", to build the code and run some test cases, respectively.
+
+Briefly compare and contrast the Git revision control system to another of your choice. Discuss features such as repository model (distributed or centralised), concurrency model, license, cost, operating system support, graphical/web interfaces, and any other major differences.
+High/low method
+
+A simple way to compute a square root is the high/low method, similar to the bisection method. This method involves guessing a number based on known squares, then checking if its square is too high or too low and adjusting accordingly.
+
+To find the square root of 20, first note that 42 is 16, and that 52 is 25. As 16 < 20 < 25, the square root of 20 must be between 4 and 5. Guessing 4.5 yields 20.25 and is too high. The next step is to guess 4.4, yielding 19.36 and is too low. Therefore, as before, the square root of 20 must be in between 4.4 and 4.5. This pattern is continued until the desired number of decimal places is achieved. For example:
+
+    4.452 = 19.8025 (too low)
+    4.472 = 19.9809 (too low, but close)
+    4.482 = 20.0704 (too high)
+    4.4752 = 20.025625 (too high)
+    4.4732 = 20.007729 (too high)
+    4.4722 = 19.998784 (too low, but close)
+Now it is known that the square root of 20 is between 4.472 and 4.473, so the decimal representation begins with 4.472...

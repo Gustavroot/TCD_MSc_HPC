@@ -1,0 +1,331 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage{verbatim}
+\usepackage{textcomp}
+\usepackage{changepage}
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+
+\usepackage{setspace}
+\renewcommand{\baselinestretch}{1.3}
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{color}
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{TRINITY COLLEGE DUBLIN, school of Mathematics} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Assignment \#1, Module: MA5612 \\ % The assignment title
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Gustavo Ramirez} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+\section{Problem description}
+
+\begin{enumerate}
+\item Find and summarise the current generation processors from each of the following manufacturers: Intel, AMD, IBM, with respect to manufacturing technology, clock speeds, core count, cache sizes. What can you find out about the Chinese Sunway processor?
+\item Explain what is meant by an accelerator and provide examples of some current accelerators available.
+\item Describe the top500 list of supercomputers. What sorts of programmes run on a selection of the machines in the top 10? Describe the Linpack benchmark and explain how it works. Find some other benchmarks that are sometimes used to rank computer systems.
+\item Explain what is meant by Grid Computing and Cloud Computing outlining some of the benefits and risks associated with them.
+\end{enumerate}
+
+\newpage
+
+
+\begin{comment}
+
+USEFUL LINKS:
+
+official sources for terminology:
+-----
+http://www.intel.com/content/www/us/en/support/topics/glossary.html
+https://www-01.ibm.com/software/globalization/terminology/a.html
+-----
+
+
+
+
+about IMB processors:
+-----
+
+insert in google: list of ibm processors
+https://en.wikipedia.org/wiki/List_of_IBM_products
+https://www-01.ibm.com/software/passportadvantage/guide_to_identifying_processor_family.html
+http://www.nextplatform.com/2015/08/10/ibm-roadmap-extends-power-chips-to-2020-and-beyond/
+http://www.theverge.com/2015/7/9/8919091/ibm-7nm-transistor-processor
+https://www.ibm.com/developerworks/ibmi/library/i-ibmi-7_2-and-ibm-power8/
+-----
+
+
+
+
+\end{comment}
+
+
+\subsection{\textbf{Current generation processors}}
+
+\begin{itemize}
+\item \textbf{Intel}: Intel's last generation, 7th (with codename Kaby Lake), has two\footnote{Specific information about these 2 processors taken from: http://ark.intel.com/products/family/95544/7th-Generation-Intel-Core-i7-Processors} processors.
+
+\begin{center}
+\begin{adjustwidth}{-1.7cm}{}
+\begin{tabular}{ | c | c | c | c | c | }
+\hline
+\textbf{Processor} & \textbf{Manufacturing technology} & \textbf{Clock speed} & \textbf{Core count} & \textbf{Cache size} \\ \hline 
+Core\texttrademark \ i7-7Y75 & 14 nm & 3.6 GHz & 2 & 4 MB SmartCache \\  \hline
+Core\texttrademark \ i7-7500U & 14 nm & 3.5 GHz & 2 & 4 MB SmartCache \\ \hline
+\end{tabular}
+\end{adjustwidth}
+\end{center}
+
+\item \textbf{AMD}: 7th Generation AMD A-Series Processors and FX Processors\footnote{Taken from: http://www.amd.com/en-us/products/processors/laptop-processors} (manufacturing technology: 28 nm; for the upcoming Zen computer processors, the manufacturing technology will be 14 nm).
+
+\begin{center}
+\begin{tabular}{ | c | c | c | c | }
+\hline
+Model & Cores & CPU Frequency (Max/Base) & L2 Cache \\ \hline
+FX\texttrademark \ 9830P & 4 & 	3.7 / 3.0 GHz & 2MB \\ \hline
+FX\texttrademark \ 9800P & 4 & 3.6 / 2.7 GHz & 2MB \\ \hline
+A12-9730P & 4 & 3.5 / 2.8 GHz & 2MB \\ \hline
+A12-9700P & 4 & 3.4 / 2.5 GHz & 2MB \\ \hline
+A10-9630P & 4 & 3.3 / 2.6 GHz & 2MB \\ \hline
+A10-9600P & 4 & 3.3 / 2.4 GHz & 2MB \\ \hline
+A9-9410 & 2 & 3.5 / 2.9GHz & 1MB \\ \hline
+A6-9210 & 2 & 2.8 / 2.4GHz & 1MB \\ \hline
+E2-9010 & 2 & 2.2 / 2.0GHz & 1MB \\ \hline
+\end{tabular}
+\end{center}
+
+
+%{\color{red} \textbf{PENDING}: fill this table}
+\item \textbf{IBM}: The current IBM processor is named Power8, with manufacturing technology of 22 nm (but new chips at 7 nm have already been made and tested at low volume)\footnote{This prior information was taken from: http://www.nextplatform.com/2015/08/10/ibm-roadmap-extends-power-chips-to-2020-and-beyond/}.
+
+There are several IMB systems using the Power8 technology\footnote{Taken from: http://www-01.ibm.com/common/ssi/cgi-bin/ssialias?htmlfid=POB03046USEN}, and depending on the specific server, the processor options are different. For example, in the case of the IBM Power S812LC, it can have 3.32 GHz and 8 cores, or 2.92 GHz and 10 cores, both cases with L2 cache per core of 512 KB.
+
+\end{itemize}
+
+
+\subsubsection{\small Sunway Chinese Processor}
+
+
+
+\begin{comment}
+\begin{center}
+\begin{tabular}{ | c | c | c | c | c | }
+\hline
+\textbf{Processor} & \textbf{Manufacturing technology} & \textbf{Clock speed} & \textbf{Core count} & \textbf{Cache size} \\ \hline 
+cell4 & cell5 & cell4 & cell5 & cell6 \\  \hline
+cell4 & cell5 & cell7 & cell8 & cell9 \\ \hline
+\end{tabular}
+\end{center}
+\end{comment}
+
+
+
+%{\color{red} \textbf{PENDING}: info about the Chinese Sunway processor}
+
+The ShenWei SW26010 processor is the building block of the Sunway TaihuLight (the current world's fastest supercomputer, according to Top500). There are\footnote{Taken from: http://www.pcworld.com/article/3086107/hardware/chinas-secretive-super-fast-chip-powers-the-worlds-fastest-computer.html} 260 cores in the chip, and each chip delivers a performance of 3 teraflops. It is a 64-bit RISC processor.
+
+
+
+\subsection{\textbf{Accelerators}}
+
+An accelerator\footnote{Taken from: http://home.deib.polimi.it/sami/architetture/accelerators.pdf} is a separate architectural substructure that is designed using a different set of objectives than the base processor, where these objectives are derived from the needs of a special class of applications. Through this manner of design, the accelerator is tuned to provide higher performance at lower cost, or at lower power, or with less development effort than with the general-purpose base hardware. Depending on the domain, accelerators often bring greater than a 10$\times$ advantage in performance, or cost, or power over a general-purpose processor.
+
+Then, in summary, an accelerator is an extension of a processor, with the idea of serving broader purposes, with better benefits (in power consumption, performance, etc.).
+
+Examples of accelerators include floating-point coprocessors, graphics processing units (GPUs) to accelerate the rendering of a vertex-based 3D model into a 2D viewing plane, and accelerators for the motion estimation step of a video codec.
+
+Two specific examples of accelerators are\footnote{Taken from: http://www.hpc.mcgill.ca/index.php/starthere/81-doc-pages/255-accelerator-overview}:
+
+\begin{itemize}
+\item Intel Xeon Phi: has a less specialized architecture than a GPU, and is designed to be familiar to anyone who has experience with parallel programming in an x86 environment. The Phi contains Intel Pentium generation processors and runs a version of the Linux operating system. Thus, it can execute parallel code written for "normal" computers using a wide variety of modern and legacy programming models including Pthreads, OpenMP, MPI and even GPU software (e.g. CUDA or OpenCL).
+
+\item Nvidia Kepler GPU: specifically designed for solving problems that can be expressed in a single-instruction, multiple thread (SIMT) model. For example, processing a large vector of data where each element of the vector can be treated independently can be easily matched to the SIMT model.
+\end{itemize}
+
+Both types of devices are cards that interface with a node through the PCI-express bus (Peripheral Component Interconnect Express, a high-speed serial computer expansion bus standard, designed to replace the older PCI, PCI-X, and AGP bus standards), and are designed to accelerate a computation through massive parallelization. These accelerator devices contain a large number of processing cores, as well as internal memory. They are most often used in conjunction with the CPUs of the node to accelerate certain "hot spots" of a computation that requires a large amount of algebraic operations.
+
+
+
+
+
+%!!! IMPORTANT, following line
+%%%%%{\color{red} refine this section (not more text, but improve quality)}
+\subsection{\textbf{top500}}
+
+The top500 is\footnote{Taken from: https://www.top500.org/} a list of the 500 most powerful computer systems. Their list has been compiled twice a year since June 1993 with the help of high-performance computer experts, computational scientists, manufacturers, and the Internet community in general. In the present list (which they call the TOP500), they list computers ranked by their performance on the LINPACK Benchmark.
+
+The Linpack Benchmark is a measure of a computer's floating-point rate of execution. It is determined by running a computer program that solves a dense system of linear equations. Over the years the characteristics of the benchmark has changed a bit. Nowadays, there are three benchmarks included in the Linpack Benchmark report. The benchmark used in the LINPACK Benchmark is to solve a dense system of linear equations. For the TOP500, they used that version of the benchmark that allows the user to scale the size of the problem and to optimize the software in order to achieve the best performance for a given machine. This performance does not reflect the overall performance of a given system, as no single number ever can. It does, however, reflect the performance of a dedicated system for solving a dense system of linear equations. Since the problem is very regular, the performance achieved is quite high, and the performance numbers give a good correction of peak performance.
+
+Another good (and recently growing) benchmark is the HPCG\footnote{Taken from: http://insidehpc.com/2015/12/supercomputer-benchmark-gains-adherents/}; it  that ranks supercomputers on their ability to solve complex problems rather than on raw speed alone.
+
+Other benchmarks are\footnote{This list is taken from: http://www.ctwatch.org/quarterly/articles/2006/11/metrics-for-ranking-the-performance-of-supercomputers/}: NAS parallel benchmark suites, SPEC benchmark, HPC Challenge benchmark, STREAM.
+
+
+
+
+\subsection{\textbf{Grid \& Cloud Computing}}
+
+First of all, it's important to introduce the definitions\footnote{The following two definitions were taken from: http://airccse.org/journal/ijccsa/papers/2412ijccsa01.pdf} associated to these two concepts. The problem with Grid and Cloud computing (and in particular the latter), is that their definitions are not very well stablished. Here, specific definitions are taken, in order to be able to make a comparison between them.
+
+\begin{itemize}
+\item cloud: a style of computing where massively scalable IT-related capabilities are provided as a service across the cyber infrastructure to external users. It has been claimed for some aspects that cloud systems are narrow Grids (to be defined next), in the sense of exposing reduced interfaces.
+\item grid: a system that coordinates resources which are not subject to centralized control, using standard, open, general-purpose protocols and interfaces to deliver nontrivial qualities of service. 
+\end{itemize}
+
+Another good but also simple and practical definition of cloud computing\footnote{This definition, and the following table, were both taken from: http://airccse.org/journal/ijccsa/papers/2412ijccsa01.pdf}, is the following: \textit{using the internet to allow people to access technology-enabled services; those services must be massively scalable.}
+
+Instead of presenting some of the main characteristics of Grid and Cloud computing as benefits of risks, in the following table are presented some (not all) of the main characteristics of both schemes, in order to make a direct comparison. Whether or not this properties are benefits or risks, in general, depends on the specific application in which the comparison is taken.
+
+\begin{center}
+\begin{adjustwidth}{-1.7cm}{}
+\begin{tabular}{ | c | c | c | }
+\hline
+ \textbf{Feature} & \textbf{Grid} & \textbf{Cloud} \\ \hline
+ Resource Sharing & Collaboration & Assigned resources are not shared \\  \hline
+ Architecture & Service oriented &  User chosen architecture \\ \hline
+ Virtualization & Virtualization of data
+and computing resources & Virtualization of hard. and soft. platforms.  \\ \hline
+ Security & Security through credential delegations & Security through isolation  \\ \hline
+\end{tabular}
+\end{adjustwidth}
+\end{center}
+
+\begin{comment}
+\lipsum[2] % Dummy text
+
+\begin{align} 
+\begin{split}
+(x+y)^3 	&= (x+y)^2(x+y)\\
+&=(x^2+2xy+y^2)(x+y)\\
+&=(x^3+2x^2y+xy^2) + (x^2y+2xy^2+y^3)\\
+&=x^3+3x^2y+3xy^2+y^3
+\end{split}					
+\end{align}
+
+Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies
+
+%------------------------------------------------
+
+\subsection{Heading on level 2 (subsection)}
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. 
+\begin{align}
+A = 
+\begin{bmatrix}
+A_{11} & A_{21} \\
+A_{21} & A_{22}
+\end{bmatrix}
+\end{align}
+Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
+
+%------------------------------------------------
+
+\subsubsection{Heading on level 3 (subsubsection)}
+
+\lipsum[3] % Dummy text
+
+\paragraph{Heading on level 4 (paragraph)}
+
+\lipsum[6] % Dummy text
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 2
+%----------------------------------------------------------------------------------------
+
+\section{Lists}
+
+%------------------------------------------------
+
+\subsection{Example of list (3*itemize)}
+\begin{itemize}
+	\item First item in a list 
+		\begin{itemize}
+		\item First item in a list 
+			\begin{itemize}
+			\item First item in a list 
+			\item Second item in a list 
+			\end{itemize}
+		\item Second item in a list 
+		\end{itemize}
+	\item Second item in a list 
+\end{itemize}
+
+%------------------------------------------------
+
+\subsection{Example of list (enumerate)}
+\begin{enumerate}
+\item First item in a list 
+\item Second item in a list 
+\item Third item in a list
+\end{enumerate}
+
+%----------------------------------------------------------------------------------------
+\end{comment}
+
+
+
+
+
+
+\end{document}

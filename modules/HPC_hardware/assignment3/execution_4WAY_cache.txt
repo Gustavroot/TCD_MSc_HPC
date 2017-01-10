@@ -1,0 +1,208 @@
+
+Program for simulation of a cache.
+
+Specs of cache:
+ - size of cache: 128
+ - size of one line: 16
+ - set associative type: 4-way
+ - filename for addresses: addresses.txt
+
+Testing cache (0 is miss, 1 is hit).
+------------------------------------
+
+Searching for data in memory at address 0000
+ in cache set No. 0
+2
+...it's a miss, but no cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 0004
+ in cache set No. 0
+2
+...it's a miss, but no cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 000c
+ in cache set No. 0
+2
+...it's a miss, and cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 2200
+ in cache set No. 0
+2
+...it's a miss, and cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 00d0
+ in cache set No. 1
+2
+...it's a miss, but no cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 00e0
+ in cache set No. 2
+2
+...it's a miss, but no cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 1130
+ in cache set No. 3
+2
+...it's a miss, but no cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 0028
+ in cache set No. 2
+2
+...it's a miss, but no cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 113c
+ in cache set No. 3
+2
+...it's a miss, but no cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 2204
+ in cache set No. 0
+2
+...it's a miss, and cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 0010
+ in cache set No. 1
+2
+...it's a miss, but no cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 0020
+ in cache set No. 2
+2
+...it's a miss, and cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 0004
+ in cache set No. 0
+2
+...it's a miss, and cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 0040
+ in cache set No. 0
+2
+...it's a miss, and cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 2208
+ in cache set No. 0
+2
+...it's a miss, and cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 0008
+ in cache set No. 0
+2
+...it's a miss, and cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 00a0
+ in cache set No. 2
+2
+...it's a miss, and cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 0004
+ in cache set No. 0
+2
+...it's a miss, and cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 1104
+ in cache set No. 0
+2
+...it's a miss, and cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 0028
+ in cache set No. 2
+2
+...it's a miss, and cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 000c
+ in cache set No. 0
+2
+...it's a miss, and cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 0084
+ in cache set No. 0
+2
+...it's a miss, and cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 000c
+ in cache set No. 0
+2
+...it's a miss, and cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 3390
+ in cache set No. 1
+2
+...it's a miss, and cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 00b0
+ in cache set No. 3
+2
+...it's a miss, and cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 1100
+ in cache set No. 0
+2
+...it's a miss, and cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 0028
+ in cache set No. 2
+2
+...it's a hit!
+Miss or hit: 1.
+
+Searching for data in memory at address 0064
+ in cache set No. 2
+2
+...it's a miss, and cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 0070
+ in cache set No. 3
+2
+...it's a miss, and cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 00d0
+ in cache set No. 1
+2
+...it's a hit!
+Miss or hit: 1.
+
+Searching for data in memory at address 0008
+ in cache set No. 0
+2
+...it's a miss, and cache line replacement was necessary.
+Miss or hit: 0.
+
+Searching for data in memory at address 3394
+ in cache set No. 1
+2
+...it's a miss, and cache line replacement was necessary.
+Miss or hit: 0.
+
+
+------------
+hit rate = 6.250000 perc.
+

@@ -1,0 +1,14 @@
+Use various web resources to research the following topics and submit a PDF or text document addressing each of the following topics. The total report should be about 3-4 pages.
+
+Find and summarise the current generation processors from each of the following manufacturers
+
+Intel
+AMD
+IBM
+with respect to manufacturing technology, clock speeds, core count, cache sizes. What can you find out about the Chinese Sunway processor?
+
+Explain what is meant by an accelerator and provide examples of some current accelerators available.
+
+Describe the top500 list of supercomputers. What sorts of programmes run on a selection of the machines in the top 10? Describe the Linpack benchmark and explain how it works. Find some other benchmarks that are sometimes used to rank computer systems.
+
+Explain what is meant by Grid Computing and Cloud Computing outlining some of the benefits and risks associated with them.

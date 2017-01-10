@@ -1,0 +1,16 @@
+The questions below assume the Bash shell. If you prefer to give answers pertaining to
+a different shell, please specify which and make it clear for each question.
+
+Describe how you would make the 'grep' command highlight matched patterns in colour. How could you change the default behaviour of the 'grep' command so that it always uses colour? How would you ensure that this is the behaviour of 'grep' every time that you log in?
+What is the system load average? Give at least two commands which display the load average. Describe briefly a rule of thumb for the load average -- e.g. what load average on chuck might give rise to concern.
+What is the default kill signal? What is a zombie process? How would you get a list of zombie processes?
+What is a runlevel? What are the two main runlevels used on a Linux system?
+What is a setuid program? What command-line could you use to find all of the setuid programs in /usr?
+Using standard command-line utilities, show how to do the following:
+Relative to the current directory, display a list of file/folder sizes in order of size (for folders, the size must include the contents of the folder)
+Count the number of running 'bash' processes (careful to only include 'bash' processes, and not for example someone running 'gedit bashful.txt'
+Count the number of running processes (careful not to include the header line)
+Given an input text file, only display lines from that file which contain a group of 16 digits, with optional dashes after each group of 4. Whitespace at the start and end of the line is allowed, but nothing else.
+Find all files in a given directory which are bigger than 100MB in size and haven't been modified in over 30 days, and compress them with gzip.
+Ignoring files that you don't have permission to read (and make sure that any errors are not displayed), count how many files in the '/etc' directory contain the word "linux" (in any mixture of upper- or lower-case). You can just take the files immediately in /etc and not subdirectories.
+Given a standard '/etc/passwd' file, display a sorted list of Full Names - only the GCOS field, and not other columns from the file.

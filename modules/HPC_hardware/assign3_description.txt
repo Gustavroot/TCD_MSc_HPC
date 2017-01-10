@@ -1,0 +1,13 @@
+This exercise involves writing code to simulate the operation of a small data cache. This cache is 128 bytes in size and has cache lines of 16 bytes.
+
+Use the address stream in the attached file for this lab.
+
+Task 1
+
+On paper, work through the address stream, figuring out which set each address belongs in for a direct mapped, fully associative, 2-way and 4-way cache. Assume the replacement policy is least recently used. Calculate the hit rates for each type of cache.
+
+Task 2
+
+Write a program that carries out the above analysis, determining how many hits and misses there are. Your code should take command line arguments that specify the total cache size, line size and associativity of the cache and an option to tell it the file that contains the addresses. A sample invocation of the code should look something like ./cache -s 128 -l 16 -a 2 -f addressfile
+
+Submit a tgz file with your code and a brief (< 1 page) write up that highlights any novel or interesting parts of your solution.

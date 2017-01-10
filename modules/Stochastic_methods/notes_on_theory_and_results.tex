@@ -1,0 +1,292 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage{listings}
+\usepackage{verbatim}
+\usepackage{textcomp}
+\usepackage{changepage}
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+
+\usepackage{color}
+
+\usepackage{setspace}
+\renewcommand{\baselinestretch}{1.3}
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{color}
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+%\usepackage[usenames, dvipsnames]{color}
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{TRINITY COLLEGE DUBLIN, school of Mathematics} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Assignment \#2, Module: MA5634 \\ % The assignment title
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Gustavo Ramirez} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+
+\section{Poisson-distributed bank withdrawals}
+
+\ \\
+\textbf{REVIEW OF CONCEPTS:}
+
+First, it's important to recall that a random variable is "some numerical value determined by the result of an experiment".
+
+Both the \textit{cumulative distribution function} and the \textit{probability mass function} are defined over that random variable:
+
+\begin{equation}
+F(x) = P\{ X \leq x \}
+\end{equation}
+
+\begin{equation}
+p(x) = P\{ X = x \}
+\end{equation}
+
+For a continuous random variable:
+
+\begin{equation}
+P\{ X \in C \} = \int_{C}f(x) dx
+\end{equation}
+
+where $f$ is the \textit{probability density function}.
+
+The \textit{cumulative distribution} and the \textit{probability density} can be connected:
+
+\begin{equation}
+F(a) = P\{ X \in (-\infty, a) \} = \int_{-\infty}^{a}f(x) dx \Rightarrow \frac{d}{da}F(a) = f(a)
+\end{equation}
+
+Another perspective: $f(a)$ is the measure of how likely it is that the random variable will be near $a$.
+
+Also, it's important to recall the expectation (or expected value) of a random variable: if $X$ is a continuous random variable having probability density function $f$, then:
+
+
+\begin{equation}
+E[X] = \int_{-\infty}^{\infty}xf(x)dx
+\end{equation}
+
+and also:
+
+\begin{equation}
+E[g(X)] = \int_{-\infty}^{\infty}g(x)f(x)dx
+\end{equation}
+
+Finally, let's review the concept of variance:
+
+\begin{equation}
+\mu = E[g(X)] \Rightarrow Var(X) = E[(X-\mu)^{2}]
+\end{equation}
+
+
+\ \\
+\textbf{ON THE POISSON AND THE EXPONENTIAL DISTRIBUTIONS:}
+
+\begin{itemize}
+\item \textbf{Poisson (discrete):}
+
+\begin{equation}
+p_{i} = P\{ X = i \} = e^{-\lambda}\frac{\lambda^{i}}{i!}, \ \ \ \ i = 0, 1, ...
+\label{eq:poisson1}
+\end{equation}
+
+\begin{equation}
+\Rightarrow P\{ X < j \} = \sum_{i=0}^{j}p_{i}, \ \ \ \ E[X] = \lambda
+\label{eq:poisson2}
+\end{equation}
+
+\item \textbf{exponential (continuous):}
+
+\begin{equation}
+f(x) = \lambda e^{-\lambda x}, \ \ \ \ 0<x<\infty
+\label{eq:exponential1}
+\end{equation}
+
+\begin{equation}
+\Rightarrow P\{ X < a \} = \int_{0}^{a}f(x)dx, \ \ \ \ E[X] = \frac{1}{\lambda}
+\label{eq:exponential2}
+\end{equation}
+
+
+\end{itemize}
+
+
+\ \\
+\textbf{ON THE POSED PROBLEM:}
+
+A Poisson (discrete) distribution is given for the number of withdrawls ($X$) in a single month. On the other hand, for the amount of each withdrawal ($Y$), a exponential (continuous) distribution is given.
+
+The final goal is: \textit{calculate the probability that the total sum of withdrawals in a given month exceeds 50 000, i.e.:}
+
+\begin{equation}
+P(XY>50000)=?
+\end{equation}
+
+According to the data given in the problem (here a slight change in notation is made: $i$ refers to number of withdrawals, and $x$ refers to the amount per withdrawal):
+
+\begin{equation}
+p_{i} = P\{ X = i \} = e^{-50}\frac{50^{i}}{i!}, \ \ \ \ i = 0, 1, ...
+\label{eq:poisson3}
+\end{equation}
+
+\begin{equation}
+f(x) = \frac{e^{-\frac{x}{800}}}{800}, \ \ \ \ 0<x<\infty
+\label{eq:exponential3}
+\end{equation}
+
+
+
+\ \\
+\textit{\textbf{Superficial solution}}:
+
+In the case of a discrete distribution, obtaining a probability is simple, as it's just $p_{i}$, while in the continuous case, $f(x)$ is a probability density, and $f(x)dx$ is the corresponding probability (of being around $x$ in an interval of width $dx$).
+
+Then, in the specific case of study here, and for equations \ref{eq:poisson3} and \ref{eq:exponential3}, the probability  of having withdrawn $i$ times, with a $x$ amount per each withdrawal is:
+
+\begin{equation}
+P(i, x) = p_{i}f(x)dx
+\label{eq:total_prob1}
+\end{equation}
+
+For each number $i$, there is a probability that $i x < 50000$ (or equivalently, that $x<\frac{50000}{i}$). Then (for fixed $i$):
+
+
+\begin{equation}
+P(i)|_{ix<50000, \ fixed i} = \int_{0}^{50000/i}p_{i}f(x)dx
+\label{eq:total_prob2}
+\end{equation}
+
+Those probabilities have to be added, for every possibly $i$, which implies:
+
+
+\begin{equation}
+P_{total} = P|_{ix<50000} = p_{0}\int_{0}^{\infty}f(x)dx+\sum_{1}^{\infty}\int_{0}^{50000/i}p_{i}f(x)dx = p_{0}+\sum_{1}^{\infty}\int_{0}^{50000/i}p_{i}f(x)dx
+\label{eq:total_prob3}
+\end{equation}
+
+
+\ \\
+\textit{\textbf{Implementation of solution}}:
+
+Finally, plugging the distributions information:
+
+\begin{equation}
+\begin{split}
+P_{total} = e^{-50}+\sum_{1}^{\infty} \left( e^{-50}\frac{50^{i}}{i!} \right) \int_{0}^{50000/i}\left( \frac{e^{-\frac{x}{800}}}{800} \right)dx = e^{-50}+\sum_{1}^{\infty} \left( \left( e^{-50}\frac{50^{i}}{i!} \right) \left( 1 - e^{-50000/(800i)} \right) \right) \\
+= e^{-50}+\sum_{1}^{\infty} \left( e^{-50}\frac{50^{i}}{i!} \right) - \sum_{1}^{\infty} \left( e^{-50}\frac{50^{i}}{i!} \right) e^{-50000/(800i)}  = 1 - e^{-50}\sum_{1}^{\infty} \left( e^{-62.5i}\frac{50^{i}}{i!} \right)
+\end{split}
+\label{eq:total_prob4}
+\end{equation}
+
+
+The goal is to obtain $P$ such that $ix>50000$. Then:
+
+\begin{equation}
+\begin{split}
+P = 1 - P_{total}  = e^{-50}\sum_{1}^{\infty} \left( e^{-62.5i}\frac{50^{i}}{i!} \right)
+\end{split}
+\label{eq:total_prob4}
+\end{equation}
+
+The sum can be performed numerically, and in this case it was done with the use of a Wolfram|Alpha's online sum calculator. The result is:
+
+
+\begin{equation}
+\begin{split}
+P (XY>50000) = e^{-50}\sum_{1}^{\infty} \left( e^{-62.5i}\frac{50^{i}}{i!} \right) = 3.59389\cdot 10^{-26}
+\end{split}
+\label{eq:total_prob4}
+\end{equation}
+
+
+
+\section{Monte Carlo integration}
+
+
+\begin{itemize}
+\item \textbf{uniform random numbers:} 
+
+
+
+
+
+\item \textbf{exponentially distributed random numbers:} 
+
+
+{\color{red} PENDING ! }
+
+
+\end{itemize}
+
+
+\section{Student's diet: Markov matrix}
+
+
+
+
+\section{Markov Chain: predator-prey system}
+
+
+
+
+
+\end{document}

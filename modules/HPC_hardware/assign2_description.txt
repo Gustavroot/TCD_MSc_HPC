@@ -1,0 +1,32 @@
+Matrix multiplication is one of the most common tasks in numerical algorithms. In this assignment you will write code to carry out this operation in serial and examine the codes performance.
+
+Task 1
+Write a C program that multiplies two matrices. The sizes of the matrices should again be given to the program as command line arguments and be filled with values from a random number generator. You should have a function like
+
+int mat_mul(double **A, double **B, double **C, int l, int m, int n)
+
+which multiplies A and B and stores the result in C and where A is a l*m matrix and B is a m*n matrix. A sample run of your program should look something like
+
+./matmul 2 2 3
+======= Matrix A =======
+2 -2
+3 -1
+======= Matrix B =======
+1 3 -2
+-2 1 3
+======= Matrix C =======
+-2 4 -10
+5 8 -9
+
+Hint: To avoid problems of overflow or lack of precision, set the values of your matrices to be between -2 and +2. You may want to also turn off printing the matrices for large sizes (greater than 10x10)!
+
+Task 2
+Use the gettimeofday() function (or some other appropriate timing routine) to measure the time taken to calculate the matrix product for various sizes of matrices. Plot a graph of your timings using gnuplot and generate a PostScript file with the graph. What conclusions, if any, can you draw about the performance of your code.
+
+Task 3
+Play around with various compiler options for optimizing the execution of your code. Compare the performance against the unoptimized (-O0) version timed in Task 2. Which combination of flags gives the best performance?
+
+Task 4 (bonus marks)
+Read about the BLAS library and see if you can modify your code to use this library to get better performance. You will want to look at the DGEMM function.
+
+Submit a tar file containing your code, your graph and a brief write up on what you did.

@@ -1,0 +1,228 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage{verbatim}
+\usepackage{textcomp}
+\usepackage{changepage}
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+
+\usepackage{color}
+
+\usepackage{setspace}
+\renewcommand{\baselinestretch}{1.3}
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{color}
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+%\usepackage[usenames, dvipsnames]{color}
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{TRINITY COLLEGE DUBLIN, school of Mathematics} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Assignment \#2, Module: MA5633 \\ % The assignment title
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Gustavo Ramirez} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+\section{Part 2 of assignment: interpolation by splines}
+
+A brief presentation is made here, of all the mathematical tools needed to implement the natural and complete spline approximations, in the general case.
+
+\begin{comment}
+\begin{enumerate}
+\item Write a C program that multiplies two matrices. The sizes of the matrices should again be given to the program as command line arguments and be filled with values from a random number generator.
+\item Use the gettimeofday() function (or some other appropriate timing routine) to measure the time taken to calculate the matrix product for various sizes of matrices. Plot a graph of your timings using gnuplot and generate a PostScript file with the graph. What conclusions, if any, can you draw about the performance of your code.
+\item Play around with various compiler options for optimizing the execution of your code. Compare the performance against the unoptimized (-O0) version timed in Task 2. Which combination of flags gives the best performance?
+\item (bonus marks) Read about the BLAS library and see if you can modify your code to use this library to get better performance. You will want to look at the DGEMM function.
+\end{enumerate}
+\end{comment}
+
+\newpage
+
+
+\begin{comment}
+
+USEFUL LINKS:
+
+official sources for terminology:
+-----
+http://www.intel.com/content/www/us/en/support/topics/glossary.html
+https://www-01.ibm.com/software/globalization/terminology/a.html
+-----
+
+
+
+
+about IMB processors:
+-----
+
+insert in google: list of ibm processors
+https://en.wikipedia.org/wiki/List_of_IBM_products
+https://www-01.ibm.com/software/passportadvantage/guide_to_identifying_processor_family.html
+http://www.nextplatform.com/2015/08/10/ibm-roadmap-extends-power-chips-to-2020-and-beyond/
+http://www.theverge.com/2015/7/9/8919091/ibm-7nm-transistor-processor
+https://www.ibm.com/developerworks/ibmi/library/i-ibmi-7_2-and-ibm-power8/
+-----
+
+\end{comment}
+
+\section{General Construction}
+
+\textbf{Purpose}: \textit{obtain a cubic interpolating spline, a function $s$, such that $s(x_{i}) = y_{i}$ for given values $y_{i}$, where $a=x_{0}<x_{1}<...<x_{m}=b$. $s_{i}$ is a cubic polynomial in the interval $[x_{i}, x_{i+1}]$}. There are $m+1$ points, and therefore $m$ sub-intervals.
+
+\ \\
+
+\textbf{Restrictions on the system}: restrictions are imposed over the values of the second derivative at the end points of the total interval: $s''(x_{0})$ and $s''(x_{m})$, for the case of the natural spline, but restrictions on the continuity of the first derivative are imposed in the case of complete spline. Those two restrictions will lead to two additional equations, contributing to find the total solution of the system. There are two options for imposing these restrictions on the second derivative:
+
+\begin{enumerate}
+\item natural splines: $s_{0}''(x_{0}) = s_{m-1}''(x_{m}) = 0$
+\item complete splines: $s_{0}'(x_{0}) = f'(x_{0})$ and $s_{m-1}'(x_{m}) = f'(x_{m})$
+\end{enumerate}
+
+\ \\
+
+\textbf{System of equations}: 
+
+If each of the $m$ cubic functions $s_{i}$ have the form: $s(x_{i}) = a_{i}(x-x_{i})^3 + b_{i}(x-x_{i})^2 + c_{i}(x-x_{i}) + d_{i}$, then there are a total of $4m$ parameters to be determined. Then, $4m$ conditions are needed.
+
+These conditions are:
+
+\begin{enumerate}
+\item $s(x_{i}) = y_{i}$, \quad \quad $i$ for all points but the last
+\item $s_{m-1} = y_{m}$, \quad \quad last point
+\item Boundary conditions on the function, derivative and second derivative; these three type of bounday conditions lead to $m-1$ each, because there are $m-1$ internal points (bounded by the $m$ internal intervals).
+\end{enumerate}
+
+Is clear that for the first condition, is necessary to avoid the last point, because $s_{i}$ is defined over $[x_{i}, x_{i+1}]$, so there is no $s_{m}$ spline. For the last point, the second condition applies the restriction.
+
+Therefore, the number of conditions is: $m+1+3(m-1) = 4m-2$
+
+And the last two conditions necessary for completing the $4m$ conditions, are the restrictions imposed on the second derivatives at the edges.
+
+Using an equidistant spacing $h=x_{i+1}-x_{i}$, and combining all the $4m$ restrictions, the resulting system of equations is (re-labeling the second derivatives on $s$ as new $\sigma$ variables):
+
+\begin{itemize}
+\item $\sigma_{i-1}+4\sigma_{i}+\sigma_{i+1} = 6 \left( \frac{y_{i+1}-2y_{i}+y_{i-1}}{h^{2}} \right)$, \quad \quad $i=1, ..., m-1$
+\item $c_{i} = \frac{y_{i+1}-y_{i}}{h}-h\frac{2\sigma_{i}+\sigma_{i+1}}{6}$
+\item $a_{i} = \frac{\sigma_{i+1}-\sigma_{i}}{6h}$
+\item $b_{i} = \frac{\sigma_{i}}{2}$
+\item $d_{i} = y_{i}$
+\end{itemize}
+
+and in the last four equations: $i = 0, ..., m-1$.
+
+
+\section{Natural Splines}
+
+Restrictions: $\sigma_{0} = \sigma_{m} = 0$, which leads to the matrix formulation:
+
+\begin{equation}
+\begin{bmatrix}
+4 & 1 &  &  &  &  \\
+1 & 4 & 1 &  &  &  \\
+ &  & ... &  &  &  \\
+ &  &  & 1 & 4 & 1 \\
+ &  &  &  & 1 & 4 \end{bmatrix}
+\left[ \begin{array}{c} \sigma_1 \\ \sigma_2 \\ ... \\ \sigma_{m-2} \\ \sigma_{m-1} \end{array} \right]
+=\frac{6}{h^{2}}
+\left[ \begin{array}{c} y_{2}-2y_{1}+y_{0} \\ y_{3}-2y_{2}+y_{1} \\ ... \\ y_{m-1}-2y_{m-2}+y_{m-3} \\ y_{m}-2y_{m-1}+y_{m-2} \end{array} \right]
+\end{equation}
+
+It is important to note that this previous matrix is of size $(m-1)\times(m-1)$.
+
+\section{Complete Splines}
+
+\begin{comment}
+Restrictions: $\sigma_{0} = f(x_{0})$ and $\sigma_{m} = f(x_{m})$, which leads to the matrix formulation:
+
+\begin{equation}
+\begin{bmatrix}
+4 & 1 &  &  &  &  \\
+1 & 4 & 1 &  &  &  \\
+ &  & ... &  &  &  \\
+ &  &  & 1 & 4 & 1 \\
+ &  &  &  & 1 & 4 \end{bmatrix}
+\left[ \begin{array}{c} \sigma_1 \\ \sigma_2 \\ ... \\ \sigma_{m-2} \\ \sigma_{m-1} \end{array} \right]
+=\frac{6}{h^{2}}
+\left[ \begin{array}{c} y_{2}-2y_{1}+y_{0}-{\color{red} \sigma_{0}\frac{h^{2}}{6} } \\ y_{3}-2y_{2}+y_{1} \\ ... \\ y_{m-1}-2y_{m-2}+y_{m-3} \\ y_{m}-2y_{m-1}+y_{m-2}-{\color{red} \sigma_{m-1}\frac{h^{2}}{6} } \end{array} \right]
+\end{equation}
+\end{comment}
+
+
+In this second case, the matrix on the left side is expanded, in such a manner that contains the matrix of natural case, but three of the external walls in the matrix are modified.
+
+This is done by adding two more equations to the total system of equations, resulting in a system of $m+1$ equations, and eventually in a expanded matrix of size $(m+1)\times (m+1)$.
+
+In the implemented Python code, the procedures are the same, with just two simple if statements added to add some more entries in the case of the complete spline.
+
+\section{On the results}
+
+It is very clear that the cubic splines are supposed to generate (in general) better results when approximating functions, i.e. decrease the errors, when compared to the polynomial approximation. This is because of the restrictions taken. In the polynomial case, the idea is to minimize the correlation, and from there conditions are stablished for the parameters of the piecewise polynomial defined by regions over the independent variable.
+
+On the other hand, the cubic spline is richer in information, in the sense that the conditions for the parameters are obtained from a more varied set of conditions, those corresponding to specific features of the original function, e.g. first derivative, second derivative, etc.
+
+As can be seen from the plots in the directory ./plots/, the error is decreased considerably when compared to the polynomial approximations studied in class.
+
+When comparing the natural with the complete approximation, forcing the first derivative to coincide in the extremes in the complete case, increases the error on both sides of an specific approximation. But otherwise, in general, both approximations turned out better than the polynomial approximation, and both are very similar in shape, up to the point that at a grid value of 0,0625 they are almost equal (see figures ./plots/SplineFit\_complete\_h0.0625.png and ./plots/SplineFit\_natural\_h0.0625.png for this).
+
+
+\end{document}

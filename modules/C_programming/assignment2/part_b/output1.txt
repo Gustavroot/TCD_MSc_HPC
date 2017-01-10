@@ -1,0 +1,2 @@
+<                                           aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaddddddddddddddddddddddddddddddddddddddddddddeeeeffffffffffffffffffffffffffffffffffffffgghhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhiiiijjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkllllllllllllllllllllllllllllllllllllllllllllllooqqqqrrrsssssssssssssssssssssssssssssssssssssssssssssstttuuuwwwy>
+Time spent for bubblesort: 0.001461s

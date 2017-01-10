@@ -1,0 +1,486 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage{verbatim}
+\usepackage{textcomp}
+\usepackage{changepage}
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+
+\usepackage{setspace}
+
+\renewcommand{\baselinestretch}{0.9}
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{color}
+
+\usepackage[a4paper]{geometry}
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{listings}
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{TRINITY COLLEGE DUBLIN, school of Mathematics} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Assignment \#1, Module: MA5621 \\ % The assignment title
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Gustavo Ramirez} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\newgeometry{left=0.5cm,right=1.5cm,bottom=0.1cm}
+
+
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+
+
+\section{Problem description (NOTE: most of the solutions were tested in Ubuntu 16.04 LTS)}
+
+\begin{enumerate}
+\item Name 6 different Linux distributions, and state which major packaging format they use (e.g. RPM or DEB).
+\item Give a brief overview of the different sections of the Man Pages (note: not the parts of an individual page NAME, SYNOPSIS etc).
+\item Describe how you would change the shell prompt to make it BOLD and display in the colour red.
+\item Given a directory of files, how would you list the files while sorting them in file size in descending order? And in ascending order?
+\item Starting in your home directory (on 'chuck'), list at least two ways to change to the '/tmp' directory.
+\item On the command-line, give at least 2 examples of how would you delete a file called '-i' (without the qoutes).
+\item Give at least 2 ways to show the contents of a directory called "My Docs" using 'ls -l'. I.e. how do you get around SPACEs in a file/folder name using the shell.
+\item Using the 'date' command, how would you display the current date/time in the following format: YYYYMMDDHHMMSS. How would you display the date in that format from exactly 1 week ago from the time you run the command?
+\item What is the Unix Epoch? How would you display it using the 'date' command?
+\item Using the 'cal' command, how would you display the full calendar year, with weeks starting in a Monday?
+\item What is the purpose of the PATH environment variable. How would you add a new location to it?
+\item Using shell wildcards (fileglobs), how would you list:
+\begin{itemize}
+\item All files starting with the letter k?
+\item All files starting with the letter k, with a .txt extension?
+\item All files starting with an upper case letter?
+\item All files with 4 characters, where the third character is a number?
+\end{itemize}
+\item What is the purpose of the umask? How would you ensure that every new file that you create has the following permissions: full access for you, read-only access for your group, and no access for anyone else?
+\item How would you change the behaviour of the delete command to prompt for confirmation before deleting files?
+\end{enumerate}
+
+
+
+
+\newpage
+
+
+\begin{comment}
+
+USEFUL LINKS:
+
+official sources for terminology:
+-----
+http://www.intel.com/content/www/us/en/support/topics/glossary.html
+https://www-01.ibm.com/software/globalization/terminology/a.html
+-----
+
+
+
+
+about IMB processors:
+-----
+
+insert in google: list of ibm processors
+https://en.wikipedia.org/wiki/List_of_IBM_products
+https://www-01.ibm.com/software/passportadvantage/guide_to_identifying_processor_family.html
+http://www.nextplatform.com/2015/08/10/ibm-roadmap-extends-power-chips-to-2020-and-beyond/
+http://www.theverge.com/2015/7/9/8919091/ibm-7nm-transistor-processor
+https://www.ibm.com/developerworks/ibmi/library/i-ibmi-7_2-and-ibm-power8/
+-----
+
+
+
+
+\end{comment}
+
+\restoregeometry
+
+
+\begin{onehalfspacing}
+
+\subsection{\textbf{}}
+
+\begin{itemize}
+\item Ubuntu (packaging format: DEB)
+\item Debian (packaging format: DEB)
+\item Red Hat Linux (packaging format: RPM)
+\item Elementary OS Freya (packaging format: DEB)
+\item Fedora (packaging format: RPM)
+\item Linux Mint (packaging format: DEB)
+\end{itemize}
+
+\subsection{\textbf{}}
+
+This information is described in the Man Pages for the command \textit{man}, with the following descriptions for each of the 9 sections:
+
+\begin{enumerate}
+\item Executable programs or shell commands
+\item System calls (functions provided by the kernel)
+\item Library calls (functions within program libraries)
+\item Special files (usually found in /dev)
+\item File formats and conventions eg /etc/passwd
+\item Games
+\item Miscellaneous  (including  macro  packages  and  conventions), e.g. man(7), groff(7)
+\item System administration commands (usually only for root)
+\item Kernel routines [Non standard]
+\end{enumerate}
+
+\subsection{\textbf{}}
+
+There are four variables for customizing the shell prompt: PS$i$ (with $i$ going from 1 to 4). In specific, changes are to be made here to variable PS1, for enabling bold letters and modifying the colour to red. The specification of the value of PS1 is in the \textasciitilde/.bashrc file (with permissions: rw-r-{}-r-{}-).
+
+In that specific PS1 definition, some special scape characters are to be used. Particularly, to add a new property, it's necessary to use \textbackslash [ \textbackslash e [ X \textbackslash ] at the beginning and \textbackslash [ \textbackslash e [ 0m \textbackslash ] at the end, where X is the specification of the properties. For example, if X = 1;91m, means bold (due to the 1) and red (due to the 91m).
+
+In conclusion, if the pattern in PS1 is complicated, just look for the appearances of the characters [ 0M ; NNm \ ], where M = 1 for bold, and M = 0 for light, and NN denotes the color (NN = 91 for red, for example)
+
+There are other ways of changing the color and bold properties of the shell prompt, but those are more dependent on the distribution and specific shell.
+
+\begin{comment}
+%\[\e[0m\]
+
+\begin{lstlisting}[language=bash]
+  $ wget http://tex.stackexchange.com
+\end{lstlisting}
+
+\subsection{\textbf{}}
+\end{comment}
+
+
+\subsection{\textbf{}}
+
+From the man pages of the ls command, the -S flag represents sorting by file size.
+
+Also from the man pages of ls, the -r flag is for reversing the list being displayed.
+
+Therefore, for listing in ascending order:
+
+\begin{lstlisting}[language=bash]
+  $ ls -rS DIR/
+\end{lstlisting}
+
+and in descending order:
+
+\begin{lstlisting}[language=bash]
+  $ ls -S DIR/
+\end{lstlisting}
+
+where DIR/ is the directory for which the files are being sorted.
+
+\subsection{\textbf{}}
+
+Specifying an absolute path:
+
+\begin{lstlisting}[language=bash]
+  $ cd /tmp
+\end{lstlisting}
+
+or specifying a relative path:
+
+\begin{lstlisting}[language=bash]
+  $ cd ../../../../../tmp/
+\end{lstlisting}
+
+\subsection{\textbf{}}
+
+First, to create the file named "-i", one way is to do the following:
+
+\begin{lstlisting}[language=bash]
+  $ touch ./-i
+\end{lstlisting}
+
+Then, in order to delete it, one way is the following:
+
+\begin{lstlisting}[language=bash]
+  $ rm ./-i
+\end{lstlisting}
+
+Other way is to add a -- signal at the end of all flags, which disables further option processing by shell. Like this:
+
+\begin{lstlisting}[language=bash]
+  $ rm --  -i
+\end{lstlisting}
+
+
+\subsection{\textbf{}}
+
+The first way, suggested by autocomplete in the terminal:
+
+\begin{lstlisting}[language=bash]
+  $ ls My\ Docs/
+\end{lstlisting}
+
+and the other is making use of quotes:
+
+\begin{lstlisting}[language=bash]
+  $ ls 'My Docs'
+\end{lstlisting}
+
+
+\subsection{\textbf{}}
+
+The way the modify the output of the date command, is writing it in the structure:
+
+\begin{lstlisting}[language=bash]
+  $ date +FORMAT
+\end{lstlisting}
+
+so, in this specific case:
+
+\begin{lstlisting}[language=bash]
+  $ date +%Y%m%d%k%M%S
+\end{lstlisting}
+
+On the other hand, according to the man page for the date command, specifically for the -d flag: "display time described by STRING, not 'now'". The -d flag can receive an argument specifying the number of days, like this:
+
+\begin{lstlisting}[language=bash]
+  $ date -d '8 days'
+\end{lstlisting}
+
+and in the case requested (also associating the requested format):
+
+\begin{lstlisting}[language=bash]
+  $ date -d '-7 days' +%Y%m%d%k%M%S
+\end{lstlisting}
+
+
+\subsection{\textbf{}}
+
+According to the man page of the date command, at the EXAMPLES section, the first example is:
+
+\begin{lstlisting}[language=bash]
+  $ date --date='@2147483647'
+\end{lstlisting}
+
+and the description of that example there is: "Convert seconds since the epoch (1970-01-01 UTC) to a date".
+
+Then, the Unix Epoch is the number of seconds that have passed since 1970-01-01 UTC (at 00:00:00).
+
+In the description of FORMAT, also at the man page of date, one of the options is \%s which is "seconds since 1970-01-01 00:00:00 UTC". Then, to display it using date:
+
+\begin{lstlisting}[language=bash]
+  $ date +%s
+\end{lstlisting}
+
+
+
+\subsection{\textbf{(tested in Scientific Linux)}}
+
+In Ubuntu, the -M flag (for weeks starting on Monday) doesn't work with cal, so, Scientific Linux was used for this specific question. But apparently, in Scientific Linux the cal command already displays weeks starting on Monday.
+
+For setting the weeks to start on Monday, the -M flag is used. The -y flag is for displaying the full year. Then:
+
+\begin{lstlisting}[language=bash]
+  $ cal -M -y
+\end{lstlisting}
+
+
+\subsection{\textbf{}}
+
+PATH is\footnote{Taken from: http://www.linfo.org/path\_env\_var.html} an environmental variable in Linux and other Unix-like operating systems that tells the shell which directories to search for executable files (i.e., ready-to-run programs) in response to commands issued by a user.
+
+To be able to modify PATH, first is good to be able to access it. To print PATH in the terminal:
+
+\begin{lstlisting}[language=bash]
+  $ echo $PATH
+\end{lstlisting}
+
+and to modify it:
+
+\begin{lstlisting}[language=bash]
+  $ export PATH=$PATH:EXTRA_PATH
+\end{lstlisting}
+
+where EXTRA\_PATH is the addition path which wants to be included in the PATH variable.
+
+If this is to be made permanent for future sessions, it's necessary to add it to .bashrc.
+
+\subsection{\textbf{(tested in Scientific Linux)}}
+
+There are 3 wildcards: *, ? and []. The first one stands for a string of any size, the second one for a single character, and the third one selects one character out of a set.
+
+The previous paragraph implies that the requested lists are implemented like this (in the order specified in the description of the problem):
+
+\begin{enumerate}
+\item ls k* $|$ grep -v \textasciicircum d
+\item ls k*.txt $|$ grep -v \textasciicircum d
+\item ls -d [[:upper:]]* $|$ grep -v \textasciicircum d
+\item ls -d ???? $|$ grep -v \textasciicircum d
+\end{enumerate}
+
+and in the third previous command, first an ls is made such that all the files and directories are displayed, starting with a capital letter, and then they are filtered with the use of grep such that only the files are displayed (important: the -d flag in ls, prevents ls to display the content of subdirectories that match the pattern).
+
+
+\subsection{\textbf{}}
+
+The command \textit{umask} determines the settings of a mask that controls how file permissions are set for newly created files. Then, when a new file is created, the default permissions will be the ones associate to the settings specified by \textit{umask}.
+
+The permissions specified and required in the assignment, are: rxw $|$ r\texttt{-}\texttt{-} $|$ \texttt{-}\texttt{-}\texttt{-}; but because \textit{umask} is a mask, and does not actually set permissions, these permissions have the octal reprentation: 640 (i.e. \textit{umask} doesn't interfere with execution permissions for files, although it does for directories). Then, if we perform the subtraction to obtain the umask: 666 - 640 = 026. Finally, to set this umask:
+
+\begin{lstlisting}[language=bash]
+  $ umask 026
+\end{lstlisting}
+
+\subsection{\textbf{}}
+
+Two options are:
+
+\begin{itemize}
+\item for the regular user or for root (depends on which case wants to be implemented; if some users have been given access to root, then this can be implemented in /root/.bashrc as a precaution), in the file .bashrc, add the line: alias rm = 'rm -i'.
+\item when executing the rm command, simply add the -i flag, and then something like "\textbf{rm: remove regular empty file `kkajshdkflhs'?}" will be prompted.
+\end{itemize}
+
+
+\end{onehalfspacing}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{comment}
+\lipsum[2] % Dummy text
+
+\begin{align} 
+\begin{split}
+(x+y)^3 	&= (x+y)^2(x+y)\\
+&=(x^2+2xy+y^2)(x+y)\\
+&=(x^3+2x^2y+xy^2) + (x^2y+2xy^2+y^3)\\
+&=x^3+3x^2y+3xy^2+y^3
+\end{split}					
+\end{align}
+
+Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies
+
+%------------------------------------------------
+
+\subsection{Heading on level 2 (subsection)}
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. 
+\begin{align}
+A = 
+\begin{bmatrix}
+A_{11} & A_{21} \\
+A_{21} & A_{22}
+\end{bmatrix}
+\end{align}
+Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
+
+%------------------------------------------------
+
+\subsubsection{Heading on level 3 (subsubsection)}
+
+\lipsum[3] % Dummy text
+
+\paragraph{Heading on level 4 (paragraph)}
+
+\lipsum[6] % Dummy text
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 2
+%----------------------------------------------------------------------------------------
+
+\section{Lists}
+
+%------------------------------------------------
+
+\subsection{Example of list (3*itemize)}
+\begin{itemize}
+	\item First item in a list 
+		\begin{itemize}
+		\item First item in a list 
+			\begin{itemize}
+			\item First item in a list 
+			\item Second item in a list 
+			\end{itemize}
+		\item Second item in a list 
+		\end{itemize}
+	\item Second item in a list 
+\end{itemize}
+
+%------------------------------------------------
+
+\subsection{Example of list (enumerate)}
+\begin{enumerate}
+\item First item in a list 
+\item Second item in a list 
+\item Third item in a list
+\end{enumerate}
+
+%----------------------------------------------------------------------------------------
+\end{comment}
+
+
+
+
+
+
+\end{document}

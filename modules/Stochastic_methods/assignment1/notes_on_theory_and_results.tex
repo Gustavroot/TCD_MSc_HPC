@@ -1,0 +1,263 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage{listings}
+\usepackage{verbatim}
+\usepackage{textcomp}
+\usepackage{changepage}
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+
+\usepackage{color}
+
+\usepackage{setspace}
+\renewcommand{\baselinestretch}{1.3}
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{color}
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+%\usepackage[usenames, dvipsnames]{color}
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{TRINITY COLLEGE DUBLIN, school of Mathematics} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Assignment \#1, Module: MA5634 \\ % The assignment title
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Gustavo Ramirez} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+
+\section{Comparison of random generators}
+
+The OS used in general for this assignment is Ubuntu 16.04 LTS, with Python 2.7 as scripting language.
+
+According to the original dieharder's website \footnote{http://www.phy.duke.edu/\textasciitilde rgb/General/dieharder.php}, the two random generators required to test, The Mersenne Twister and RANDU, are labeled by 041 and 403, respectively.
+
+From the man pages of the dieharder command, the -g flag allows to specify which random numbers generator is to be tested, and the -a enables all tests to be performed. Then, for testing the two generators required:
+
+\begin{lstlisting}[language=bash]
+  $ dieharder -g 041 -a
+  $ dieharder -g 403 -a
+\end{lstlisting}
+
+and the two outputs were redirected to the files ./dieharder\_tests/output\_randu.txt and \\ ./dieharder\_tests/output\_mersenne.txt.
+
+It is noticeable how The Mersenne Twister got much better results in the tests than RANDU, as the former didn't fail a test, while the latter failed more than half of the tests.
+
+
+
+\section{On RANLUX installation and usage}
+
+%Describe very briefly the installation, using screenshots (part 2 of assignment).
+
+For the usage of the program RANLUX from Python, an intermediate program was used to access the random numbers generator from Python.
+
+In the file ./mediator\_ranlux.c, a program in C was written to call the ranlxs.h library, and from it generate the required random numbers. In lines from 7 to 9 in that C file (the commented lines), is an specificacion of the compilation process for generating the program ./mediator\_ranlux, which is then called from Python to retrieve lists of random numbers.
+
+
+\section{Brief explanation on integration by using random numbers}
+
+
+For a random variable $U$ uniformly distributed in the interval $(0,1)$, the following relation applies:
+
+\begin{center}
+$E[g(U)] = \int_{0}^{1}g(x)$.
+\end{center}
+
+And it is known, by the strong law of large numbers, that:
+
+\begin{center}
+$\sum_{1}^{k}\frac{g(U_{i})}{k} \rightarrow E[g(U)] = \int_{0}^{1}g(x)$.
+\end{center}
+
+meaning that we can approximate the desired integral by generating a large number of random numbers $u_{i}$, and then performing an average of $g(u_{i})$. This is the Monte Carlo approach to integration.
+
+
+\section{Analytical values}
+
+Before going into describing the numerical simulations, the whole set of analytical values is established here, in order to be able to make direct comparisons and error determinations:
+
+\begin{itemize}
+\item linear function
+
+\begin{center}
+$\mu = E[g(x)] = \int_{0}^{1}g(x) dx = \int_{0}^{1}x \ dx = 0.5$
+\end{center}
+
+\begin{center}
+$VAR[g(x)] = E[(g(x)-\mu)^{2}] = \int_{0}^{1}(x-0.5)^{2}dx = \frac{1}{12} = 0.08333$
+\end{center}
+
+\item quadratic function
+
+\begin{center}
+$\mu = E[g(x)] = \int_{0}^{1}g(x) dx = \int_{0}^{1}x^{2} \ dx = \frac{1}{3} = 0,333....$
+\end{center}
+
+\begin{center}
+$VAR[g(x)] = E[(g(x)-\mu)^{2}] = \int_{0}^{1}(x^{2}-\frac{1}{3})^{2}dx = \frac{4}{45} = 0.08889$
+\end{center}
+
+\item square function
+
+\begin{center}
+$\mu = E[g(x)] = \int_{0}^{1}g(x) dx = \int_{0}^{1}\sqrt{x} \ dx  = \frac{2}{3} = 0,666....$
+\end{center}
+
+\begin{center}
+$VAR[g(x)] = E[(g(x)-\mu)^{2}] = \int_{0}^{1}(\sqrt{x}-\frac{2}{3})^{2}dx = \frac{1}{18} = 0.05556$
+\end{center}
+
+\end{itemize}
+
+
+\section{Structure of scripts and result files}
+
+%Describe here both the tree structure of files, and the content of all files and directories.
+
+The solution to this assignment is composed of the following directories and files:
+
+\begin{itemize}
+\item data\_for\_plots (dir): these is the data generated from the execution of the whole set of numerical simulations. The format of all these files is a two-columns format, in which the first column (left column) represents the $x$ axis.
+\item mediator\_ranlux* (files): the set of files and directories obtained from the official RANLUX program and documentation. the directory ranlux-3.3/ was kept, in order to be able to access to the COPYING, README and documentation of the original source code.
+\item gnuplot\_data.gp (file): this is a gnuplot script for plotting all the files in the directory data\_for\_plots.
+\item plots (dir): once the script gnuplot\_data.gp is executed, all the plots are saved to this directory.
+\item general.sh (file): this bash script was written in order to centralize all the executions. This script executes first the Python script for generating all the data after the numerical simulations, and then executes the gnuplot script to obtain the plots from data.
+\item\ integration\_by\_rand.py (file): this Python script is in charge of all the numerical simulations (from summing and averaging over the random samples, to call RANLUX for accessing the random samples).
+\item notes\_on\_theory\_and\_results.tex (file): the TeX file for this PDF.
+\end{itemize}
+
+
+\section{Going deeper in the description: integration\_by\_rand.py}
+
+%Describe here the main python script.
+
+The script for performing the whole set of numerical simulations is integration\_by\_rand.py. Within that script, the most important functions are:
+
+\begin{itemize}
+\item ranlux\_call: returns a string, with the format of a Python list, and that list contains a set of N random numbers
+\item monte\_carlo\_integration: takes the list retrieved by the Python function ranlux\_call and takes care of the averaging process (both for averages and variances)
+\item average\_running: writes the numerical simulations outputs in the corresponding files
+\end{itemize}
+
+
+\section{Accuracies and number of samples}
+
+The required number of samples $N$ to achieve a certain accuracy, for the three different approximated functions, is:
+
+\begin{itemize}
+\item linear:
+\begin{itemize}
+\item 2 digits: \textasciitilde 3800
+\item 3 digits: \textasciitilde 48300
+\item 4 digits: \textasciitilde 70000 (although, is important to note that around 100000 random samples, the 4 digits accuracy dissapears, in the case of this simulation)
+\end{itemize}
+\item quadratic: 
+\begin{itemize}
+\item 2 digits: \textasciitilde 4850
+\item 3 digits: \textasciitilde 50000
+\item 4 digits: \textasciitilde 70000 (again, the 4 digits accuracy dissapeared at around 100000 random samples)
+\end{itemize}
+\item square:
+\begin{itemize}
+\item 2 digits: \textasciitilde 7700
+\item 3 digits: \textasciitilde 70000
+\item 4 digits: \textasciitilde ?
+\end{itemize}
+\end{itemize}
+
+%{\color{red} pending: } estimate $N$ for 8 digits accuracy
+
+Taking the three ordered pairs for the linear case, and fitting a linear equation for the first two pairs (in all the following fits, the output of the function $f$ is samples number $N$):
+
+$f(digits = d) = 44500d - 85200 \Rightarrow N = f(8) = 270800 $
+
+Similar (not so realistic) results are obtained for the two other functions. More realistic results are obtained with exponential fitting (the errors and coefficient of determination are omitted for this fitting process):
+
+\begin{itemize}
+\item $f_{linear} \approx f_{quadr} = 4516e^{0,7067d}\Rightarrow f_{quadr}(8) \approx 1 \ 288 \ 490 $
+\item $f_{sqrt} = 93,17 e^{2,2 d} \Rightarrow f_{sqrt}(8) \approx 4100 \ 709 \ 241 $ (for this third case, not enough information is available to make the prediction more sensible)
+\end{itemize}
+
+
+\section{Variances with exact and approx average}
+
+%{\color{red} pending: } explain deeper the structures of plots in the directory ./plots/, and do the following:
+
+\begin{itemize}
+\item deeper in the description of the files in the directory ./plots/: there are four types of files in this directory: approxvariances* (variances are calculated using approximated/simulated values for the average), exactvariances* (an exact value for the average is taken), errors*, and the approximating plots.
+\item comparison of variances with exact and approx averages: at the scale of simulated values (around 350 000 random samples for the maximum set), there appears to be no difference between the two simulations.
+\item comparison of variances and errors (plots and analytical values): as can be seen from the files linear.dat, quadratic.dat and sqrt2.dat at ./data\_for\_plots/, the 'final' values using 350 000 samples are (respectively): 0.49927915..., 0.3325852... and 0.6661264..., which results in accuracies of: 0.011..., 0.001... and 0.0005... It is noticeable that the lowest analytical variance is in the square root case (\textasciitilde 0.05556), which results also in the best accuracy (\textasciitilde 0.0005 as mentioned before).
+\end{itemize}
+
+
+\section{On the suggested calculation for $\pi$}
+
+%Justfity here why the suggested $\pi$ calculation is not a good idea.
+
+Although the result of the integral of $g(x) = \frac{2}{\sqrt{1-x^2}}$ from 0 to 1 helps in obtaining the value of $\pi$ analytically, there is an indefinition of the integrand at 1, which makes the integral improper (as the integran goes to infinity for the upper limit of the integral). 
+
+So far, in the implemented code for Monte Carlo integrations, uniformly distributed stochastic variables have been used. For improper integrals, the uniform distribution for such variables is inadequate.
+
+If the number of samples $N$ is taken to infinity, there shouldn't be a problem on the numerical integration. The problem is that $N$ is always finite. When integrating numerically, many large jumps (around the divergence of the integrand) will appear, caused by occasional points falling very close to the upper limit 1 (in this case); thought this jumps are rare, they contributed largely in the sums and then the averages become arbitrarily large.
+
+
+\end{document}

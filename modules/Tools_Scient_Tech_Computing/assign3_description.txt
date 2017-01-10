@@ -1,0 +1,29 @@
+This assignment concerns downloading and compiling typical Linux software (mostly GNU
+software). You will be installing it (without admin access) to your homedir.
+
+For each answer, please document the steps you took and answer the questions.
+
+Note: please do the compilation on 'chuck' or on the desktop machines in the lab, as versions
+may vary on other systems and the exercise relies on you not having admin access.
+
+The gzip utility:
+What URL can you download it from? What's the latest version? What version is currently on chuck? What would be an advantage of downloading and installing it yourself?
+List a couple of differences in the log of changes (hint) between the system version and the one you've downloaded.
+How do you find out how to compile it - which file(s) should you read? Why in CAPS?
+What happens if you just type 'make' and skip the first step? Why do we need the './' in the first step?
+What are the typical configuration, compilation and installation steps?
+Where would it try to install by default? Why won't that work for you on chuck? How do you change the installation prefix to somewhere in your homedir? Why is setting the prefix to just $HOME a bad idea; what prefix did you use?
+How long does the compilation step take? If you do a 'make clean' followed by 'make -j 2', how does that impact on the time? Why?
+Are there any self-test targets available? Does it pass?
+The wget utility:
+What URL can you download it from? What's the latest version? What version is currently on chuck?
+What are the compilation steps?
+Why does the first step fail? How would you fix it?
+Does it pass the self-tests? What command did you use?
+How long does the compilation step take? If you do a 'make clean' followed by 'make -j 2', how does that impact on the time? Why?
+What prefix did you set? How would you make sure that you use the custom wget utility instead of the system one?
+The openssl encryption suite:
+What URL can you download it from? What's the latest version in the 1.0.1 branch? What version is currently on chuck?
+What are the compilation steps? Are there any differences to the GNU software?
+How long does the compilation step take? If you do a 'make clean' followed by 'make -j 2', does that impact on the time? Why not? (hint: any warnings at the top of the make output?)
+What is the latest version? Does 'make -j 2' make a difference to compiling for this version?

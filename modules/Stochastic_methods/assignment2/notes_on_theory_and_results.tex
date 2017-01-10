@@ -1,0 +1,571 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage{listings}
+\usepackage{verbatim}
+\usepackage{textcomp}
+\usepackage{changepage}
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+
+\usepackage{color}
+
+\usepackage{setspace}
+\renewcommand{\baselinestretch}{1.3}
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{color}
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+%\usepackage[usenames, dvipsnames]{color}
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{TRINITY COLLEGE DUBLIN, school of Mathematics} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Assignment \#2, Module: MA5634 \\ % The assignment title
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Gustavo Ramirez} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+
+\section{Poisson-distributed bank withdrawals}
+
+\ \\
+\textbf{REVIEW OF CONCEPTS:}
+
+First, it's important to recall that a random variable is "some numerical value determined by the result of an experiment".
+
+Both the \textit{cumulative distribution function} and the \textit{probability mass function} are defined over that random variable:
+
+\begin{equation}
+F(x) = P\{ X \leq x \}
+\end{equation}
+
+\begin{equation}
+p(x) = P\{ X = x \}
+\end{equation}
+
+For a continuous random variable:
+
+\begin{equation}
+P\{ X \in C \} = \int_{C}f(x) dx
+\end{equation}
+
+where $f$ is the \textit{probability density function}.
+
+The \textit{cumulative distribution} and the \textit{probability density} can be connected:
+
+\begin{equation}
+F(a) = P\{ X \in (-\infty, a) \} = \int_{-\infty}^{a}f(x) dx \Rightarrow \frac{d}{da}F(a) = f(a)
+\end{equation}
+
+Another perspective: $f(a)$ is the measure of how likely it is that the random variable will be near $a$.
+
+Also, it's important to recall the expectation (or expected value) of a random variable: if $X$ is a continuous random variable having probability density function $f$, then:
+
+
+\begin{equation}
+E[X] = \int_{-\infty}^{\infty}xf(x)dx
+\end{equation}
+
+and also:
+
+\begin{equation}
+E[g(X)] = \int_{-\infty}^{\infty}g(x)f(x)dx
+\end{equation}
+
+Finally, let's review the concept of variance:
+
+\begin{equation}
+\mu = E[g(X)] \Rightarrow Var(X) = E[(X-\mu)^{2}]
+\end{equation}
+
+
+\ \\
+\textbf{ON THE POISSON AND THE EXPONENTIAL DISTRIBUTIONS:}
+
+\begin{itemize}
+\item \textbf{Poisson (discrete):}
+
+\begin{equation}
+p_{i} = P\{ X = i \} = e^{-\lambda}\frac{\lambda^{i}}{i!}, \ \ \ \ i = 0, 1, ...
+\label{eq:poisson1}
+\end{equation}
+
+\begin{equation}
+\Rightarrow P\{ X < j \} = \sum_{i=0}^{j}p_{i}, \ \ \ \ E[X] = \lambda
+\label{eq:poisson2}
+\end{equation}
+
+\item \textbf{exponential (continuous):}
+
+\begin{equation}
+f(x) = \lambda e^{-\lambda x}, \ \ \ \ 0<x<\infty
+\label{eq:exponential1}
+\end{equation}
+
+\begin{equation}
+\Rightarrow P\{ X < a \} = \int_{0}^{a}f(x)dx, \ \ \ \ E[X] = \frac{1}{\lambda}
+\label{eq:exponential2}
+\end{equation}
+
+
+\end{itemize}
+
+
+\ \\
+\textbf{ON THE POSED PROBLEM:}
+
+A Poisson (discrete) distribution is given for the number of withdrawls ($X$) in a single month. On the other hand, for the amount of each withdrawal ($Y$), a exponential (continuous) distribution is given.
+
+The final goal is: \textit{calculate the probability that the total sum of withdrawals in a given month exceeds 50 000, i.e.:}
+
+\begin{equation}
+P(XY>50000)=?
+\end{equation}
+
+According to the data given in the problem (here a slight change in notation is made: $i$ refers to number of withdrawals, and $x$ refers to the amount per withdrawal):
+
+\begin{equation}
+p_{i} = P\{ X = i \} = e^{-50}\frac{50^{i}}{i!}, \ \ \ \ i = 0, 1, ...
+\label{eq:poisson3}
+\end{equation}
+
+\begin{equation}
+f(x) = \frac{e^{-\frac{x}{800}}}{800}, \ \ \ \ 0<x<\infty
+\label{eq:exponential3}
+\end{equation}
+
+
+
+\ \\
+\textit{\textbf{Superficial solution}}:
+
+In the case of a discrete distribution, obtaining a probability is simple, as it's just $p_{i}$, while in the continuous case, $f(x)$ is a probability density, and $f(x)dx$ is the corresponding probability (of being around $x$ in an interval of width $dx$).
+
+Then, in the specific case of study here, and for equations \ref{eq:poisson3} and \ref{eq:exponential3}, the probability  of having withdrawn $i$ times, with a $x$ amount per each withdrawal is:
+
+\begin{equation}
+P(i, x) = p_{i}f(x)dx
+\label{eq:total_prob1}
+\end{equation}
+
+For each number $i$, there is a probability that $i x < 50000$ (or equivalently, that $x<\frac{50000}{i}$). Then (for fixed $i$):
+
+
+\begin{equation}
+P(i)|_{ix<50000, \ fixed i} = \int_{0}^{50000/i}p_{i}f(x)dx
+\label{eq:total_prob2}
+\end{equation}
+
+Those probabilities have to be added, for every possibly $i$, which implies:
+
+
+\begin{equation}
+P_{total} = P|_{ix<50000} = p_{0}\int_{0}^{\infty}f(x)dx+\sum_{1}^{\infty}\int_{0}^{50000/i}p_{i}f(x)dx = p_{0}+\sum_{1}^{\infty}\int_{0}^{50000/i}p_{i}f(x)dx
+\label{eq:total_prob3}
+\end{equation}
+
+
+\ \\
+\textit{\textbf{Implementation of solution}}:
+
+Finally, plugging the distributions information:
+
+\begin{equation}
+\begin{split}
+P_{total} = e^{-50}+\sum_{1}^{\infty} \left( e^{-50}\frac{50^{i}}{i!} \right) \int_{0}^{50000/i}\left( \frac{e^{-\frac{x}{800}}}{800} \right)dx = e^{-50}+\sum_{1}^{\infty} \left( \left( e^{-50}\frac{50^{i}}{i!} \right) \left( 1 - e^{-50000/(800i)} \right) \right) \\
+= e^{-50}+\sum_{1}^{\infty} \left( e^{-50}\frac{50^{i}}{i!} \right) - \sum_{1}^{\infty} \left( e^{-50}\frac{50^{i}}{i!} \right) e^{-50000/(800i)}  = 1 - e^{-50}\sum_{1}^{\infty} \left( e^{-62.5i}\frac{50^{i}}{i!} \right)
+\end{split}
+\label{eq:total_prob4}
+\end{equation}
+
+
+The goal is to obtain $P$ such that $ix>50000$. Then:
+
+\begin{equation}
+\begin{split}
+P = 1 - P_{total}  = e^{-50}\sum_{1}^{\infty} \left( e^{-62.5i}\frac{50^{i}}{i!} \right)
+\end{split}
+\label{eq:total_prob4}
+\end{equation}
+
+The sum can be performed numerically, and in this case it was done with the use of a Wolfram|Alpha's online sum calculator. The result is:
+
+
+\begin{equation}
+\begin{split}
+P (XY>50000) = e^{-50}\sum_{1}^{\infty} \left( e^{-62.5i}\frac{50^{i}}{i!} \right) = 6.93\cdot 10^{-48}
+\end{split}
+\label{eq:total_prob4}
+\end{equation}
+
+%{\color{red} PENDING: re-check problem 1.. something feels wrong... }
+
+
+
+\section{Monte Carlo integration}
+
+
+\begin{itemize}
+\item \textbf{uniform random numbers:} 
+
+The given integral is:
+
+
+\begin{equation}
+\begin{split}
+I = \int_{0}^{3}\frac{e^{-s}}{1+\frac{s}{9}}ds
+\end{split}
+\label{eq:uniform_integration1}
+\end{equation}
+
+Making the change of variable $u = s/3$, the integral takes the form:
+
+\begin{equation}
+\begin{split}
+I = \int_{0}^{1}3\frac{e^{-3u}}{1+\frac{u}{3}}du
+\end{split}
+\label{eq:uniform_integration2}
+\end{equation}
+
+
+A numerical simulation of the integral in equation \ref{eq:uniform_integration2} was implemented in script prob/uniform\_integration.py. In that script, a uniformly distributed random variable was used.
+
+For the various numbers of generated random numbers, the results are presented in table \ref{tab:MC_integration_uniform}.
+
+
+
+\begin{table}
+\label{tab:MC_integration_uniform}
+\caption{results for MC integration with uniformly distributed random variable.}
+\begin{center}
+\begin{tabular}{ | c | c | c | }
+\hline
+ \textbf{N} & \textbf{Result} & \textbf{Standard Deviation} \\ \hline
+ 100 & 0.7322465567101966 & 0.6348587381229975 \\ \hline
+ 1000 & 0.838864109739082 & 0.7697936527603505 \\  \hline
+ 10000 & 0.8660623409784465 & 0.7680669900080613  \\ \hline
+ 100000 & 0.873798713723586 & 0.7699488672469019  \\ \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+
+
+
+\item \textbf{exponentially distributed random numbers:} 
+
+As seen in table \ref{tab:MC_integration_exponential}, the standard deviations are very high (on the order of the solution of the integral). To be able to reduce these errors, an exponentially distributed random variable is used.
+
+Before this, let's review quickly how to change the form in which the random variables are distributed.
+
+According to the inverse transform algorithm: \textit{if $U$ is a continuous random variable over $(0,1)$, and $X = F^{-1}(U)$, then $X$ has distribution function $F(x)$}. Then, the idea is to generate a set of random numbers $U$ over $(0,1)$, and then set: $X = F^{-1}(U)$.
+
+In the case of interest in generating an exponentially distributed random variable, as seen in class: $X = -\frac{1}{\lambda}\log(1-U)$, with $f(x) = \lambda e^{-\lambda x}$. In the posed problem, we choose: $f(x) = 3 e^{-3 x}$.
+
+The idea of using an exponentially distributed random variable is the following:
+
+
+\begin{equation}
+\begin{split}
+I = \int_{0}^{1}3\frac{e^{-3u}}{1+\frac{u}{3}}du = \int_{0}^{1}\frac{1}{1+\frac{u}{3}}(3e^{-3u})du = \int_{0}^{1}\frac{1}{1+\frac{u}{3}}f(u)du = E_{X}\left[ \frac{1}{1+\frac{x}{3}} \right]
+\end{split}
+\label{eq:exponential_integration2}
+\end{equation}
+
+
+Important: the random numbers generator here is RANLUX by Martin L{\"u}scher generate numbers which include 0 but exclude 1.
+
+In table \ref{tab:MC_integration_exponential} is the result of the Monte Carlo integration using the exponentially distributed random variables.
+
+
+%{\color{red} PENDING: check the implementation of part b of this problem (number 2), because the average is not giving the right value... although, the standard deviation is small, which is good! Then, include new table for the results of the exponential distribution.. }
+
+
+\begin{table}
+\label{tab:MC_integration_exponential}
+\caption{results for MC integration with exponentially distributed random variable.}
+\begin{center}
+\begin{tabular}{ | c | c | c | }
+\hline
+ \textbf{N} & \textbf{Result} & \textbf{Standard Deviation} \\ \hline
+ 100 & 0.8941728578421076 & 0.08457872752248434 \\ \hline
+ 1000 & 0.902889021116287 & 0.08135148342547543 \\  \hline
+ 10000 & 0.9069282989007331 & 0.07902699766430729 \\ \hline
+ 100000 & 0.9076925594774227 & 0.07867954211948758 \\ \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+
+
+\end{itemize}
+
+
+\section{Student's diet: Markov matrix}
+
+\begin{itemize}
+
+\item \textbf{States and Markov matrix}:
+
+For the vector of states:
+
+\begin{equation}
+\begin{split}
+\vec{v}=\begin{bmatrix}
+    P_{p} \\
+    P_{b} \\
+  \end{bmatrix}
+\end{split}
+\label{eq:markov_matrix1}
+\end{equation}
+
+where $P_{p}$ is the probability of eating pizza, and $P_{b}$ is the probability of eating burrito, for a certain day.
+
+Then, for the Markov matrix:
+
+
+\begin{equation}
+\begin{split}
+P = \left(\begin{array}{cc} P_{p\rightarrow p} & P_{b\rightarrow p}\\ P_{p\rightarrow b} & P_{b\rightarrow b} \end{array}\right) = \left(\begin{array}{cc} 0.15 & 0.7\\ 0.85 & 0.3 \end{array}\right)
+\end{split}
+\label{eq:markov_matrix2}
+\end{equation}
+
+Where, for example, $P_{10} = 0.85$ represents the probability of eating pizza in a day, and in the next day eating burrito.
+
+
+\item \textbf{Eating pizza following Tuesday:}
+
+If the student has pizza:
+
+\begin{equation}
+\begin{split}
+\vec{v}=\begin{bmatrix}1 \\ 0 \\ \end{bmatrix}
+\end{split}
+\label{eq:markov_matrix3}
+\end{equation}
+
+and for 2 days after:
+
+\begin{equation}
+\begin{split}
+\vec{v}_{Tuesday} = P^{2}\vec{v} = \left(\begin{array}{cc} 0.15 & 0.7\\ 0.85 & 0.3 \end{array}\right)^{2} \begin{bmatrix}1 \\ 0 \\ \end{bmatrix} = \begin{bmatrix} 0.6175 \\ 0.3825 \\ \end{bmatrix} 
+\end{split}
+\label{eq:markov_matrix2}
+\end{equation}
+
+which implies that $P_{p} = 0.6175$ for Tuesday.
+
+\item \textbf{Long-term behavior:}
+
+In the long term ($n=50$ is used just as an example here, but the result for that case was compared to $n=40$ and $n=60$, and it agrees):
+
+\begin{equation}
+\begin{split}
+P^{50} = \left(\begin{array}{cc} 0.15 & 0.7\\ 0.85 & 0.3 \end{array}\right)^{50}  \approx \left(\begin{array}{cc} 0.4516 & 0.4516\\ 0.5484 & 0.5484 \end{array}\right)
+\end{split}
+\label{eq:markov_matrix2}
+\end{equation}
+
+which implies:
+
+\begin{itemize}
+\item probability of having pizza = 0.4516
+\item probability of having burrito = 0.5484
+\end{itemize}
+
+i.e. those two probabilities stabilized, and (in the long-term) the probability of having pizza is a little bit lower than that of having burrito.
+
+\end{itemize}
+
+%{\color{red} PENDING: check briefly the solution of this problem (number 3).. did I define the states and the Markov matrix correctly..?? }
+
+
+\section{Markov Chain: predator-prey system}
+
+\begin{itemize}
+
+\item \textbf{states of the system:}
+
+for an instant in time, there is a probability for evolving the system, initially in the state $(x,y)$, to one of the following states:
+
+\begin{itemize}
+\item $(x,y)$
+\item $(x,y+1)$
+\item $(x,y-1)$
+\item $(x+1,y)$
+\item $(x-1,y)$
+\end{itemize}
+
+
+\item \textbf{on irreducibility:}
+
+
+The system is not irreducible, as there isn't a probability to go from any one of the possible states to another. The set of probabilities is limited, as there is a zero probability (from the statement of the problem), of going from any of the states that is not $(x,y)$, to another.
+
+
+\item \textbf{normalization factor:}
+
+As the probability of something happening is 1, then:
+
+\begin{equation}
+\begin{split}
+\frac{1}{c}(s+\alpha y + \beta xy+ \gamma xy + \delta x) = 1 \\
+\Rightarrow c = \frac{1}{s+\alpha y + \beta xy+ \gamma xy + \delta x}
+\end{split}
+\label{eq:predator_prey9}
+\end{equation}
+
+
+\item \textbf{long-term when $\beta = \gamma = 0$:}
+
+
+in case those two coefficients are set to zero, then no interaction term is present. From the usual way of imlpementing the prey-predator problem (with the use of differential equations), the mathematical way of representing an interaction between those two objects, is through the use of terms of the form $xy$ (i.e. a product of the current number of elements in each set: predator and prey sets).
+
+
+
+
+\item \textbf{implementation of the Markov chain:}
+
+
+\begin{itemize}
+
+\item no reduction in any species:
+
+$P = \frac{s}{c}$ if:
+
+\begin{equation}
+\begin{split}
+\vec{v}_{t+1} = \left(\begin{array}{cc} 1 & 0\\ 0 & 1 \end{array}\right) \vec{v}
+\end{split}
+\label{eq:predator_prey2}
+\end{equation}
+
+\item +1 only in prey:
+
+$P = \frac{\alpha y}{c}$ if:
+
+\begin{equation}
+\begin{split}
+\vec{v}_{t+1} = \left(\begin{array}{cc} 1 & 0\\ \frac{1}{x} & 1 \end{array}\right) \vec{v}
+\end{split}
+\label{eq:predator_prey3}
+\end{equation}
+
+\item reduction only in prey:
+
+$P = \frac{\beta xy}{c}$ if:
+
+\begin{equation}
+\begin{split}
+\vec{v}_{t+1} = \left(\begin{array}{cc} 1 & 0\\ -\frac{1}{x} & 1 \end{array}\right) \vec{v}
+\end{split}
+\label{eq:predator_prey4}
+\end{equation}
+
+\item +1 only in predator:
+
+$P = \frac{\gamma xy}{c}$ if:
+
+\begin{equation}
+\begin{split}
+\vec{v}_{t+1} = \left(\begin{array}{cc} 1 & \frac{1}{y}\\ 0 & 1 \end{array}\right) \vec{v}
+\end{split}
+\label{eq:predator_prey5}
+\end{equation}
+
+\item reduction only in predator:
+
+$P = \frac{\delta x}{c}$ if:
+
+\begin{equation}
+\begin{split}
+\vec{v}_{t+1} = \left(\begin{array}{cc} 1 & -\frac{1}{y}\\ 0 & 1 \end{array}\right) \vec{v}
+\end{split}
+\label{eq:predator_prey6}
+\end{equation}
+
+
+\end{itemize}
+
+Then, after 1 step of the Markov chain process:
+
+\begin{equation}
+\begin{split}
+\vec{v}_{t+1} = \frac{1}{c} \left(\begin{array}{cc} s+\alpha y + \beta xy+ \gamma xy + \delta x & \gamma x-\frac{\delta x}{y} \\ \frac{\alpha y}{x} - \beta y & s+\alpha y + \beta xy+ \gamma xy + \delta x \end{array}\right) \vec{v} \\
+\Rightarrow \vec{v}_{t+1} = \left(\begin{array}{cc} 1 & \frac{\gamma x-\frac{\delta x}{y}}{s+\alpha y + \beta xy+ \gamma xy + \delta x} \\ \frac{\frac{\alpha y}{x} - \beta y}{s+\alpha y + \beta xy+ \gamma xy + \delta x} & 1 \end{array}\right) \vec{v}
+\end{split}
+\label{eq:predator_prey7}
+\end{equation}
+
+Previous matrix is not a Markov matrix, clearly, as it doesn't obey the the restriction $\sum_{j=1}^{N}P_{ij} = 1$, but the implementation corresponds to the evolution of the predator-prey system.
+
+The previous evolutionary system was implemented in Python, in the script located at prob4/markov\_chain\_sim.py.
+
+In the end, after 2011 iterations, all the predators die, and there are only preys left (a total of 1094 preys left).
+
+\end{itemize}
+
+
+
+
+\end{document}

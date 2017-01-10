@@ -1,0 +1,89 @@
+#include <stdio.h>
+
+//#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+ 
+ 
+//Convert coordinates from 2D 'real' form to 1D stored info
+int convert_dims(int x, int y, int n, int m){
+  //return x*maze_dim + y;
+}
+
+
+//Function for printing the maze
+void print_matrix(char *matrix_data, int n, int m){
+/*
+  int i;
+  for(i=0; i<maze_dim*maze_dim; i++){
+    if(i%maze_dim == 0){printf("\n");}
+    printf("%c", maze_data[i]);
+  }
+  printf("\n\n");
+*/
+}
+
+
+
+
+int main(){
+
+  int n=0, m=0, i;
+  char line[25];
+  char *matrix_data, *matrix_aux_data;
+  char *token;
+
+  printf("\nProgram for finding maximal sub-matrix.\n\n");
+
+  //Reading input file
+  FILE *inp_file;
+  inp_file = fopen("matrix.txt", "r");
+
+  //..first line
+  fgets(line, sizeof(line), inp_file);
+  //Extracting info in first line of matrix.txt
+  token = strtok(line, " ");
+  n = atoi(token);
+  token = strtok(NULL, " ");
+  m = atoi(token);
+
+/*
+  maze_data = malloc(maze_dim*maze_dim*sizeof(char));
+  maze_data_copy = malloc(maze_dim*maze_dim*sizeof(char));
+  for(i=0; i<maze_dim; i++){
+    maze_data[i] = line[i];
+    maze_data_copy[i] = line[i];
+  }
+*/
+ 
+  //..reading the rest of the file line by line
+/*
+  counter_maze_data = 1;
+  while(fgets(line, sizeof(line), inp_file)) {
+    for(i=0; i<maze_dim; i++){
+      maze_data[counter_maze_data*maze_dim + i] = line[i];
+      maze_data_copy[counter_maze_data*maze_dim + i] = line[i];
+    }
+    //printf("%s", line); 
+    counter_maze_data++;
+  }
+  fclose(inp_file);
+*/
+ 
+  printf("Input matrix:\n\n");
+  print_matrix(matrix_data, n, m);
+
+  //And solving the maze:
+  //maze_state = solve_maze(maze_data, maze_dim, maze_data_copy);
+
+  //printf("\n");
+  //if(maze_state == 0){printf("\nFINAL STATUS: the maze could not be solved.\n");}
+  //else{printf("\nFINAL STATUS: the maze was solved correctly.\n");}
+
+  //Re-printing the maze
+  printf("Aux matrix:\n");
+  print_matrix(matrix_aux_data, n, m);
+
+  printf("\n");
+  return 0;
+}

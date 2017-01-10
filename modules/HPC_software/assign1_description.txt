@@ -1,0 +1,5 @@
+Using the matrix-matrix multiply code you previously wrote, implement a block method to carry out this operation. This method breaks A and B into smaller sub-matrices, multiplying the blocks as normal and then summing the partial products to give the final result. See Wikipedia for more details.
+
+Modify the code so it runs in parallel using MPI without having each node have a full copy of each matrix. Your parallel scheme should decompose the matrices in 2D and then rotate the sub-blocks as required between neighbours in the 2D grid of MPI tasks. Cannon's method is the simplest, if not always the most efficient, algorithm to implement. To make it easier to send blocks, they should be allocated using the single large malloc method. Also feel free to insist that the dimensions of the matrices are easily divisible by the number of processes in that dimension in your grid.
+
+Write a short report on how your programs works, highlighting any issues you had to overcome. Submit the code and writeup through the web interface.

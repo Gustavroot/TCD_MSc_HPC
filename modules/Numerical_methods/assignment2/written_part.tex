@@ -1,0 +1,396 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage{verbatim}
+\usepackage{textcomp}
+\usepackage{changepage}
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+
+\usepackage{color}
+
+\usepackage{setspace}
+\renewcommand{\baselinestretch}{1.3}
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{color}
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+%\usepackage[usenames, dvipsnames]{color}
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{TRINITY COLLEGE DUBLIN, school of Mathematics} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Assignment \#2, Module: MA5633 \\ % The assignment title
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Gustavo Ramirez} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+\begin{comment}
+\section{Part 2 of assignment: interpolation by splines}
+
+A brief presentation is made here, of all the mathematical tools needed to implement the natural and complete spline approximations, in the general case.
+\end{comment}
+
+\begin{comment}
+\begin{enumerate}
+\item Write a C program that multiplies two matrices. The sizes of the matrices should again be given to the program as command line arguments and be filled with values from a random number generator.
+\item Use the gettimeofday() function (or some other appropriate timing routine) to measure the time taken to calculate the matrix product for various sizes of matrices. Plot a graph of your timings using gnuplot and generate a PostScript file with the graph. What conclusions, if any, can you draw about the performance of your code.
+\item Play around with various compiler options for optimizing the execution of your code. Compare the performance against the unoptimized (-O0) version timed in Task 2. Which combination of flags gives the best performance?
+\item (bonus marks) Read about the BLAS library and see if you can modify your code to use this library to get better performance. You will want to look at the DGEMM function.
+\end{enumerate}
+\end{comment}
+
+\newpage
+
+
+\begin{comment}
+
+USEFUL LINKS:
+
+official sources for terminology:
+-----
+http://www.intel.com/content/www/us/en/support/topics/glossary.html
+https://www-01.ibm.com/software/globalization/terminology/a.html
+-----
+
+
+
+
+about IMB processors:
+-----
+
+insert in google: list of ibm processors
+https://en.wikipedia.org/wiki/List_of_IBM_products
+https://www-01.ibm.com/software/passportadvantage/guide_to_identifying_processor_family.html
+http://www.nextplatform.com/2015/08/10/ibm-roadmap-extends-power-chips-to-2020-and-beyond/
+http://www.theverge.com/2015/7/9/8919091/ibm-7nm-transistor-processor
+https://www.ibm.com/developerworks/ibmi/library/i-ibmi-7_2-and-ibm-power8/
+-----
+
+\end{comment}
+
+\section{Analytical calculation of Fourier series expansion}
+
+In the first part of the assignment, the function give to calculate it's expansion (in multiple ways) is: $f(x) = 1-x^{4}$, over the interval $[-1, 1]$.
+
+The analytical calculation for the infinite series is done in the following lines:
+
+\begin{center}
+$s_{N} = \frac{a_{0}}{2}+\sum_{n=1}^{N}\left( a_{n}\cos(2\pi x n /P)+b_{n}\sin(2\pi x n /P) \right)$
+\end{center}
+
+where:
+
+\begin{center}
+$a_{n} = \frac{2}{P}\int_{x_{0}}^{x_{0}+P}f(x)\cos(2\pi x n /P)dx$
+\end{center}
+
+\begin{center}
+$b_{n} = \frac{2}{P}\int_{x_{0}}^{x_{0}+P}f(x)\sin(2\pi x n /P)dx$
+\end{center}
+
+
+
+and in the case of the given function:
+
+
+\begin{center}
+$b_{n} = \frac{2}{2}\int_{-1}^{1}(1-x^{4})\sin(2\pi x n /2)dx = 0$
+\end{center}
+
+
+\begin{center}
+$a_{n} = \frac{2}{2}\int_{-1}^{1}(1-x^{4})\cos(2\pi x n /2)dx = \int_{-1}^{1}(1-x^{4})\cos(\pi x n)dx \Rightarrow $
+\end{center}
+
+\begin{center}
+$\frac{a_{n}}{2} = \int_{0}^{1}\cos(\pi x n)dx - \int_{0}^{1}x^{4}\cos(\pi x n)dx = \left( \frac{\sin(\pi x n)}{\pi n} \right)_{0}^{1} - I_{1}$
+\end{center}
+
+\begin{center}
+$I_{1} = \left( \frac{x^{4}\sin(\pi x n)}{\pi n} \right)_{0}^{1} - \frac{4}{\pi n}I_{2}$
+\end{center}
+
+\begin{center}
+$I_{2} = -\left( \frac{x^{3}\cos(\pi x n)}{\pi n} \right)_{0}^{1} + \frac{3}{\pi n}I_{3}$
+\end{center}
+
+\begin{center}
+$I_{3} = \left( \frac{x^{2}\sin(\pi x n)}{\pi n} \right)_{0}^{1} - \frac{2}{\pi n}I_{4}$
+\end{center}
+
+\begin{center}
+$I_{4} = -\left( \frac{x\cos(\pi x n)}{\pi n} \right)_{0}^{1} + \frac{1}{\pi n}\left( \int_{0}^{1}\cos(\pi x n) \right) = -\left( \frac{x\cos(\pi x n)}{\pi n} \right)_{0}^{1} + \frac{1}{\pi n}\left( \frac{\sin(\pi x n)}{\pi n} \right)_{0}^{1} = -\frac{1}{\pi n}\cos(\pi n)$
+\end{center}
+
+\begin{center}
+$\Rightarrow I_{3} = \frac{1}{\pi n}\sin(\pi n) + \frac{2}{(\pi n)^{2}}\cos(\pi n)$
+\end{center}
+
+\begin{center}
+$I_{2} = -\frac{1}{\pi n}\cos(\pi n)+\frac{3}{(\pi n)^{2}}\sin(\pi n) + \frac{6}{(\pi n)^{3}}\cos(\pi n)$
+\end{center}
+
+\begin{center}
+$I_{1} = \frac{1}{\pi n}\sin(\pi n)+\frac{4}{(\pi n)^{2}}\cos(\pi n)-\frac{12}{(\pi n)^{3}}\sin(\pi n) - \frac{24}{(\pi n)^{4}}\cos(\pi n)$
+\end{center}
+
+\begin{center}
+$\frac{a_{n}}{2} = \frac{1}{\pi n}\sin(\pi n)-\frac{1}{\pi n}\sin(\pi n)-\frac{4}{(\pi n)^{2}}\cos(\pi n)+\frac{12}{(\pi n)^{3}}\sin(\pi n) + \frac{24}{(\pi n)^{4}}\cos(\pi n)$
+\end{center}
+
+\begin{center}
+$ = -\frac{4}{(\pi n)^{2}}\cos(\pi n)+ \frac{24}{(\pi n)^{4}}\cos(\pi n)$
+\end{center}
+
+From the way the Fourier series coefficients are expressed, $n$ takes both odd and even values. For odd $n$:
+
+\begin{center}
+$\frac{a_{n}}{2} = -\left(-\frac{4}{(\pi n)^{2}}+ \frac{24}{(\pi n)^{4}}\right)$
+\end{center}
+
+and for even $n$:
+
+\begin{center}
+$\frac{a_{n}}{2} = \left(-\frac{4}{(\pi n)^{2}}+ \frac{24}{(\pi n)^{4}}\right)$
+\end{center}
+
+and then:
+
+\begin{center}
+$a_{n} = \frac{8}{(\pi n)^{2}}\left(-1+ \frac{6}{(\pi n)^{2}}\right)(-1)^{n}$
+\end{center}
+
+Also, in particular:
+
+\begin{center}
+$a_{0} = \int_{-1}^{1}(1-x^{4})dx = 2-\frac{2}{5} = \frac{3}{5}$
+\end{center}
+
+So, in total, the series expansion takes the form:
+
+\begin{center}
+$s_{N}(x) = \frac{3}{10}+\sum_{n=1}^{N}\left( \frac{8}{(\pi n)^{2}}\left(-1+ \frac{6}{(\pi n)^{2}}\right)(-1)^{n} \cos(\pi x n) \right)$
+\end{center}
+
+
+\section{General specification of even finite Fourier series}
+
+First, let's take this form of Fourier transform (for even functions), and let's discretize it explicitly:
+
+\begin{center}
+$f(\theta) = \frac{a_{0}}{2}+\sum_{n=1}^{\infty}a_{n}\cos(n\theta)$
+\end{center}
+
+\begin{center}
+$\Rightarrow f(\theta) \approx \frac{a_{0}}{2}+\sum_{n=1}^{N-1}a_{n}\cos(n\theta)+\frac{a_{N}}{2}cos(N\theta)$
+\end{center}
+
+and now, discretizing the Fourier coefficients (the interval from $0$ to $\pi$ is split into intervals of length $\frac{\pi}{m}$, which leads to the substitution $\theta\rightarrow \frac{\pi}{m}j$):
+
+
+
+\begin{center}
+$a_{k} = \frac{2}{\pi}\int_{0}^{\pi}f(\theta)\cos(k\theta)d\theta$
+\end{center}
+
+\begin{center}
+$\Rightarrow a_{k} \approx \frac{2}{\pi}\sum_{j=0}^{m-1}f\left(\frac{\pi}{m}j\right)\cos\left(\frac{\pi}{m}jk\right)\frac{\pi}{m}$
+\end{center}
+
+\begin{center}
+$\Rightarrow a_{k} \approx \frac{2}{m}\sum_{j=0}^{m-1}f\left(\frac{\pi}{m}j\right)\cos\left(\frac{\pi}{m}jk\right)$
+\end{center}
+
+
+Then, the analogue to $s_{N}$ (but in the case of a simple numerical integral expansion) would take, in this case, the form:
+
+\begin{center}
+$s_{N}(\theta) = \frac{a_{0}}{2}+\sum_{n=1}^{N-1}a_{n}\cos(n\theta)+\frac{a_{N}}{2}\cos(N\theta)$
+\end{center}
+
+where:
+
+\begin{center}
+$a_{k} = \frac{2}{m}\sum_{j=0}^{m-1}\left(f\left(\frac{\pi}{m}j\right)\cos\left(\frac{\pi}{m}jk\right)\right)$
+\end{center}
+
+and where $m$ defines the order of the expansion, due to the relation:
+
+\begin{center}
+$N=[m/2]$
+\end{center}
+
+
+
+\section{On program output (Fourier calculations)}
+
+
+After implementation and execution of a Python script to numerically calculate the three types of forms for $f(x) = 1-x^{4}$ (direct numerical implementation, finite Fourier series and infinite Fourier series), an output such as this is obtained:
+
+
+
+------------------------
+
+First part: approximating a function by a Fourier Series expansion: 
+
+ --**EVAL. POINT: 1.0
+ 
+ --Value from original function: 0.0
+ 
+ --Finite Fourier approx: 0.509162775247
+ 
+ --Infinite Fourier approx: -0.846004651234
+ 
+ --**EVAL. POINT: 0.5
+ 
+ --Value from original function: 0.9375
+ 
+ --Finite Fourier approx: 1.32787356839
+ 
+ --Infinite Fourier approx: 0.88151174379
+ 
+ --**EVAL. POINT: 0.333333333333
+ 
+ --Value from original function: 0.987654320988
+ 
+ --Finite Fourier approx: 0.983528210584
+ 
+ --Infinite Fourier approx: 0.974860571657
+ 
+ --**EVAL. POINT: 0.25
+ 
+ --Value from original function: 0.99609375
+ 
+ --Finite Fourier approx: 0.939494665181
+ 
+ --Infinite Fourier approx: 0.995468974791
+ 
+ --**EVAL. POINT: 0.2
+ 
+ --Value from original function: 0.9984
+ 
+ --Finite Fourier approx: 1.0330407653
+ 
+ --Infinite Fourier approx: 0.989617829925
+ 
+------------------------
+
+From which, is very clear that the truncated infinite Fourier series is better than the finite Fourier series, because by construction the latter is a discretization of the former.
+
+
+\section{On finding roots of functions}
+
+
+Functions for this part and the previous, were defined in external files, and then imported from the main program program.py.
+
+The slowest algorithm for finding the root of a function, in terms of number of global steps, was bisection, followed by secant and finally Newton's method was the fastest.
+
+\section{On $R_{n}$}
+
+As can be seen from the output of the execution of the Python script program.py:
+
+--------\\
+%\begin{equation}
+	R\_0(p=2.05000)= 0.65048595\\
+	R\_0(p=2.02500)= 0.64455289\\
+	R\_0(p=2.01667)= 0.64258725\\
+	R\_0(p=2.01250)= 0.64160668\\
+	R\_0(p=2.01000)= 0.64101906\\
+	R\_0(p=2)= 0.63867394\\
+	R\_1(p=2.05000)= 0.48008942\\
+	R\_1(p=2.02500)= 0.46611748\\
+	R\_1(p=2.01667)= 0.46155112\\
+	R\_1(p=2.01250)= 0.45928474\\
+	R\_1(p=2.01000)= 0.45793026\\
+	R\_1(p=2)= 0.45255216\\
+	R\_2(p=2.05000)= 0.57722715\\
+	R\_2(p=2.02500)= 0.53343925\\
+	R\_2(p=2.01667)= 0.51959430\\
+	R\_2(p=2.01250)= 0.51280716\\
+	R\_2(p=2.01000)= 0.50877751\\
+	R\_2(p=2)= 0.49297307\\
+	R\_3(p=2.05000)= 0.70998044\\
+	R\_3(p=2.02500)= 0.59572168\\
+	R\_3(p=2.01667)= 0.56187850\\
+	R\_3(p=2.01250)= 0.54568488\\
+	R\_3(p=2.01000)= 0.53619360\\
+	R\_3(p=2)= 0.49985085\\
+	R\_4(p=2.05000)= 1.04378884\\
+	R\_4(p=2.02500)= 0.72223363\\
+	R\_4(p=2.01667)= 0.63880169\\
+	R\_4(p=2.01250)= 0.60077276\\
+	R\_4(p=2.01000)= 0.57905090\\
+	R\_4(p=2)= 0.49973845\\
+%\end{equation}
+--------
+
+the closer $p$ gets to 2, the more convergent becomes $R_{n}(p)$, which means that, indeed, the sequence converges with order 2 to the root value.
+
+
+
+{\color{red} }
+
+
+
+
+
+\end{document}

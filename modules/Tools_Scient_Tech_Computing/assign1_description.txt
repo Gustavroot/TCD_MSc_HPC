@@ -1,0 +1,20 @@
+The questions below assume the Bash shell. If you prefer to give answers pertaining to a different shell, please specify which and make it clear for each question.
+
+Name 6 different Linux distributions, and state which major packaging format they use (e.g. RPM or DEB).
+Give a brief overview of the different sections of the Man Pages (note: not the parts of an individual page NAME, SYNOPSIS etc).
+Describe how you would change the shell prompt to make it BOLD and display in the colour red.
+Given a directory of files, how would you list the files while sorting them in file size in descending order? And in ascending order?
+Starting in your home directory (on 'chuck'), list at least two ways to change to the '/tmp' directory.
+On the command-line, give at least 2 examples of how would you delete a file called '-i' (without the qoutes).
+Give at least 2 ways to show the contents of a directory called "My Docs" using 'ls -l'. I.e. how do you get around SPACEs in a file/folder name using the shell.
+Using the 'date' command, how would you display the current date/time in the following format: YYYYMMDDHHMMSS. How would you display the date in that format from exactly 1 week ago from the time you run the command?
+What is the Unix Epoch? How would you display it using the 'date' command?
+Using the 'cal' command, how would you display the full calendar year, with weeks starting in a Monday?
+What is the purpose of the PATH environment variable. How would you add a new location to it?
+Using shell wildcards (fileglobs), how would you list:
+All files starting with the letter k?
+All files starting with the letter k, with a .txt extension?
+All files starting with an upper case letter?
+All files with 4 characters, where the third character is a number?
+What is the purpose of the umask? How would you ensure that every new file that you create has the following permissions: full access for you, read-only access for your group, and no access for anyone else?
+How would you change the behaviour of the delete command to prompt for confirmation before deleting files?

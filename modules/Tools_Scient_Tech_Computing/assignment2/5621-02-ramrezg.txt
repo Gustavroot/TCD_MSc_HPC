@@ -1,0 +1,93 @@
+Everything was tested in Ubuntu 16.04, unless otherwise stated.
+
+1--
+from the man pages of the 'grep' command, the --color flag stands for: "Surround  the  matched  (non-empty) strings, matching lines, context lines, file names, line numbers, byte offsets, and separators (for fields and groups of context lines) with escape sequences to display them in color on the terminal. The colors are defined by the environment variable GREP_COLORS.  The deprecated environment variable GREP_COLOR is still supported, but its setting does not have priority.". Then, the use of the command:
+
+$ grep --color PATTERN
+
+will highlight the matched patterns in colour. Furthermore, to make the colour permanent, GREP_OPTIONS is deprecated, so alias is used.
+To obtain colour always:
+
+$ alias grep='grep --color=auto'
+
+but that works only for the current bash session. To make it permanent, go to .bashrc and at:
+
+alias grep='grep --color=auto'
+
+To make it effective for current session, run:
+
+$source .bashrc
+
+and in any case, it will be available permanently (if that .bashrc is not removed) after logout.
+----------- end of question 1
+-----------------------------
+
+
+2-- 
+Load average is a set of three numbers, and they represent averages over progressively longer periods of time (one, five, and fifteen minute averages), and lower numbers are better.
+Each value represents a fraction; 1.00 means the CPU queu is at its limit, i.e. if the load avergae is less than 1, processes incoming can be immediately taken and start being processed, but on the other hand, if load average is more than 1.00, there is a queu for the CPU to accept new processes to process.
+A load average of around 0.7 is generally considered as a reason of concern. On multi-processor system, the load is relative to the number of processor cores available. The "100% utilization" mark is 1.00 on a single-core system, 2.00, on a dual-core, 4.00 on a quad-core, etc.
+Two commands to obtain the three load average values are: 'top' and 'uptime'.
+----------- end of question 2 {REFERENCES: http://blog.scoutapp.com/articles/2009/07/31/understanding-load-averages}
+-----------------------------
+
+
+3-- 
+according to the man pages of the command 'kill', the default signal is TERM. If the command 'kill -l' is executed, its output displays an association of the TERM signal with the number 15, i.e. the default of 'kill PID[s]' is 'kill -15 PID[s]'.
+Zombies are the leftover bits of dead processes that haven't been cleaned up properly. need to get rid of zombie processes unless you have a large amount on your system – a few zombies are harmless.
+To obtain a list of the zombie processes, 'ps aux' is used, in conjunction with the 'awk' command, like this: <ps aux | awk '{ print $8 " " $2 }' | grep -w Z>. The command 'awk' reads one line at a time, performs some action depending on the condition you give it and outputs the result. One of the most simple and common uses of awk is selecting a column from a text file or other command's output (just like before, with the output of 'ps aux').
+----------- end of question 3 {REFERENCES: http://www.howtogeek.com/119815/htg-explains-what-is-a-zombie-process-on-linux/; http://www.cyberciti.biz/tips/killing-zombie-process.html; http://askubuntu.com/questions/111422/how-to-find-zombie-process; https://linuxconfig.org/learning-linux-commands-awk; }
+-----------------------------
+
+
+4-- 
+A runlevel is a preset operating state on a Unix-like operating system. A system can be booted into (i.e., started up into) any of several runlevels, each of which is represented by a single digit integer. Each runlevel designates a different system configuration and allows access to a different combination of processes (i.e., instances of executing programs).
+There are differences in the runlevels according to the operating system. Seven runlevels are supported in the standard Linux kernel (i.e., core of the operating system).
+The two main runlevels used on a Linux system are:
+  -- level 3: Full Multiuser with Networking
+  -- level 5: Full Multiuser with Networking and X Windows (GUI)
+----------- end of question 4 {REFERENCES: http://www.linfo.org/runlevel_def.html; http://www.tldp.org/LDP/sag/html/run-levels-intro.html}
+-----------------------------
+
+
+5-- 
+Setuid is a special type of file permission in Unix and Unix-like operating systems. It is a security tool that permits users to run certain programs with escalated privileges.
+When an executable file's setuid permission is set, users may execute that program with a level of access that matches the user who owns the file. For instance, when a user wants to change their password, they run the passwd command. The passwd program is owned by the root account and marked as setuid, so the user is temporarily granted root access for that very limited purpose.
+When using the command 'ls -l', the permissions for files are displayed; the 'x' letter there refers to permission for execution. If present, the setuid permission is displayed as an 's' in the user-execute bit position. An example of permissions where the setuid permission is present is: rwsr-xr-x.
+A command-line way of listing all setuid-like programs in /usr: 'find /usr -user root -perm 4000', which means finding all files in /usr which owner is root but with 4000 permissions.
+----------- end of question 5 {REFERENCES: http://www.computerhope.com/jargon/s/setuid.htm; http://docs.oracle.com/cd/E19683-01/806-4078/6jd6cjs37/index.html}
+-----------------------------
+
+
+6-- 
+
+	-- {REFERENCE: http://unix.stackexchange.com/questions/114634/get-approximate-size-of-directory-recursively-including-all-files-and-sub-direc}
+	
+	$ du -s ./* | sort -n
+
+	-- {REFERENCE: http://stackoverflow.com/questions/3058137/finding-process-count-in-linux-via-command-line}
+
+	$ ps -C command_name --no-headers | wc -l
+
+	-- according to man page of the command 'ps', ps axu lists all the processes:
+
+	$ ps aux --no-headers | wc -l
+
+	-- 
+	
+	$ grep -e '\s\d{4}[-]\d{4}[-]\d{4}[-]\d{4}\s' FILENAME
+
+	--
+
+	$ find DIR/ -type f -mtime +30 -size +100M -print0 | xargs -0 gzip
+
+	-- 
+	
+	$ grep -e "linux" -i /etc/* 2>/dev/null
+
+	-- 
+	
+	$ awk -F: '{print $5}' /etc/passwd
+
+----------- end of question 6
+-----------------------------
