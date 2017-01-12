@@ -140,33 +140,54 @@ int main(int argc, char *argv[]){
   //print_population(total_info, population_size*indiv_size, chrom_size);
   printf("\n\n");
 
+  //TODO: create here array of floats to store fitnesses
+  //TODO: create float file to store total fitness of population
+  //TODO: open output file to store total fitnesses
+  //TODO: create a buffer array, to store the offsprings; the size of
+  //this array is population_size*chrom_size
+  //TODO: create here an array for the mutation step, of size
+  //population_size*chrom_size*(mutation_rate/100)
+
   //Iterating over all the generations
   for(i=0; i<nr_generations; i++){
     printf("\ngeneration #%d\n", i);
     print_population(total_info, population_size*indiv_size, chrom_size);
     printf("\n\n");
+
+    //TODO: calculate the fitness of all the members, separately, and store it
+    //in an array of floats
+
+    //TODO: calculate the total fitness and store it in output file
+
+    //TODO: iterate (population_size*crossover_rate)/2 times, and in each step
+    //select 2 current chromosomes with wheel roulette selection, cross them,
+    //create 2 new elements of offspring and store in buffer array for new generation
+
+    //TODO: iterate [population_size-(population_size*crossover_rate)] times, and in
+    //each step select a current chromosome with wheel roulette selection, and store
+    //it in the buffer array for offspring info
+
+    //TODO: iterate population_size*chrom_size*(mutation_rate/100) times, and in each
+    //step flip one bit of the population_size*chrom_size bits of the offspring,
+    //and also store the resulting index for that flipped bits, because no repetition
+    //of indexes is permitted in this loop
+
+/*
     //and for each generation, there is an iteration over individuals
     for(j=0; j<population_size; j++){
-
       //fitness:
       buff_int = 0;
       for(k=0; k<indiv_size; k++){
-        if(k==0){
-          buff_int += fitness_fnctn(total_info[indiv_size*j+k], indiv_size*(8*sizeof(int))-chrom_size);
-        }
-        else{
-          buff_int += fitness_fnctn(total_info[indiv_size*j+k], 0);
-        }
-      }
+        if(k==0){buff_int += fitness_fnctn(total_info[indiv_size*j+k], indiv_size*(8*sizeof(int))-chrom_size);}
+        else{buff_int += fitness_fnctn(total_info[indiv_size*j+k], 0);}}
       printf("%.4d -- %d\n", j, buff_int);
-
-      //TODO: selection of parents based on fitness
-      //TODO: crossover of parents: given parents to be crossed after the 1st bit
-
-      //TODO: random mutation //the percentage at which it occurs: mutation_rate/100
-      //  ..i.e. a mutation_rate/100 % of the population mutates
     }
+*/
+
+  //TODO: pass info in buffer array, to original array, to keep buffer array
+  //available for the information of the next generation
   }
+  
 
   //TODO: Release ALL memory
   free(total_info);

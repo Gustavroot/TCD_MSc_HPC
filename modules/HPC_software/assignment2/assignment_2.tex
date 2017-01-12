@@ -1,0 +1,214 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage{listings}
+
+\usepackage{verbatim}
+\usepackage{textcomp}
+\usepackage{changepage}
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage{forest}
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+
+\usepackage{setspace}
+\renewcommand{\baselinestretch}{1.3}
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{color}
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{TRINITY COLLEGE DUBLIN, school of Mathematics} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Assignment \#2, Module: MA5611 \\ % The assignment title
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Gustavo Ramirez} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+\section{Problem description}
+
+
+The goal of this assignment is to develop a framework for implementing genetic algorithms in parallel using MPI. Then using this framework you will develop strategies for playing the iterated prisoner's dilema.
+
+
+\begin{enumerate}
+
+
+\item{Task 1}
+
+Write some serial C code that implements the functionality required for a genetic algorithm. Steps involved include
+
+\begin{itemize}
+\item{Selection of parents based on fitness}
+\item{Crossover of parents}
+\item{Random mutation}
+\end{itemize}
+
+Assuming you use the memory efficient method of representing chromosones, the crossover and mutation operations will involve bitwise arithmetic and so you will need to become comfortable with the following operators \textasciitilde \& \^ \ |
+
+
+Use the simple example from class (number of 1s in a string) to test your code with different string lengths, population sizes, mutation rates etc. Make sure to support the case where the chromosone is longer than 32 bits - ie you need to use an array of ints.
+
+\textit{Hint:} A useful trick is to graph the total fitness of the population over time. This should increase. If it is not, then there may be something wrong with your code!
+
+\item{Task 2}
+
+Modify the fitness function so the code plays the iterated prisoner's dilema. Your strategy for playing should be based on the outcomes in the previous two games. As noted in class, this gives 16 possible combinations which can be stored in an int. You will need to figure out a way of mapping the outcomes of previous games to the bits in the int.
+
+You will also need to come up with a method to determine your tactics in the first two games. This can either be hardcoded, random or added to the chromosome encoding of the game.
+
+Allow command line arguments to be given specifying
+
+\begin{itemize}
+\item{Size of population}
+\item{Number of generations}
+\item{Number of iterations of PD to play}
+\item{Crossover rate (usually high)}
+\item{Mutation rate (usually low)}
+\end{itemize}
+
+\item{Task 3}
+
+Using the Master-Slave model, implement the genetic algorithm developed above in MPI. The master process should handle the selection, crossover and mutation. Each slave should handle the fitness evaluation of members of the population.
+
+Do you see the overall fitness continue to increase or does it do something else? Can you explain what is going on?
+
+\item{Bonus Tasks}
+
+Investigate the island model for genetic algorithms and add this functionality to your code. Add an extra command line argument to switch between using the island model and the normal model.
+Change the game from Prisoners' Dilema to Rock-Paper-Scissors where the strategy is just a single choice that is always played. Make a win worth 10, draw 2 and loss 0. Graph the fitness per chromosone type (Rock, Paper or Scissors). Explain what you see.
+Submit a tgz with your code files, graphs and a 2(ish) page writeup of what you did and any observations you have made on the behaviour and performance of your code.
+
+\end{enumerate}
+
+\newpage
+
+
+\begin{comment}
+
+USEFUL LINKS:
+
+official sources for terminology:
+-----
+http://www.intel.com/content/www/us/en/support/topics/glossary.html
+https://www-01.ibm.com/software/globalization/terminology/a.html
+-----
+
+
+
+
+about IMB processors:
+-----
+
+insert in google: list of ibm processors
+https://en.wikipedia.org/wiki/List_of_IBM_products
+https://www-01.ibm.com/software/passportadvantage/guide_to_identifying_processor_family.html
+http://www.nextplatform.com/2015/08/10/ibm-roadmap-extends-power-chips-to-2020-and-beyond/
+http://www.theverge.com/2015/7/9/8919091/ibm-7nm-transistor-processor
+https://www.ibm.com/developerworks/ibmi/library/i-ibmi-7_2-and-ibm-power8/
+-----
+
+
+
+
+\end{comment}
+
+
+\subsection{Solution}
+
+
+\begin{itemize}
+
+\item \textbf{Task 1}
+
+For the implementation of the genetic algorithm:
+
+\begin{enumerate}
+
+\item generate the population with its values randomly set. This is only done once
+
+\item calculate the fitness for all the members of the population combined and separated
+
+\item calculate the probabilities of being selected, each of them proportional to their fitness, and normalized. These probabilities are useful in the next step, in the sense that when a chromosome is to be selected, it is done through the wheel roulette selection.
+
+\item crossover step. X\% of crossover rate means that percentage of the next generation is composed of crossover offspring (and for creating two new elements of the offspring, two elements of the current generation are chosen through wheel roulette selection and then crossed), and the rest of the empty places are filled in doing wheel roulette selection again. The two chromosomes from the current generation crossover after first bit to give the new offspring. \textbf{If the population is $n$, and the fractional crossover rate is $c_{r}$, then this step loops $nc_{r}$ times; in each iteration of this loop, a pair of current chromosomes is selected, crossed, and the offspring created and stored. Additionally, it loops $n-nc_{r}$ more times, to fill the empty places.}
+
+\item mutation step (acts over the just created offspring). Y\% of mutation rate means to flip each bit with a probability Y\%. \textbf{If the population is $n$, the chromosome size $s$, and the mutation rate $m_{r}$, then this step loops $nsm_{r}$ times, but without flipping two times the same bit. For this flipping process, all of the $ns$ bits of the population are taken into consideration.}
+
+
+\end{enumerate}
+
+Perform steps 3, 4 and 5 $n_{g}$ times, where $n_{g}$ is the number of generations.
+
+\item \textbf{Task 2}
+
+
+
+\item \textbf{Task 3}
+
+
+
+
+\end{itemize}
+
+
+
+
+\end{document}
