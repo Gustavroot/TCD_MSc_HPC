@@ -9,7 +9,7 @@
 //	gcc task1.c -lm
 
 //Execution example:
-//	./a.out -cs 70 -ps 25 -mr 1 -cr 75 -ng 100
+//	./a.out -cs 70 -ps 200 -mr 1 -cr 75 -ng 100
 
 
 //Summary on bitwise operators:
@@ -22,7 +22,7 @@
 //Convention:
 //**each individual has a chromosome structure: [int][int]...[int][int]
 //**if, for example, the chromosome size is 70, then the structure
-//  will be: [int 8][int 32][int 32], i.e. in the first integer, the
+//  will be: [8 bits][32 bits][32 bits], i.e. in the first integer, the
 //  information of the first 24 bits is not taken into account
 //In SUMMARY: the convention for bits, is that, for each array
 //  of ints for each individual, for the first element of such array,
@@ -33,7 +33,7 @@ void convert_int_to_bin(char* str_chrom, int n, int cutoff);
 void print_int_as_bin(int n, int cutoff);
 int fitness_fnctn(int n, int cutoff);
 void print_population(int* pop_data, int size, int chrom_size);
-int crossover_ints(int x, int y, int n);
+void crossover_ints(int *crossover_buff, int x, int y, int n);
 
 
 
@@ -44,7 +44,7 @@ int main(int argc, char *argv[]){
   srand((unsigned)time(NULL));
 
   int chrom_size, population_size, mutation_rate, crossover_rate, nr_generations;
-  int i, j, indiv_size, buff_int, k;
+  int i, j, indiv_size, buff_int, k, w, i_rand;
   int *total_info, *offspring;
   double buff_doub;
 
@@ -97,7 +97,18 @@ int main(int argc, char *argv[]){
   printf(" - mutation rate (percentage): %d\n", mutation_rate); //this is a percentage
   printf(" - crossover rate: %d\n", crossover_rate); //this is a percentage
   printf(" - number of generations: %d\n", nr_generations);
-  //printf(" - number of iterations: %d\n", nr_iterations);
+
+  buff_doub = ((double)population_size*(double)crossover_rate)/100.0;
+  if((buff_doub-(int)buff_doub) != 0){
+    printf("\nInput error: make ps*cr/100 be an integer.\n");
+    return 0;
+  }
+
+  buff_doub = ((double)population_size*(double)mutation_rate)/100.0;
+  if((buff_doub-(int)buff_doub) != 0){
+    printf("\nInput error: make ps*mr/100 be an integer.\n");
+    return 0;
+  }
 
   //Allocating memory for the genetic information of all the population
   //sizeof() gives the nr of bytes, and 1 byte = 8 bits
@@ -143,8 +154,11 @@ int main(int argc, char *argv[]){
 
   //Buffer array to store fitness values
   int *fitness_values = (int *)malloc(population_size*sizeof(int));
-  int crossover_chrom1, crossover_chrom2;
+  int crossover_chrom1, crossover_chrom2, crossover_buff[2], mutation_chrom;
   double u_rand, buff_u;
+  char *str_chrom;
+  //m-allocation for binary info:
+  str_chrom = (char*)malloc((8*sizeof(int))*sizeof(char));
 
   //Creation of a file to store total fitness of population
   FILE *file_fitness;
@@ -154,14 +168,10 @@ int main(int argc, char *argv[]){
   //this array is population_size*indiv_size
   offspring = (int*)malloc(population_size*indiv_size*sizeof(int));
 
-  //TODO: create here an array for the mutation step, of size
-  //population_size*chrom_size*(mutation_rate/100)
-
   //Iterating over all the generations
   for(i=0; i<nr_generations; i++){
 
-    //printf("\n-------\n");
-
+    //DEBUG prints
     //Printing all generations info:
     //printf("\ngeneration #%d\n", i);
     //print_population(total_info, population_size*indiv_size, chrom_size);
@@ -186,7 +196,7 @@ int main(int argc, char *argv[]){
     }
     fprintf(file_fitness, "%d\n", buff_int);
 
-    //TODO: iterate (population_size*crossover_rate)/2 times, and in each step
+    //Iterate (population_size*crossover_rate)/2 times, and in each step
     //select 2 current chromosomes with wheel roulette selection, cross them,
     //create 2 new elements of offspring and store in buffer array for new generation
 
@@ -217,50 +227,100 @@ int main(int argc, char *argv[]){
 
       for(k=0; k<indiv_size; k++){offspring[j*indiv_size*2+k] = total_info[crossover_chrom1+k];}
       for(k=0; k<indiv_size; k++){offspring[indiv_size+j*indiv_size*2+k] = total_info[crossover_chrom2+k];}
-      //Now, the two chromosomes are crossed (the 1st bit of both is interchanged):
-      offspring[j*indiv_size*2] = crossover_ints(total_info[crossover_chrom1],
-		total_info[crossover_chrom2], indiv_size*(8*sizeof(int))-chrom_size);
-      offspring[indiv_size+j*indiv_size*2] = crossover_ints(total_info[crossover_chrom2],
-		total_info[crossover_chrom1], indiv_size*(8*sizeof(int))-chrom_size);
-
-      //TODO: implement function 'crossover_ints'
-
+      //Now, the two chromosomes are crossed (the 1st bit of both is interchanged)
+      //Crossing the chromosomes means that, from the 2 n-plets of ints, the 1st ints are crossed,
+      //in a way that the [8*sizeof(int)-(indiv_size*(8*sizeof(int))-chrom_size)]-th
+      //bits in those two ints are interchanged
+      crossover_ints(crossover_buff, total_info[crossover_chrom1],
+		total_info[crossover_chrom2], (indiv_size*(8*sizeof(int))-chrom_size));
+      offspring[j*indiv_size*2] = crossover_buff[0];
+      offspring[indiv_size+j*indiv_size*2] = crossover_buff[1];
+      //printf("%d %d\n", crossover_buff[0], crossover_buff[1]);
     }
 
-    //DEBUG print:
-    //printf("\n\n------\n%d\n", j);
-    //print_population(offspring, population_size*indiv_size, chrom_size);
-
-    //TODO: iterate [population_size-(population_size*crossover_rate)] times, and in
+    //Iterate [population_size-(population_size*crossover_rate)] times, and in
     //each step select a current chromosome with wheel roulette selection, and store
     //it in the buffer array for offspring info
 
-    //TODO: iterate population_size*chrom_size*(mutation_rate/100) times, and in each
+    for(k=0; k<(population_size-population_size*crossover_rate/100); k++){
+      //printf("%d\n", k);
+
+      //select 1 current chromosome: use of wheel roulette selection
+      u_rand = (double)rand()/(double)RAND_MAX;
+      buff_u = 0.0;
+      for(w=0; w<population_size; w++){
+        if( buff_u < u_rand && u_rand < buff_u + (double)fitness_values[w]/(double)buff_int ){
+          mutation_chrom = w; break;
+        }
+        else{buff_u += (double)fitness_values[w]/(double)buff_int;}
+      }
+      for(w=0; w<indiv_size; w++){offspring[j*indiv_size*2+k*indiv_size+w] = total_info[mutation_chrom+w];}
+    }
+
+    //TODO: check this mutation implementation
+
+    //Iterate population_size*chrom_size*(mutation_rate/100) times, and in each
     //step flip one bit of the population_size*chrom_size bits of the offspring,
     //and also store the resulting index for that flipped bits, because no repetition
     //of indexes is permitted in this loop
 
-/*
-    //and for each generation, there is an iteration over individuals
-    for(j=0; j<population_size; j++){
-      //fitness:
-      buff_int = 0;
-      for(k=0; k<indiv_size; k++){
-        if(k==0){buff_int += fitness_fnctn(total_info[indiv_size*j+k], indiv_size*(8*sizeof(int))-chrom_size);}
-        else{buff_int += fitness_fnctn(total_info[indiv_size*j+k], 0);}
-      }
-      printf("%.4d -- %d\n", j, buff_int);
-    }
-*/
+    for(k=0; k<population_size*mutation_rate/100; k++){
+      //to mutate, obtain a random integer from 0 to population_size*indiv_size
+      i_rand = rand()%(population_size*indiv_size);
+      //convert the selected int to bits
+      convert_int_to_bin(str_chrom, offspring[i_rand], 0);
+      w = i_rand;
 
-  //TODO: pass info in offspring[], to total_info[], to keep offspring[]
-  //available for the information of the next generation
+      //from that subset of bits of the chromosome, only mutate over the relevant
+      if(w%(indiv_size)==0){
+        i_rand = rand()%(8*sizeof(int)-(indiv_size*(8*sizeof(int))-chrom_size));
+
+        if(str_chrom[indiv_size*(8*sizeof(int))-chrom_size + i_rand] == 0){
+          str_chrom[indiv_size*(8*sizeof(int))-chrom_size + i_rand] = 1;
+        }
+        else{
+          str_chrom[indiv_size*(8*sizeof(int))-chrom_size + i_rand] = 0;
+        }
+      }
+      else{
+        i_rand = rand()%(8*sizeof(int));
+
+        if(str_chrom[i_rand] == 0){
+          str_chrom[i_rand] = 1;
+        }
+        else{
+          str_chrom[i_rand] = 0;
+        }
+      }
+
+      //and converting back to integer
+      i_rand = w;
+      offspring[i_rand] = 0;
+      for(w=0; w<(8*sizeof(int)); w++){
+        offspring[i_rand] += str_chrom[w]*pow(2,w);
+      }
+
+    }
+
+    //DEBUG print:
+    //printf("\n\n------\n%d\n", i);
+    //print_population(offspring, population_size*indiv_size, chrom_size);
+    //print_population(total_info, population_size*indiv_size, chrom_size);
+
+    //Pass info in offspring[], to total_info[], to keep offspring[]
+    //available for the information of the next generation
+    for(j=0; j<population_size*indiv_size; j++){
+      total_info[j] = offspring[j];
+    }
   }
   
   fclose(file_fitness);
 
-  //TODO: Release ALL memory
+  //Release ALL memory
   free(total_info);
+  free(fitness_values);
+  free(str_chrom);
+  free(offspring);
   printf("\n");
 
   return 0;
@@ -268,12 +328,39 @@ int main(int argc, char *argv[]){
 
 
 
-//TODO: function to perform the crossover: given x and y, puts the nth
-//  bit in y into x, and return x
-int crossover_ints(int x, int y, int n){
-  int out_int;
+//TODO: check this crossover, as might be reversing the treatment of bits within ints........
+//Function to perform the crossover: given x and y, puts the nth
+//  bit in y into x, and returns x
+void crossover_ints(int *crossover_buff, int x, int y, int cutoff){
+  int i, j;
+  char *str_chrom_x, *str_chrom_y;
 
-  return 0;
+  //m-allocation for binary info for printing:
+  str_chrom_x = (char*)malloc((8*sizeof(int)-cutoff)*sizeof(char));
+  str_chrom_y = (char*)malloc((8*sizeof(int)-cutoff)*sizeof(char));
+
+  convert_int_to_bin(str_chrom_x, x, cutoff);
+  convert_int_to_bin(str_chrom_y, y, cutoff);
+
+  //the crossover step:
+  i = str_chrom_x[8*sizeof(int)-cutoff-1];
+  str_chrom_x[8*sizeof(int)-cutoff-1] = str_chrom_y[8*sizeof(int)-cutoff-1];
+  str_chrom_y[8*sizeof(int)-cutoff-1] = i;
+
+  //and converting back those bits to integers
+  j = 0;
+  for(i=(8*sizeof(int)-cutoff-1); i>=0; i--){
+    j += (str_chrom_x[i]-48)*pow(2, i);
+  }
+  crossover_buff[0] = j+pow(2, 8*sizeof(int)-cutoff); //add an extra 1
+  j = 0;
+  for(i=(8*sizeof(int)-cutoff-1); i>=0; i--){
+    j += (str_chrom_y[i]-48)*pow(2, i);
+  }
+  crossover_buff[1] = j+pow(2, 8*sizeof(int)-cutoff); //add an extra 1
+
+  free(str_chrom_x);
+  free(str_chrom_y);
 }
 
 //return array of chars from given int
