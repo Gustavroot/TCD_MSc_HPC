@@ -225,14 +225,15 @@ int main(int argc, char *argv[]){
       //DEBUG print:
       //printf("gen%d, iteration %d-part2, pair: %d + %d\n", i, j, crossover_chrom1, crossover_chrom2);
 
-      for(k=0; k<indiv_size; k++){offspring[j*indiv_size*2+k] = total_info[crossover_chrom1+k];}
-      for(k=0; k<indiv_size; k++){offspring[indiv_size+j*indiv_size*2+k] = total_info[crossover_chrom2+k];}
+      //switching info from both chromosomes and copying that to the offspring
+      for(k=0; k<indiv_size; k++){offspring[j*indiv_size*2+k] = total_info[crossover_chrom2*indiv_size+k];}
+      for(k=0; k<indiv_size; k++){offspring[indiv_size+j*indiv_size*2+k] = total_info[crossover_chrom1*indiv_size+k];}
       //Now, the two chromosomes are crossed (the 1st bit of both is interchanged)
       //Crossing the chromosomes means that, from the 2 n-plets of ints, the 1st ints are crossed,
       //in a way that the [8*sizeof(int)-(indiv_size*(8*sizeof(int))-chrom_size)]-th
       //bits in those two ints are interchanged
-      crossover_ints(crossover_buff, total_info[crossover_chrom1],
-		total_info[crossover_chrom2], (indiv_size*(8*sizeof(int))-chrom_size));
+      crossover_ints(crossover_buff, total_info[crossover_chrom1*indiv_size],
+		total_info[crossover_chrom2*indiv_size], (indiv_size*(8*sizeof(int))-chrom_size));
       offspring[j*indiv_size*2] = crossover_buff[0];
       offspring[indiv_size+j*indiv_size*2] = crossover_buff[1];
       //printf("%d %d\n", crossover_buff[0], crossover_buff[1]);
@@ -263,7 +264,6 @@ int main(int argc, char *argv[]){
     //step flip one bit of the population_size*chrom_size bits of the offspring,
     //and also store the resulting index for that flipped bits, because no repetition
     //of indexes is permitted in this loop
-
     for(k=0; k<population_size*mutation_rate/100; k++){
       //to mutate, obtain a random integer from 0 to population_size*indiv_size
       i_rand = rand()%(population_size*indiv_size);
@@ -303,9 +303,9 @@ int main(int argc, char *argv[]){
     }
 
     //DEBUG print:
-    //printf("\n\n------\n%d\n", i);
-    //print_population(offspring, population_size*indiv_size, chrom_size);
-    //print_population(total_info, population_size*indiv_size, chrom_size);
+    printf("\n\n------\n%d\n", i);
+    print_population(offspring, population_size*indiv_size, chrom_size);
+    print_population(total_info, population_size*indiv_size, chrom_size);
 
     //Pass info in offspring[], to total_info[], to keep offspring[]
     //available for the information of the next generation
@@ -332,6 +332,7 @@ int main(int argc, char *argv[]){
 //Function to perform the crossover: given x and y, puts the nth
 //  bit in y into x, and returns x
 void crossover_ints(int *crossover_buff, int x, int y, int cutoff){
+
   int i, j;
   char *str_chrom_x, *str_chrom_y;
 
