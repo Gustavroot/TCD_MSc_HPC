@@ -532,6 +532,5 @@ int fitness_fnctn(int indiv_size, int cutoff, int iterns_pd, int pop_size, int *
 
   free(str_chrom);
   free(str_chrom_alice);
-  printf("%d\n", fitness_val);
   return fitness_val;
 }
