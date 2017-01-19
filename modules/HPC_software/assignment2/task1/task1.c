@@ -15,7 +15,7 @@
 //TODO:
 //execution of:
 //	./a.out -cs 65 -ps 200 -mr 5 -cr 80 -ng 300
-//not working!
+//not working! Due to use of cs = 65
 
 
 //Summary on bitwise operators:
