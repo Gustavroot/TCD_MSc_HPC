@@ -220,22 +220,89 @@ x^{k+1} = L^{-1}(b-Ux^{k})
 \end{equation}
 
 
-\section{Forward Euler's method}
+\section{Analytical solutions to ODEs}
+
+Before solving part 4 of this assignment, analytical solutions to the ODEs to be solved numerically, are given here:
+
+\subsection{}
+
+The differential equation given in this case is:
+
+\begin{equation}
+\frac{dy}{dx} = -y\ln y
+\end{equation}
+
+with "initial" condition:
+
+\begin{equation}
+y(0) = 0.5
+\end{equation}
+
+from which the solution is (all three ODEs were solved manually, no Mathematica or something similar was used):
+
+\begin{equation}
+y(x) = e^{Be^{-x}}
+\end{equation}
+
+where:
+
+\begin{equation}
+B = \ln 0.5 \approx -0.693147
+\end{equation}
+
+
+\subsection{}
+
+In this case:
+
+\begin{equation}
+\frac{dy}{dx}+4y = 1
+\end{equation}
+
+and:
+
+\begin{equation}
+y(0) = 1
+\end{equation}
+
+with solution:
+
+\begin{equation}
+y(x) = \frac{1}{4} + Be^{-4x}
+\end{equation}
+
+and with constant:
+
+\begin{equation}
+B=\frac{3}{4}
+\end{equation}
 
 
 
-\section{Trapezoid rule predictor-corrector method}
+\subsection{}
+
+In this final case:
+
+\begin{equation}
+\frac{dy}{dx} = y, \ y(0) = 1
+\end{equation}
+
+and then:
+
+\begin{equation}
+y(x) = e^{x}
+\end{equation}
 
 
+\section{Problem 4 of assignment}
 
-\section{Second order Runge-Kutta}
+Rather than describing the different algorithms, I'll focus here on analyzing the resulting data from the simulations.
 
+It is clear that the error decreases when the number of points in the 1D grid is increased.
 
+The most relevant aspect of these numerical approximations, is taking a look at 5 ( = 4+1) points in the 1D grid; these data is in line 2 of files foward\_1.txt and implicit.txt, and in line 1 of file rungekutta.txt.
 
-\section{Fourth order Runge-Kutta}
-
-
-
+For that value of n = 4, it's impressive how the Runge Kutta method does much better than the Euler's method, even with the enhancement of attaching the trapezoidal predictor-corrector.
 
 
 
