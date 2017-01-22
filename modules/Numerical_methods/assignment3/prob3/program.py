@@ -1,11 +1,21 @@
 #Implementation of Jacobi and Gauss-Seidel iterative solvers
 
-#TODO: optimize this code (store the 3 diagonals only)
+#Two observations on optimization:
+#  -- the use of NumPy is a optimization by itself, because the internal
+#     functions are highly optimized for numerical calculations and matrix
+#     manipulations
+#  -- if data an optimization is implemente, in the sense of only refering
+#     to the 3 diagonals of data in the input matrix, then this is incompa-
+#     tible with the use of NumPy.. reason for not using this approach, as
+#     it would've led to an optimisation in memory only
 
+
+#imports
 import numpy as np
 
 
 #Function implementing Jacobi
+#some default values set
 def jacobi(A, b, N=25, x=None):
     #Create an initial guess if needed.. if no guess passed, then
     #the initial guess is zeros

@@ -43,6 +43,26 @@ def runge_kutta_FourthOrder(probe_f, y_0, points_eval):
         x[i+1] = x[i] + ( k1 + 2.0 * ( k2 + k3 ) + k4 ) / 6.0
     return x
 
+#function for plotting data
+def plot_f(out_name, title, xlabel, ylabel, x_values, rk2_values, rk4_values, analytic_values):
+
+    plt.title(title)
+
+    plt.ylabel(ylabel)
+    plt.xlabel(xlabel)
+
+    plt.plot(x_values, rk2_values, 'b-', label="RK2")
+    plt.plot(x_values, rk4_values, 'g--', label="RK4")
+    plt.plot(x_values, analytic_values, 'r--', label="Analytic")
+
+    plt.legend(loc=4)
+    plt.grid(True)
+
+    plt.savefig(out_name, dpi=None, facecolor='w', edgecolor='w',
+		orientation='portrait', papertype=None, format=None,
+		transparent=False)
+
+
 
 #MAIN code
 print "\nFunction to implement 2nd and 4th order Runge-Kutta.\n"
@@ -50,8 +70,10 @@ print "\nFunction to implement 2nd and 4th order Runge-Kutta.\n"
 #initial condition
 y_0 = 0.5
 
-#grid values.. this array can be changed, and this implementation still works
-grid_val_inv = [4]
+#grid sizes
+grid_val_inv = list()
+for i in range(1, 11, 1):
+    grid_val_inv.append(pow(2,i))
 
 #creation of output file variable
 out_file = open("rungekutta.txt", 'w')
@@ -84,5 +106,9 @@ for h_inv in grid_val_inv:
     out_file.write(str(h_inv)+"\t"+"RK2 "+str(out_rk_2[len(out_rk_2)-1])+
 		"\t"+"RK2 "+str(rk2_error)+"\t"+"RK4 "+str(out_rk_4[len(out_rk_4)-1])
 		+"\t"+"RK4 "+str(rk4_error)+"\n")
+    #plotting data for case h_inv==4
+    if h_inv==4:
+        plot_f("comparison.png", "RK2 and RK4 compared to analytical sol.", "x", "y(x)",
+		x_points, out_rk_2, out_rk_4, buff_list2)
 
 out_file.close()
