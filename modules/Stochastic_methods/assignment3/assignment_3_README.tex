@@ -91,41 +91,169 @@ General explanations to understand the structure and implementations of this sol
 
 
 
-\section{}
+\section{Metropolis CORE code}
 
 A specific and somewhat clear explanation of the Metropolis algorithm can be found in the file ./part\_a/metropolis\_description.pdf.
 
 An implementation of part a of this assignment, based on the explanation in that pdf file, can be found in the file ./part\_a/program.py.
 
-
-\section{}
-
+Also, in the same directory (i.e. ./part\_a/) a .png file plotting the samples can be found, to check that the obtained distribution is the appropriate.
 
 
 
-\section{}
+\section{Simulations for three values of $\Delta$}
+
+The results for this part are more diverse.
+
+In the directory ./part\_b/ can be found a set of image files whose names start with "HISTOGRAM\_MC\_history\_D\_", which are the histograms for the six different samples generated for the six different integrations carried out (three different values of $\Delta$ were used for each function: $\cos(x)$ and $x^{2}$).
+
+On the other hand, the image files starting with "MC\_history\_D\_" correspond to the plots of MC history, for each of the six cases.
+
+A particular execution and results for the integrals, in the case of using a number of states equal to 50000 is:
+
+\ \\
+
+\textbf{DELTA = 0.6}
+
+*********
+
+ -- function integrated: cosine
+
+	result: 0.79270421652
+
+ -- function integrated: $x^2$
+
+	result: 0.464075256692
+
+\textbf{DELTA = 0.7}
+
+*********
+
+ -- function integrated: cosine
+
+	result: 0.802398788268
+
+ -- function integrated: $x^2$
+
+	result: 0.466724006355
+
+\textbf{DELTA = 0.8}
+
+*********
+
+ -- function integrated: cosine
+
+	result: 0.792037725042
+
+ -- function integrated: $x^2$
+
+	result: 0.466929212051
+
+\ \\
+
+As can be seen in the MC histories plotted, the data is so dense that the data can be visualized almost like a single stripe. And it's particularly interesting that, the bigger the value of $\Delta$, the wider that stripe, which can be seen as an indirect and informal measurement of the variance.
 
 
 
+\section{"Right" choice for $\Delta$}
 
-\section{}
+To be able to perform more simulations, in this case the number of sampled states was changed to 5000.
 
+The file ./part\_c/program.py was modified with respect to the previous two parts, because of the innecessary code from those previous integrations.
 
+In image ./part\_c/accept\_ratio\_vs\_delta.png can be found a plot of acceptance ratio vs. the selected value of $\Delta$ for that specific sampling; as can be seen there, the smaller the value of $\Delta$, the better the acceptance of states in the Metropolis algorithm. But what is "good" for an acceptance ratio also depends on the specific problem under evaluation.
 
-
-
-\section{}
-
-
-
+Here, a value of $\Delta = 0.2 $ will be chosen, which leads to an acceptance rate of approximately 90\%.
 
 
+\section{True variance}
+
+The number of states sampled in this case, were $N = 50 000$.
+
+The selected value of $\Delta = 0.2$ is an informal measure for the variance. Now, the true variance of the data, for that value of $\Delta$, will be measured.
+
+The binning of data is taking a value $b_{s}$, the bin size, and averaging in chunks size $b_{s}$ (from the whole data set of sampled values of total size $N$), and in the end obtaining a binned array of size $N/b_{s}$.
+
+After binning the data, a variance can be calculated for that data, for the specific value of the function $f(x)$ to be used as integrand, obtaining with this a value of the value for the binned data of: $V^{b_{s}}(\bar{f})$; if the sampled array is not binned, then the obtained value for the variance is the naive calculation: $V^{0}(\bar{f})$. The integrated autocorrelation time is calculated as:
+
+\begin{equation}
+\tau_{int} = \lim_{b_{s}\rightarrow \infty}\frac{V^{0}(\bar{f})}{V^{b_{s}}(\bar{f})}
+\end{equation}
 
 
+Results for integrated autocorrelation times and variances, in these two cases of integration, can be found in the images within the directory ./part\_e/.
 
 
+\section{Statistical "independence"}
+
+For a group of $n$ random variables:
+
+\begin{equation}
+var(X_{1}+X_{2}+...+X_{n}) = \sigma_{total}^{2} = n\sigma^{2}
+\end{equation}
+
+where each independent distribution has variance $\sigma^{2}$.
+
+\textbf{Here, a bin size of $b_{s} = 30$ is selected}, to illustrate the numerical calculations; for this bin size, the autocorrelation time is of approximately 1.273 in the case of the function $x^{2}$, and of approximately 1.2 in the case of the function $\cos(x)$. For this choice of bin size, it can be noticed, from the results of the previous part of this assignment, that the corresponding variances are: $V(\cos(x)) \approx 0.065$ and $V(x^{2}) \approx 0.4$.
+
+When integrating with a set of $n$ independent random variables, the variance and the expectation value are calculated as:
+
+\begin{equation}
+V(f) = \frac{\sum_{i=1}^{n}V_{i}(f)}{n}
+\end{equation}
+
+\begin{equation}
+E(f) = \frac{\sum_{i=1}^{n}E_{i}(f)}{n}
+\end{equation}
 
 
+and, on the other hand, if done with just one set of data instead of $n$ sets of sampled data:
 
+
+\begin{equation}
+\mu = E(f) = \frac{\sum_{i=1}^{N}f(x_{i})}{N}
+\end{equation}
+
+\begin{equation}
+V(f) = \frac{\sum_{i=1}^{N}(f(x_{i})-\mu)^{2}}{n}
+\end{equation}
+
+with: $N = 2\tau_{int}\cdot n$ being the number of sampled states in this single Markov chain.
+
+
+In this specific implementation, the value $N = 50 000$ was selected, from which, for the function $x^{2}$ the value $n = N/(2\tau_{int}) \approx 19 \ 639 $ is obtained, and for the funcion $\cos(x)$ the value $n \approx 20 \ 833 $ is instead used.
+
+When executing ./part\_e/program.py, the results of one execution are (with two different values of $n$, one for each of the two integrands):
+
+\ \\
+
+\textbf{DELTA = 0.2}
+
+*********
+
+ -- function integrated: cosine
+
+	result: 0.777896870441
+
+	error: 0.000903912659038
+
+ -- function integrated: $x^2$
+
+	result: 0.407638436078
+
+	error: 0.092361563922
+
+
+Integration through $n$ statistically independent Gaussian:
+
+ -- result for cosine: 0.779399270054
+
+ -- error for cosine: 0.000598486954
+
+ -- result for $x^2$: 0.508391392359
+
+ -- error for $x^2$: 0.00839139235865
+
+\ \\
 
 \end{document}

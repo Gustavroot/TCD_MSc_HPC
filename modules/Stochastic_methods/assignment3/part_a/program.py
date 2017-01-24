@@ -4,6 +4,9 @@
 #Execution:
 #	$python program.py
 
+#NOTE: to see the code implementing integrals using the sampling
+#      generated here, go to ../part_b/program.py
+
 
 #imports
 from math import exp
