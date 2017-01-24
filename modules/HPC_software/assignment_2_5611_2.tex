@@ -88,19 +88,6 @@
 The goal of this assignment is to develop a framework for implementing genetic algorithms in parallel using MPI. Then using this framework you will develop strategies for playing the iterated prisoner's dilema.
 
 
-\begin{enumerate}
-
-
-\item{Task 1}
-
-
-\item{Task 2}
-
-
-\item{Task 3}
-
-
-\end{enumerate}
 
 \newpage
 
@@ -135,9 +122,43 @@ Perform steps 3, 4 and 5 $n_{g}$ times, where $n_{g}$ is the number of generatio
 
 \item \textbf{Task 2}
 
+In the previous task, the framework for the implementation of genetic algorithms for certain fitness function, was done.
+
+In this second task, the PD was implemented as fitness function. For this, each chromosome was assigned 16 bits; each bit represents one of the 16 possible outcomes of two previous games of the PD. Initially, the GA framework sets the values of all the chromosomes randomly, which means that the whole population has random rules to play the PD based in the previous two games.
+
+Another important detail is that, in the implementation of the fitness function, each chromosome plays a PD game with each of the other chromosomes in the population, from which a good representative fitness is obtained (depending on the kinda of "person" that each chromosome represents, and thinking in terms of years in jail skipped, that will determine how good each chromosome is, i.e. how prone to be out of jail is).
+
+
 
 
 \item \textbf{Task 3}
+
+To parallelize the GA framework, the usual and simple scheme of Master-Slave was used.
+
+Specifically, the implementation using PD as fitness function was the parallelized code, as is a more interesting example than the sum of 1s in a string.
+
+The most relevant steps in this parallelization are:
+
+\begin{enumerate}
+\item the master initializes the chromosomes data
+\item the master sends the chromosomes' data to each slave process
+\item the master does its corresponding work
+\item the slaves do their corresponding work
+\item the slaves send fitness values back to the master process
+\item the master gathers those fitnesses, and then performs crossover, random selection and mutation
+\item re-start again from point 2, during all the generations
+\end{enumerate}
+
+Comparison between a serial and a parallel execution in this case:
+
+Specs of system:
+
+number of plays of PD: 12, population size: 500, mutation rate (percentage): 5, crossover rate: 80, number of generations: 100
+       
+\textbf{SERIAL CODE} with \textbf{execution time}: 0m52.468s.
+
+\textbf{PARALLEL CODE} with \textbf{execution time}: 0m10.767s
+
 
 
 

@@ -155,7 +155,7 @@ int main(int argc, char *argv[]){
     total_info[i] = j;
   }
 
-  printf("\n\n");
+  //printf("\n\n");
 
   //Creation of a file to store total fitness of population
   FILE *file_fitness;
@@ -233,7 +233,7 @@ int main(int argc, char *argv[]){
     //each step select a current chromosome with wheel roulette selection, and store
     //it in the buffer array for offspring info
 
-    printf("\n");
+    //printf("\n");
     for(k=0; k<(population_size-population_size*crossover_rate/100); k++){
       //select 1 current chromosome: use of wheel roulette selection
       u_rand = (double)rand()/(double)RAND_MAX;
@@ -291,12 +291,14 @@ int main(int argc, char *argv[]){
 
     }
 
+    /*
     //DEBUG print:
     printf("\n\n------\n%d\n\n", i);
     printf("original gen:");
     print_population(total_info, population_size*indiv_size, chrom_size, fitness_values);
     printf("\n\noffspring (fitness values are not the corresponding!):");
     print_population(offspring, population_size*indiv_size, chrom_size, fitness_values);
+    */
 
     //Pass info in offspring[], to total_info[], to keep offspring[]
     //available for the information of the next generation
@@ -319,7 +321,6 @@ int main(int argc, char *argv[]){
 
 
 
-//Check this crossover, as might be reversing the treatment of bits within ints........
 //Function to perform the crossover: given x and y, puts the nth
 //  bit in y into x, and returns x
 void crossover_ints(int *crossover_buff, int x, int y, int cutoff){

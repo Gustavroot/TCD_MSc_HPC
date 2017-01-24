@@ -320,7 +320,6 @@ int main(int argc, char *argv[]){
 
 
 
-//Check this crossover, as might be reversing the treatment of bits within ints........
 //Function to perform the crossover: given x and y, puts the nth
 //  bit in y into x, and returns x
 void crossover_ints(int *crossover_buff, int x, int y, int cutoff){
