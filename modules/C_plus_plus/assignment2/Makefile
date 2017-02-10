@@ -1,26 +1,20 @@
 CC = g++ -std=c++11
 CFLAGS = -Wall
-#LDFLAGS = -lm
 
-outp = matrix
+#outp = matrix
 
 #compiling the implementation
-$(outp): Matrix.o
-	$(CC) -o matrix Matrix.o
-
-Matrix.o: Matrix.h
-	$(CC) -c Matrix.cc
-
-
-#testing the implementation
-test: testMatrix
+all: Matrix.o testMatrix
+	@echo
 	./testMatrix
+	@echo
 
-testMatrix:
-	$(CC) -o testMatrix testMatrix.cc
+testMatrix: testMatrix.cc Matrix.o
+	$(CC) -o testMatrix testMatrix.cc Matrix.o
 
+Matrix.o: Matrix.cc Matrix.h
+	$(CC) -c Matrix.cc
 
 #cleaning compiled files
 clean:
-	rm $(outp)
 	rm *.o
