@@ -1,13 +1,6 @@
 #include "Matrix.h"
 
 
-//TODO: check (send email to David Wilson asking these)
-//	-- are the uses of 'static' the appropriate here?
-//	-- should I implement '=' with move? what happens in
-//	cases where I just do A = B?
-//
-
-
 //constructor
 Matrix::Matrix(int nrows, int ncols){
   n_rows = nrows;
