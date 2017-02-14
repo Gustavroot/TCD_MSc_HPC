@@ -3,13 +3,8 @@ CFLAGS = -Wall
 
 #outp = matrix
 
-#compiling the implementation
-all: Matrix.o testMatrix
-	@echo
-	./testMatrix
-	@echo
-
-testMatrix: testMatrix.cc Matrix.o
+#default target
+all: testMatrix.cc Matrix.o
 	$(CC) -o testMatrix testMatrix.cc Matrix.o
 
 Matrix.o: Matrix.cc Matrix.h

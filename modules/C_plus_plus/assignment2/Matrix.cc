@@ -5,6 +5,7 @@
 //	-- are the uses of 'static' the appropriate here?
 //	-- should I implement '=' with move? what happens in
 //	cases where I just do A = B?
+//
 
 
 //constructor
@@ -76,7 +77,6 @@ double Matrix::operator()(int i_row, int j_col){
 }
 
 
-
 //assignment operator
 Matrix& Matrix::operator=(const Matrix& matr_in){
   //if matrices sizes don't match, then can't be equaled, and
@@ -106,6 +106,7 @@ Matrix& Matrix::transpose(){
   }
   return matr_buff;
 }
+
 
 //multiply
 Matrix& Matrix::operator*(const Matrix& matr_in){
@@ -164,10 +165,36 @@ Matrix& Matrix::operator-(const Matrix& matr_in){
 }
 
 
+//second form for addition
+Matrix& Matrix::operator+=(const Matrix& matr_in){
+  *this = *this + matr_in;
+  return *this;
+}
 
 
-//TODO: implement and test (@ testMatrix.cc) following methods:
-Matrix& Matrix::operator+=(const Matrix& matr_in){}
-Matrix& Matrix::operator-=(const Matrix& matr_in){}
-Matrix& Matrix::operator!=(const Matrix& matr_in){}
-Matrix& Matrix::operator==(const Matrix& matr_in){}
+//second form for subtraction
+Matrix& Matrix::operator-=(const Matrix& matr_in){
+  *this = *this - matr_in;
+  return *this;
+}
+
+
+//bool comparison operators
+bool Matrix::operator==(const Matrix& matr_in){
+  //if matrices sizes don't match, then can't be subtracted, and
+  //then return 'this'
+  if(n_rows != matr_in.n_rows || n_cols != matr_in.n_cols){
+    cout << "Matrices dims don't match!" << endl;
+    return 0;
+  }
+  for(int i=0; i<n_rows*n_cols; i++){
+    if((*this).info[i] != matr_in.info[i]){
+      return 0;
+    }
+  }
+  return 1;
+}
+
+bool Matrix::operator!=(const Matrix& matr_in){
+  return ! (*this == matr_in);
+}

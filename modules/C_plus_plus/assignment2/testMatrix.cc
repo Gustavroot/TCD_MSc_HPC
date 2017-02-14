@@ -39,6 +39,7 @@ int main(){
   //testing '=' operator
   cout << "\nTest of '=' operator:" << endl;
   matrix2 = matrix1;
+  cout << "After matrix2 = matrix1:" << endl;
   cout << "matrix1:" << endl << matrix1;
   cout << "matrix2:" << endl << matrix2;
   //tring to equalize matrices of diff size:
@@ -77,11 +78,31 @@ int main(){
 
   //testing '-' operator
   cout << "\nTest of '-' operator:" << endl;
-  cout << "matrix2:" << endl << matrix2-matrix1;
+  matrix2 = matrix2-matrix1;
+  cout << "matrix2 (result of matrix2-matrix1):" << endl << matrix2;
 
 
+  //testing '+='
+  cout << "\nTest of '+=' operator:" << endl;
+  matrix2+=matrix1;
+  cout << "matrix2:" << endl << matrix2;
 
 
+  //testing '-='
+  cout << "\nTest of '-=' operator:" << endl;
+  matrix2-=matrix1;
+  cout << "matrix2:" << endl << matrix2;
 
+  bool buff_bool;
+  //testing comparison operators: '+=' and '-='
+  cout << "\nTest of comparison operator '-=' and '+=':" << endl;
+  buff_bool = matrix2!=matrix1;
+  cout << "matrix2 != matrix1: " << buff_bool << endl;
+  buff_bool = matrix2==matrix1;
+  cout << "matrix2 == matrix1: " << buff_bool << endl;
+  buff_bool = matrix2==matrix2;
+  cout << "matrix2 == matrix2: " << buff_bool << endl;
+
+  cout << endl;
   return 0;
 }

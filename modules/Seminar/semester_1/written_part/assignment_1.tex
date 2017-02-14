@@ -163,7 +163,7 @@ For a better understanding of what Machine Learning really is, it is important t
 %BACKGROUND
 \section{Theory: Multiple Kernel Learning}
 
-Multiple Kernel Learning (MKL) can be thought as a tool, more than as an independent algorithm; it is an algorithm, but it is usually added to regression and classification algorithms, to improve their prediction power.
+Multiple Kernel Learning (MKL) can be thought of as a tool, more than as an independent algorithm; it is an algorithm, but it is usually added to regression and classification algorithms, to improve their prediction power.
 
 In a technical sense (see \cite{mehmet} for a more extense explanation of MKL), MKL can be defined as a set of machine learning methods that use a predefined set of kernels and learn an optimal linear or non-linear combination of kernels as part of the algorithm. In order to understand the somewhat cryptic previous sentence, MKL will be introduced here with very simple and commonly known tools.
 
@@ -204,7 +204,7 @@ It is very important to understand that the dependance on only dot products, app
 
 \subsection{From SVM to MKL}
 
-There are algorithms, such as SVM, which, when evaluating the data to find the parameters for the solution of the implementation, depend only on the values in $K$ (as introduced in equation \ref{eq:kernel_matrix}).
+There are algorithms, such as SVM which, when evaluating the data to find the parameters for the solution of the implementation, depend only on the values in $K$ (as introduced in equation \ref{eq:kernel_matrix}).
 
 MKL is based on what is called \textit{the Kernel trick}. The Kernel trick is basically taking advantage of the feature mentioned before, that the evaluation of some algorithms depends only on dot products of the data.
 
@@ -245,7 +245,7 @@ in such a manner that those dot producs (of the form $\phi(\vec{x_{i}})^{T}\phi(
 \end{equation}
 
 
-Here is a simple example on using the Kernel trick, for an specific transformation from 2D to 3D:
+Here is a simple example on using the Kernel trick for an specific transformation from 2D to 3D:
 
 \begin{itemize}
 \item $\phi: {\rm I\!R}^{2}\rightarrow {\rm I\!R}^{3}$
@@ -257,13 +257,14 @@ Here is a simple example on using the Kernel trick, for an specific transformati
 
 and then, as shown, the dot products in 3D (after the transformation $\phi$ is taken) can be evaluated in terms of the dot products in 2D, only by squaring them.
 
-As can be seen from the previous example and from equation \ref{eq:kernel_matrix2}, \textbf{no explicit knowledge of $\phi$ is necessary}, but the only thing that matters is the form of $f$.
+As can be seen from the previous example and from equation \ref{eq:kernel_matrix2}, \textbf{no explicit knowledge of $\phi$ is necessary}, but the only thing that matters is the form of $f$. This is very powerful, as it allows to make use of extra dimensions, without having to compute the transformations driving the system towards the new dimensionally-extended form; but even more, it is very important, as there are functions $f(x)$ which lead to very complicated transformations $\phi(x)$, or even taking the system to an infinite dimensionality (i.e. $e^{\vec{x}\cdot \vec{y}}$).
+
 
 \subsection{MKL}
 
 The idea of MKL is making use of the Kernel trick, but now with a set of different functions: $\{ \phi_{1}, \phi_{2}, ..., \phi_{m} \}$.
 
-Usually, in algorithms such as SVM, MKL can be easily plugged in. In simple SVM for linear regression, Lagrange multipliers are used for optimizing and reducing the error; this approach can be extended for integrating MKL, adding one extra Lagrange multiplier for each $\phi_{i}$ function.
+Usually, in algorithms such as SVM, MKL can be easily plugged in. In simple SVM for linear regression, Lagrange multipliers are used for optimizing and reducing the error; this approach can be extended for integrating MKL into the mechanism, adding one extra Lagrange multiplier for each $\phi_{i}$ function.
 
 
 
@@ -281,7 +282,7 @@ Usually, in algorithms such as SVM, MKL can be easily plugged in. In simple SVM 
 %EXPLICIT FORM OF IMPLEMENTATION
 \section{Applications}
 
-Machine Learning is used in a lot of different areas, solving a lot of different problems. The same goes for MKL, and specifically for the Kernel trick.
+Machine Learning is used in a lot of different areas (physics, biology, trading, etc.), solving a lot of different problems; the same goes for MKL, and specifically for the Kernel trick.
 
 Extensions of MKL are frequently taken to solve complicated problems. For example, in reference \cite{cancer_research}, a study on cancer can be found, for which 44 different algorithms were used (and compared) in the prediction of sensitivity of cancer in response to the application of drugs; the algorithm which best performed was an extension of MKL using Bayesian Methods.
 
@@ -293,7 +294,7 @@ Extensions of MKL are frequently taken to solve complicated problems. For exampl
 
 \begin{itemize}
 \item Multiple Kernel Learning is useful in algorithms such as SVM, where the evaluation of the parameters of the model makes use only of the dot products of the data vectors.
-\item The Kernel trick consists in a dimensional extension (from $d$ to $l$), for which the form of the $K$ matrix is preserved, and each element of that matrix is a function of the dot products in $d$-dimensions.
+\item The Kernel trick consists in a dimensional extension from $d$ to $l$, for which the form of the Kernel matrix $K$ (containing the relevant information to solve the system) is preserved, and each element of that matrix is a function of the dot products in $d$-dimensions.
 \item Each of the elements of the new matrix $K'$, after the transformation $\phi$ is taken, is simply the evaluation of the dot product in the original dimension, i.e. no explicit knowledge of $\phi$ is necessary.
 \end{itemize}
 

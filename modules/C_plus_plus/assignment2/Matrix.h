@@ -34,8 +34,8 @@ class Matrix{
     Matrix& operator-(const Matrix& matr_in);
     Matrix& operator+=(const Matrix& matr_in);
     Matrix& operator-=(const Matrix& matr_in);
-    Matrix& operator!=(const Matrix& matr_in);
-    Matrix& operator==(const Matrix& matr_in);
+    bool operator!=(const Matrix& matr_in);
+    bool operator==(const Matrix& matr_in);
     
     //transpose
     Matrix& transpose();
