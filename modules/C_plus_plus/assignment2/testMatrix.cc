@@ -58,6 +58,8 @@ int main(){
   //testing 'transpose' method
   cout << "\nTest of 'transpose' method:" << endl;
   cout << "transposed matrix:" << endl << matrix1.transpose();
+  cout << "and after, matrix1:" << endl;
+  cout << matrix1;
   
   
   //filling matrix2 with 1s

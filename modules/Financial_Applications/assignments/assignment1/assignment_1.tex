@@ -1,0 +1,445 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage{verbatim}
+\usepackage{textcomp}
+\usepackage{changepage}
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+
+\usepackage{setspace}
+\renewcommand{\baselinestretch}{1.3}
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{color}
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{TRINITY COLLEGE DUBLIN, school of Mathematics} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Assignment \#1, Module: MA5635 \\ % The assignment title
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Gustavo Ramirez} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+\begin{comment}
+\section{Problem description}
+
+\begin{enumerate}
+\item 
+\item 
+\item 
+\item 
+\end{enumerate}
+
+\end{comment}
+
+\newpage
+
+
+
+
+
+\section{Prob1}
+
+For a four step binomial tree, the value of a European call option at $t = 0$ is:
+$$ X_{0} = \frac{1}{(1+r)^{4}}\sum_{i=0}^{4}{4 \choose i} \widetilde{p}^{i}(1-\widetilde{p})^{4-i}\max \{ S_{0}u^{i}d^{4-i} - K, 0 \} $$
+
+where:
+$$ \widetilde{p} = \frac{1+r-d}{u-d} = 0.5897 $$
+
+and:
+
+$$ 1- \widetilde{p} = 0.4103 $$
+
+
+
+Also, for the amount of shares to buy, at $t = 0$ and $t = 1$, respectively:
+$$ \Delta_{0} = \frac{V_{1}(H) - V_{1}(T)}{S_{1}(H) - S_{1}(T)} $$
+
+$$ \Delta_{1}(\omega) = \frac{V_{2}(\omega H) - V_{2}(\omega T )}{S_{2}(\omega H) - S_{2}(\omega T)} \Rightarrow $$
+
+$$ \Delta_{1}(H) = \frac{V_{2}(H H) - V_{2}(HT )}{S_{2}(H H) - S_{2}(H T)}$$
+
+$$ \Delta_{1}(T) = \frac{V_{2}(T H) - V_{2}(T T )}{S_{2}(T H) - S_{2}(T T)}$$
+
+with:
+
+$$ V_{2} (HH) = \max \{ S_{0}u^{2} - K, 0 \} $$
+
+$$ V_{2} (TH) = \max \{ S_{0}ud - K, 0 \} $$
+
+$$ V_{2} (HT) = \max \{ S_{0}du - K, 0 \} $$
+
+$$ V_{2} (TT) = \max \{ S_{0}d^{2} - K, 0 \} $$
+
+and substituting values:
+
+$$ S_{0}u^{2} = 10 \cdot 1.6^{2} = 25.6 \Rightarrow V_{2}(HH) = 14.6 $$
+
+$$ S_{0}ud = 10 \cdot 1.6 \cdot 1.6^{-1} = 10 \Rightarrow V_{2}(HT) = V_{2}(TH) = 0 $$
+
+$$ S_{0}d^{2} = 10 \cdot 1.6^{-2} \Rightarrow V_{2}(TT) = 0 $$
+
+which leads to:
+
+$$ \Delta_{1}(H) = \frac{14.6}{S_{0}(u^{2} - ud) } = 0.9359$$
+
+$$ \Delta_{1}(T) = 0 $$
+
+On the other hand:
+
+$$ \Delta_{0} = \frac{V_{1}(H) - V_{1}(T)}{S_{0}(u-d)} $$
+
+for which:
+
+$$ V_{1}(H) = \max \{ S_{0}u - K, 0 \} = 5 $$
+
+$$ V_{1}(T) = \max \{ S_{0}d - K, 0 \} = 0 $$
+
+and then:
+
+$$ \Delta_{0} = 0.5128 $$
+
+Finally, for the call option:
+
+$$ X_{0} = \frac{1}{(1+0.2)^{4}} \left( 0 + 0 + 0 + {4 \choose 3}\widetilde{p}^{3}(1-\widetilde{p})^{1}(S_{0}u^{2}-K) + {4 \choose 4}\widetilde{p}^{4}(S_{0}u^{4}-K) \right) =  5.55 $$
+
+
+
+%((1)/(1+0.2)^4)(((4!)/(3!*1!))*0.5897^3*(1-0.5897)*(10*1.6^2-11) + 0.5897^4*(10*1.6^4-11) )
+
+
+\newpage
+
+\section{Prob2}
+
+The put option is similar to call option, but when selling short, $K$ becomes an upper limit:
+
+$$ X_{0} = \frac{1}{(1+r)^{4}}\sum_{i=0}^{4}{4 \choose i} \widetilde{p}^{i}(1-\widetilde{p})^{4-i}\max \{ K - S_{0}u^{i}d^{4-i}, 0 \} $$
+
+and then:
+
+$$ X_{0} = \frac{1}{(1+0.2)^{4}} \left( {4 \choose 0}(1-\widetilde{p})^{4}(K - S_{0}d^{4}) + {4 \choose 1}\widetilde{p}(1-\widetilde{p})^{3}(K - S_{0}d^{2}) + {4 \choose 2}\widetilde{p}^{2}(1-\widetilde{p})^{2}(K - S_{0}) + 0 + 0 \right) $$
+
+$$ = 0.856 $$
+
+%((1)/(1+0.2)^4)((1-0.5897)^4*(-10*1.6^(-4)+11) + ((4!)/(1!*3!))*(0.5897)*(1-0.5897)^3*(-10*1.6^(-2)+11) + ((4!)/(2!*2!))*(0.5897)^2*(1-0.5897)^2*(1) )
+
+
+
+\newpage
+
+\section{Prob3}
+
+\subsection{$ \widetilde{E}_{1}[S_{2}](H) $}
+
+As the obtained toss at $t = 1$ was $H$, then:
+
+$$ S_{1}(H) = uS_{0} = 2 \cdot 4 = 8 $$
+
+$$ \Rightarrow \widetilde{E}_{1}[S_{2}](H) = \widetilde{p}S_{2}(H) + \widetilde{q}S_{2}(T) = S_{1}(H)(\widetilde{p}u + \widetilde{q}d) = 8 \left( \frac{2}{3}2 + \frac{1}{3}\frac{1}{2} \right) = 12 $$
+
+\subsection{$ \widetilde{E}_{1}[S_{2}](T) $}
+
+$$ S_{1}(T) = dS_{0} = 2^{-1} \cdot 4 = 2 $$
+
+$$ \Rightarrow \widetilde{E}_{1}[S_{2}](T) = \widetilde{p}S_{2}(H) + \widetilde{q}S_{2}(T) = S_{1}(T)(\widetilde{p}u + \widetilde{q}d) = 2 \left( \frac{2}{3}2 + \frac{1}{3}\frac{1}{2} \right) = 3 $$
+
+
+\subsection{$ \widetilde{E}_{1}[S_{3}](T) $}
+
+
+$$ S_{1}(T) = dS_{0} = 2^{-1} \cdot 4 = 2 $$
+
+$$ \Rightarrow \widetilde{E}_{1}[S_{3}](T) = \left( 8 \cdot \widetilde{p}^{2} + 2 (\cdot 2 \cdot \widetilde{p}\widetilde{q}) + \frac{1}{2}\widetilde{q}^{2} \right) = 4.5 $$
+
+
+
+\newpage
+
+\section{Prob4}
+
+\subsection{}
+
+\textbf{FIRST:}
+
+$$ E_{1}[S_{2}+S_{3}](H) = ( p^{2}(16+32) + pq(16+8) + pq(4+8) + q^{2}(4+2) ) = 30 $$
+
+% ( 48*(2/3)^2 + (2/3)*(1/3)*24 + (2/3)*(1/3)*12 + 6*(1/3)^2 )
+
+% 8( (2/3)*2 + (1/3)*(1/2) )
+
+$$ E_{1}[S_{2}](H) = 12 $$
+
+$$ E_{1}[S_{3}](H) = 32\left(\frac{2}{3}\right)^2 + 2 \cdot 8 \cdot (2/3) \cdot (1/3) + 2 \cdot (1/3)^2 = 18 $$
+
+% 32*(2/3)^2 + 2*8*(2/3)*(1/3) + 2*(1/3)^2
+
+$$ \Rightarrow E_{1}[S_{2} + S_{3}](H) = E_{1}[S_{2}](H) + E_{1}[S_{3}](H) $$
+
+
+\textbf{SECOND:}
+
+$$ E_{1}[S_{2}+S_{3}](T) = p^{2}(4+8) + pq(4+2) + pq(1+2) + q^{2}(1+0.5) = 7.5 $$
+
+% ( 12*(2/3)^2 + (2/3)*(1/3)*6 + (2/3)*(1/3)*3 + 1.5*(1/3)^2 )
+
+$$ E_{1}[S_{2}](T) = 3 $$
+
+$$ E_{1}[S_{3}](T) = 4.5 $$
+
+$$ \Rightarrow E_{1}[S_{2} + S_{3}](T) = E_{1}[S_{2}](T) + E_{1}[S_{3}](T) $$
+
+
+
+\subsection{}
+
+\textbf{FIRST PART:}
+
+$$ E_{1}[S_{1}S_{2}](H) = p(8 \cdot 16) + q(8 \cdot 4) = 94 $$
+
+% ( 16*8*(2/3) + 4*8*(1/3) )
+
+$$ E_{1}[S_{2}](H) = 12 $$
+
+$$ S_{1}(H) = 8 $$
+
+$$ E_{1}[S_{2}](H) \cdot S_{1}(H) = 96 = E_{1}[S_{1}S_{2}](H) $$
+
+
+
+\textbf{SECOND PART:}
+
+$$ E_{1}[S_{1}S_{2}](T) = p(2 \cdot 4) + q(2 \cdot 1) = 6 $$
+
+% ( 2*4*(2/3) + 2*1*(1/3) )
+
+$$ E_{1}[S_{2}](T) = 3 $$
+
+$$ S_{1}(T) = 2 $$
+
+$$ E_{1}[S_{2}](T) \cdot S_{1}(T) = 6 = E_{1}[S_{1}S_{2}](T) $$
+
+
+
+
+\subsection{}
+
+
+First:
+
+$$ E_{2}[S_{3}](HH) = 32p + 8q = 24 $$
+
+% 32*(2/3) + 8*(1/3)
+
+$$ E_{2}[S_{3}](HT) = 8p + 2q = 6 $$
+
+% 8*(2/3) + 2*(1/3)
+
+$$ E_{2}[S_{3}](TH) = E_{2}[S_{3}](HT) = 6 $$
+
+$$ E_{2}[S_{3}](TT) = 2p + 0.5q = 1.5 $$
+
+% 2*(2/3) + 0.5*(1/3)
+
+
+
+
+
+then:
+
+
+$$ E_{1}[E_{2}[S_{3}]](H) = pE_{2}[S_{3}](HH) + qE_{2}[S_{3}](HT) = 18 $$
+
+% (2/3)*24 + (1/3)*6
+
+$$ E_{1}[E_{2}[S_{3}]](H) = pE_{2}[S_{3}](TH) + qE_{2}[S_{3}](TT) = 4.5 $$
+
+% (2/3)*6 + (1/3)*1.5
+
+
+
+
+finally:
+
+$$ E_{1}S_{3}(H) = 18 = E_{1}[E_{2}[S_{3}]](H) $$
+
+$$ E_{1}S_{3}(T) = 4.5 = E_{1}[E_{2}[S_{3}]](T) $$
+
+
+
+
+
+
+
+
+\newpage
+
+\section{Prob5}
+
+\subsection{}
+
+$$ E_{n}[M_{n+1}] = E_{n}[S_{n+1}] = pS_{n+1}(H) + qS_{n+1}(T) = S_{n}(pu + qd) = S_{n}((1/3)\cdot 2 + (2/3)\cdot (1/2)) = S_{n} $$
+
+Therefore, as $ M_{n} = E_{n}[M_{n+1}] $, $M_{n}$ is a martingale in this case.
+
+
+
+\subsection{}
+
+$$ E_{n}[M_{n+1}] = \frac{1}{(1+r)^{n+1}}E_{n}[S_{n+1}] = \frac{1}{(1+r)^{n+1}}(pS_{n+1}(H) + qS_{n+1}(T)) =  $$
+
+$$ \frac{1}{(1+r)^{n}}\frac{1}{1+r}(S_{n}(pu + qd)) = M_{n}\frac{pu+qd}{1+r} = M_{n}\frac{(1/2)(2)+(1/2)(1/2)}{1+1/4} = M_{n} $$
+
+Therefore, as $ M_{n} = E_{n}[M_{n+1}] $, $M_{n}$ is a martingale in this case.
+
+\subsection{}
+
+$$ E_{n}[M_{n+1}] = E_{n}[S_{n+1}] = pS_{n+1}(H) + qS_{n+1}(T) = S_{n}(pu + qd) = S_{n}((1/2)\cdot 2 + (1/2)\cdot (1/2)) = \frac{5}{4}S_{n} $$
+
+Therefore, as $ M_{n} \neq E_{n}[M_{n+1}] $, $M_{n}$ is not a martingale in this case.
+
+
+
+\subsection{}
+
+\textbf{FIRST:}
+
+$$ E_{n}[M_{n+1}] = E_{n}[S_{n+1}] = pS_{n+1}(H) + qS_{n+1}(T) = S_{n}(pu + qd) = S_{n}((2/3)\cdot 2 + (1/3)\cdot (1/2)) = \frac{3}{2}S_{n} $$
+
+Therefore, as $ M_{n} \neq E_{n}[M_{n+1}] $, $M_{n}$ is not a martingale in this case.
+
+
+\textbf{SECOND:}
+
+$$ E_{n}[M_{n+1}] = \frac{1}{(1+r)^{n+1}}E_{n}[S_{n+1}] = \frac{1}{(1+r)^{n+1}}(pS_{n+1}(H) + qS_{n+1}(T)) =  $$
+
+$$ \frac{1}{(1+r)^{n}}\frac{1}{1+r}(S_{n}(pu + qd)) = M_{n}\frac{pu+qd}{1+r} = M_{n}\frac{(2/3)(2)+(1/3)(1/2)}{1+1/4} = 1.2 \cdot M_{n} $$
+
+Therefore, as $ M_{n} \neq E_{n}[M_{n+1}] $, $M_{n}$ is not a martingale in this case.
+
+
+
+
+\subsection{}
+
+
+In this case, a risk-neutral measure pair $(p, q)$ is one such that:
+
+$$ \frac{pu+qd}{1+r} = 1 \Rightarrow pu+qd = \frac{5}{4} \Rightarrow p = \frac{1}{2} \left( \frac{5}{4}-\frac{1}{2}q \right) $$
+
+and in all those previous given cases, only $\left(  \frac{1}{2}, \frac{1}{2} \right) $ was a risk-neutral measure.
+
+
+
+\section{Prob6}
+
+The risk-neutral probabilities given are:
+
+$$ \widetilde{p} = \frac{1+r-d}{u-d} = \frac{1+1/4-1/2}{2-1/2} = \frac{1}{2} $$
+
+$$ \widetilde{p} = \frac{u-(1+r)}{u-d} = \frac{2-(1+1/4)}{2-1/2} = \frac{1}{2} $$
+
+% (2-(1+1/4))/(2-1/2)
+
+Therefore, with:
+
+$$ M_{n} = \frac{S_{n}}{(1+r)^{n}} $$
+
+then:
+
+$$ \widetilde{E}_{n}[M_{n+1}] = \frac{1}{(1+r)^{n}}\frac{1}{1+r}S_{n}(\widetilde{p}u + \widetilde{q}d) = \frac{S_{n}}{(1+r)^{n}}\frac{\widetilde{p}u + \widetilde{q}d}{1+r} = \frac{S_{n}}{(1+r)^{n}}\frac{(1/2)2 + (1/2)(1/2)}{1+r} = \frac{S_{n}}{(1+r)^{n}} = M_{n} $$
+
+Therefore, as $ M_{n} = E_{n}[M_{n+1}] $, $M_{n}$ is a martingale under those risk-neutral probabilities.
+
+
+\newpage
+
+\section{Prob7}
+
+Implemented using Python.
+
+The code for part \textbf{a} can be found at ./prob7/program.py (IMPORTANT: the code for ALL parts of this assignment is in that file).
+
+The plots resulting of the implementations for part \textbf{b} are in ./prob7/part\_B/.
+
+The plot for part \textbf{c} is in ./prob7/part\_C/.
+
+\subsection{Part D}
+
+For part \textbf{d}, the resulting plot can be found in ./prob7/part\_D/.
+
+The distribution towards which these final values arrays should approximate, when plotted as a histogram, is a normal distribution with mean 0 and standard deviation $t$. As can be seen from the plots (both located at ./prob7/part\_D/), the histogram resembles the distribution just mentioned (for both values of $t$ used).
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

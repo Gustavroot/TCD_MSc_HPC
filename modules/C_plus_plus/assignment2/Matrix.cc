@@ -91,13 +91,20 @@ Matrix& Matrix::operator=(const Matrix& matr_in){
 
 //transpose
 Matrix& Matrix::transpose(){
-  static Matrix matr_buff(n_cols, n_rows);
-  for(int i=0; i<n_rows; i++){
-    for(int j=0; j<n_cols; j++){
-      matr_buff.set(j, i, (*this).elem(i,j));
+
+  Matrix matr_buff = *this;
+  
+  //swap of info in matrices
+  int tmp = n_rows;
+  n_rows = n_cols;
+  n_cols = tmp;  
+  
+  for (int i = 0; i<n_rows; i++){
+    for (int j = 0; j<n_cols; j++){
+      (*this).set(i,j, matr_buff(j,i));
     }
   }
-  return matr_buff;
+  return *this;
 }
 
 
