@@ -116,18 +116,19 @@ Matrix& Matrix::operator*(const Matrix& matr_in){
     cout << "Matrices dims don't match!" << endl;
     return *this;
   }
-  static Matrix matr_buff(n_rows, matr_in.n_cols);
+  Matrix matr_buff = *this;
+  
   double buff_sum;
-  for(int i=0; i<n_rows; i++){
+  for(int i=0; i<matr_buff.n_rows; i++){
     for(int j=0; j<matr_in.n_cols; j++){
       buff_sum = 0;
-      for(int k=0; k<n_cols; k++){
-        buff_sum += info[i*n_cols+k] * matr_in.info[k*matr_in.n_cols + j];
+      for(int k=0; k<matr_buff.n_cols; k++){
+        buff_sum += matr_buff.info[i*matr_buff.n_cols+k] * matr_in.info[k*matr_in.n_cols + j];
       }
-      matr_buff.set(i, j, buff_sum);
+      (*this).set(i, j, buff_sum);
     }
   }
-  return matr_buff;
+  return *this;
 }
 
 
@@ -140,11 +141,12 @@ Matrix& Matrix::operator+(const Matrix& matr_in){
     return *this;
   }
   //else, add and return the result
-  static Matrix matr_buff(n_rows, n_cols);
-  for(int i=0; i<n_rows*n_cols; i++){
-    matr_buff.info[i] = matr_in.info[i] + info[i];
+  Matrix matr_buff = *this;
+  
+  for(int i=0; i<matr_buff.n_rows*matr_buff.n_cols; i++){
+    (*this).info[i] = matr_in.info[i] + matr_buff.info[i];
   }
-  return matr_buff;
+  return *this;
 }
 
 
@@ -157,11 +159,12 @@ Matrix& Matrix::operator-(const Matrix& matr_in){
     return *this;
   }
   //else, add and return the result
-  static Matrix matr_buff(n_rows, n_cols);
-  for(int i=0; i<n_rows*n_cols; i++){
-    matr_buff.info[i] = info[i] - matr_in.info[i];
+  Matrix matr_buff = *this;
+
+  for(int i=0; i<matr_buff.n_rows*matr_buff.n_cols; i++){
+    (*this).info[i] = matr_buff.info[i] - matr_in.info[i];
   }
-  return matr_buff;
+  return *this;
 }
 
 

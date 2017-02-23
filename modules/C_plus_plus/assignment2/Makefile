@@ -4,7 +4,7 @@ CFLAGS = -Wall
 #outp = matrix
 
 #default target
-all: testMatrix.cc Matrix.o
+testMatrix: testMatrix.cc Matrix.o
 	$(CC) -o testMatrix testMatrix.cc Matrix.o
 
 Matrix.o: Matrix.cc Matrix.h
@@ -13,3 +13,4 @@ Matrix.o: Matrix.cc Matrix.h
 #cleaning compiled files
 clean:
 	rm *.o
+	rm testMatrix
