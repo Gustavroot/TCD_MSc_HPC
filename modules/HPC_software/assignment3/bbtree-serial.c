@@ -40,6 +40,12 @@ struct node** smallest(struct node**);
 
 int max_depth(struct node*);
 
+void nr_nodes(struct node*, int*);
+//extracting nodes inorder
+void list_inorder(struct node*, int*, int*);
+
+void build_balanced_tree(struct node**, int*, int, int, int);
+
 
 
 //main code
@@ -91,14 +97,21 @@ int main(int argc, char** argv){
     //entering a node
     insert(((int)rand())%N, &tree);
     
-    //TODO: call balancing function
-
     if(i%(N/5) == 0){printf(".");}
   }
   printf("\n\n");
   
   //printing tree after total insertion
   printf("After insertions:\n");
+  
+  printf("--before balancing:\n");
+
+  print_tree(tree);
+  printf("\n");
+  
+  printf("--after balancing:\n");  
+  balance(&tree);
+  
   print_tree(tree);
   printf("\n");
 
@@ -108,13 +121,20 @@ int main(int argc, char** argv){
   for(i=0; i<N; i++){
     //entering a node
     extract_elem(((int)rand())%N, &tree);
-    
-    //TODO: call balancing function
   }
   printf("\n\n");
 
   //printing tree after some extractions
   printf("After extractions:\n");
+
+  printf("--before balancing:\n");
+
+  print_tree(tree);
+  printf("\n");
+  
+  printf("--after balancing:\n");  
+  balance(&tree);
+  
   print_tree(tree);
   printf("\n");
 
@@ -426,5 +446,82 @@ void print_tree(struct node* tree){
 }
 
 
-//TODO: implement
-void balance(struct node** tree){}
+//determine nr of nodes in tree
+void nr_nodes(struct node* leaf, int* ctr){
+  if( (*leaf).left == 0 ){
+    (*ctr)++;
+  }
+  else{
+    nr_nodes( (*leaf).left , ctr);
+  }
+  
+  if( (*leaf).right == 0 ){
+    (*ctr)++;
+  }
+  else{
+    nr_nodes( (*leaf).right , ctr);
+  }
+}
+
+
+//extracting nodes inorder
+void list_inorder(struct node* leaf, int* arr, int* ctr){
+
+   if(leaf == 0)
+     return;
+   list_inorder(leaf->left, arr, ctr);
+   //printf("%d\n", leaf->key_value);
+   arr[*ctr] = leaf->key_value;
+   (*ctr)++;
+   list_inorder(leaf->right, arr, ctr);
+}
+
+
+//balance tree
+void balance(struct node** tree){
+
+  int i;
+
+  int* array_nodes;
+  
+  int tot_nodes = 0;
+  int* ptr_tot_nodes = &tot_nodes;
+  //need to know number of nodes in advance, to allocate
+  //array that will contain the key_values
+  nr_nodes(*tree, ptr_tot_nodes);
+  tot_nodes--;
+  
+  array_nodes = (int*) malloc( tot_nodes * sizeof(int) );
+
+  tot_nodes = 0;
+  //array of ordered key_values in nodes
+  list_inorder(*tree, array_nodes, ptr_tot_nodes);
+  
+  //finally, creating a balanced tree from the array
+  //destroy old tree
+  destroy_tree(*tree);
+  //and re-point root node to null
+  *tree = 0;
+  
+  build_balanced_tree(tree, array_nodes, 0, tot_nodes-1, tot_nodes);
+}
+
+
+//building balanced tree
+void build_balanced_tree(struct node** new_tree, int* nodes, int start, int end, int tot_nodes){
+
+  //create balanced tree
+  if(start>end){return;}
+
+  //calling recursively to create the tree
+  
+  int mid = (start+end)/2;
+  
+  if(mid >= tot_nodes){return;}
+
+  insert(nodes[mid], new_tree);
+  
+  build_balanced_tree(new_tree, nodes, start, mid-1, tot_nodes);
+  build_balanced_tree(new_tree, nodes, mid+1, end, tot_nodes);
+  
+}
