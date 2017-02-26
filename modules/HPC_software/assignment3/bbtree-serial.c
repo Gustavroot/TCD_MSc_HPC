@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <getopt.h>
 #include <time.h>
+#include <sys/time.h>
 #include <math.h>
 
 
@@ -51,6 +52,10 @@ void build_balanced_tree(struct node**, int*, int, int, int);
 //main code
 int main(int argc, char** argv){
 
+  struct timeval begin, end;
+  
+  double d_t;
+
   int option, N, rand_buff;
   int i;
   int *tree_depth, t_depth;
@@ -89,6 +94,10 @@ int main(int argc, char** argv){
   
   printf("Inserting data in tree (done when 5 dots)");
 
+  //initial time measurement
+  gettimeofday(&begin, NULL);
+
+  t_depth = 0;
   //entering N random elements into tree
   for(i=0; i<N; i++){
   
@@ -97,48 +106,60 @@ int main(int argc, char** argv){
     //entering a node
     insert(((int)rand())%N, &tree);
     
+    //re-balance the tree, if max depth changes
+    if( t_depth != max_depth(tree) ){
+      balance(&tree);
+      t_depth++;
+    }
+    
     if(i%(N/5) == 0){printf(".");}
   }
   printf("\n\n");
   
+  //end time measurement
+  gettimeofday(&end, NULL);
+  
   //printing tree after total insertion
-  printf("After insertions:\n");
+  printf("...insertions finished:\n");
   
-  printf("--before balancing:\n");
-
-  print_tree(tree);
-  printf("\n");
+  i = 0;
+  nr_nodes(tree, &i);
+  printf("\t*** nodes in tree: %d\n", i);
+  d_t = (end.tv_sec - begin.tv_sec) + ((end.tv_usec - begin.tv_usec)/1000000.0);
+  printf("\t*** execution time: %f\n",  d_t );
   
-  printf("--after balancing:\n");  
-  balance(&tree);
+  printf("\nExtracting data from tree (done when 5 dots)");
   
-  print_tree(tree);
-  printf("\n");
-
-  printf("Extracting data from tree.\n");
+  //initial time measurement
+  gettimeofday(&begin, NULL);
 
   //extracting N random elements from tree
   for(i=0; i<N; i++){
     //entering a node
     extract_elem(((int)rand())%N, &tree);
+    
+    //re-balance the tree, if max depth changes
+    if( t_depth != max_depth(tree) ){
+      balance(&tree);
+      t_depth++;
+    }
+    
+    if(i%(N/5) == 0){printf(".");}
   }
   printf("\n\n");
+  
+  //end time measurement
+  gettimeofday(&end, NULL);
 
   //printing tree after some extractions
-  printf("After extractions:\n");
-
-  printf("--before balancing:\n");
-
-  print_tree(tree);
-  printf("\n");
+  printf("...extractions finished.\n");
   
-  printf("--after balancing:\n");  
-  balance(&tree);
-  
-  print_tree(tree);
-  printf("\n");
+  i = 0;
+  nr_nodes(tree, &i);
+  printf("\t*** nodes in tree: %d\n", i);
+  d_t = (end.tv_sec - begin.tv_sec) + ((end.tv_usec - begin.tv_usec)/1000000.0);
+  printf("\t*** execution time: %f\n",  d_t );
 
-  printf("\n");
   //releasing memory
   destroy_tree(tree);
 
@@ -146,14 +167,9 @@ int main(int argc, char** argv){
 }
 
 
-
-
-
-
-
 //EXTRA functions
 void print_usage(){
-  printf("./bbtree -n N\n");
+  printf("./bbtree-serial -n N\n");
 }
 
 
@@ -213,8 +229,6 @@ struct node** smallest(struct node** leaf){
 void extract_elem(int key, struct node** leaf){
   if( *leaf != 0 ){
     if(key == (*leaf)->key_value){
-
-      printf("...elem %d extracted\n", key);
     
       //multiple cases when removing elem:
       //http://www.algolist.net/Data_structures/Binary_search_tree/Removal
@@ -297,7 +311,7 @@ int max_depth(struct node* node){
 }
 
 
-//TODO: add padding
+//add padding pending here!
 void print_tree(struct node* tree){
 
   int max_printable = 6;
@@ -318,9 +332,6 @@ void print_tree(struct node* tree){
 
   while(1){
   
-    //nothing to release on 1st layer
-    //if(depth != 1){free(nodes_ptr);}
-    
     //print current layer
     for(i=0; i< pow(2, depth-1) ; i++){
       //print left spaces
@@ -439,7 +450,6 @@ void print_tree(struct node* tree){
     
     free(nodes_ptr_buff);
 
-    //printf("\n");
     max_d--;
     depth++;
   }
@@ -470,7 +480,6 @@ void list_inorder(struct node* leaf, int* arr, int* ctr){
    if(leaf == 0)
      return;
    list_inorder(leaf->left, arr, ctr);
-   //printf("%d\n", leaf->key_value);
    arr[*ctr] = leaf->key_value;
    (*ctr)++;
    list_inorder(leaf->right, arr, ctr);

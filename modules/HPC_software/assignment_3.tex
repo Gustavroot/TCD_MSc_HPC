@@ -1,0 +1,208 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage{verbatim}
+\usepackage{textcomp}
+\usepackage{changepage}
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+
+\usepackage{setspace}
+\renewcommand{\baselinestretch}{1.3}
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{color}
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{TRINITY COLLEGE DUBLIN, school of Mathematics} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Assignment \#3, Module: MA5611 \\ % The assignment title
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Gustavo Ramirez} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+\begin{comment}
+\section{Problem description}
+
+\begin{enumerate}
+\item 
+\item 
+\item 
+\item 
+\end{enumerate}
+
+\end{comment}
+
+\newpage
+
+
+\begin{comment}
+
+USEFUL LINKS:
+
+official sources for terminology:
+-----
+http://www.intel.com/content/www/us/en/support/topics/glossary.html
+https://www-01.ibm.com/software/globalization/terminology/a.html
+-----
+
+
+
+
+about IMB processors:
+-----
+
+insert in google: list of ibm processors
+https://en.wikipedia.org/wiki/List_of_IBM_products
+https://www-01.ibm.com/software/passportadvantage/guide_to_identifying_processor_family.html
+http://www.nextplatform.com/2015/08/10/ibm-roadmap-extends-power-chips-to-2020-and-beyond/
+http://www.theverge.com/2015/7/9/8919091/ibm-7nm-transistor-processor
+https://www.ibm.com/developerworks/ibmi/library/i-ibmi-7_2-and-ibm-power8/
+-----
+
+
+
+
+\end{comment}
+
+
+\section{Part 1: serial}
+
+In this case, the 'main' function (the only thread within the process executed by this program) is in charge of the three tasks: insert, extract and re-balance. After each insertion or extraction, a re-balancing is performed, but only if the depth of the tree changes, as generally these BSTs are used for searching, in which case keeping the depth as small as possible is the main goal.
+
+Description of the implemented functions:
+
+\ \\
+
+\textbf{** core functions:}
+
+\begin{itemize}
+\item \textbf{insert(int key, struct node** tree):} without a returning value, this function simply inserts the passed int 'key' into the tree to which the pointer *tree points. If that key already exists within the tree, then no insertion is performed.
+\item \textbf{extract\_elem(int, struct node**):} similar to 'insert': if the int doesn't exist, no extraction is performed, and if it exists, then that node is deleted and the tree is reorganized to fill that hole.
+\item \textbf{balance(struct node**):} for the specific implementation here, all the values (all the 'key's) in the tree are extracted in a inorder fashion, then stored in a 1D array, and then a balanced tree is created from that array.
+\item \textbf{build\_balanced\_tree(struct node**, int*, int, int, int):} this function is called as the last step in the previous function: from a 1D array of sorted keys, a balanced tree is created by recursively splitting that array and calling the 'insert' function.
+\item \textbf{destroy\_tree(struct node*):} recursively destroys the tree, leaving in the end the tree's root pointer pointing to NULL.
+\end{itemize}
+
+
+\textbf{** auxiliary functions:}
+
+\begin{itemize}
+\item \textbf{print\_tree(struct node*):} prints the tree in a nice formatted way; the only downside up to this point, is that no padding has been added, so that this function prints nicely for numbers from 0 to 9, but the prints shift horizontally if number are >= 10.
+\item \textbf{smallest(struct node**):} returns a pointer to the node in which the smallest key\_value of this tree lives.
+\item \textbf{max\_depth(struct node*):} returns an integer: the current total depth of the tree.
+\item \textbf{nr\_nodes(struct node*, int*):} gives the total number of nodes in the tree.
+\item \textbf{list\_inorder(struct node* tree, int* array, int* counter):} given a pointer to the tree, this function stores in 'array' all the keys in the tree, in a sorted manner. Also, stores the length of that array at the variable pointed by 'counter'.
+\end{itemize}
+
+
+
+
+
+
+\newpage
+
+\section{Part 2: parallel}
+
+This implementation stands on top of the serial implementation described before.
+
+The way the 'main()' thread works is as follows: creates a 'balance' thread which is constantly running on the background, checking (every $\Delta t = $5 ms) if the depth of the tree changes, and if that's the case, re-balancing the tree; then creates an 'insert' thread which is assigned the job of inserting a certain amount of random ints into the tree, also doing these insertions a certain amount of time separated from each other, but this time with a separation determined by a temporal Poisson distribution (with mean 0.5 ms); finally, it creates an 'extract' thread, which does the same as the 'insert' thread, time wise at least, but the opposite job (eliminating random ints from nodes).
+
+The values for the Poisson distribution (0.5 ms of expectation value) and for the interval of calls withing the balancing thread (5 ms), where picked like this: for the Poisson distribution, starting from 500 ms for expectation value, successive reductions of that value were tried, up to the point in which the threads were seen to interwind, i.e. not necessarily executing one after the other; for the balancing thread, a frequency of 10 times the expectation value of the Poisson distribution was taken, as less than that might be a waste of resources, and also because of the implementation for detection of 'inactivities' within that thread \#2.
+
+After creating all those threads, main() simply calls a join on those threads, waiting for all of them to finish.
+
+\ \\
+
+
+\textbf{** core functions:}
+
+\begin{itemize}
+\item 'insert' handler (\textbf{inserts}): this function is executed from thread 0, and calls multiple times to the original 'insert' serial function; it implements the appropriate mutex, so that "tree-changing functions" won't access the tree.
+\item 'extract' handler (\textbf{extract\_elems}): same as 'insert', but with extractions of keys.
+\item 'balance' handler (\textbf{balance\_parallel}): checks the tree every 5 ms, and if the depth changes, then it re-balances the tree (locking the mutex for it).
+\end{itemize}
+
+
+
+
+
+
+
+\newpage
+
+\section{Part 3: ON EXECUTION TIMES}
+
+For the parallel implementation, if 30 000 nodes are 'inserted' and 'extracted' (which is never the case, as random integers are taken, and some clashes are present all the time), the execution time is of around 3.895 s total (and is important to take into consideration that all of the operations - insert, extract, balance - are being delayed a small amount, either 5 ms or 0.5 ms on average for Poisson distribution).
+
+On the other hand, if the serial program is run as:
+
+\begin{center}
+\textit{./bbtree-serial -n 30000}
+\end{center}
+
+i.e. with 1/10 of the nodes for the parallel case, it takes roughly 2.8 s to execute.
+
+
+
+\end{document}
