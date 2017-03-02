@@ -1,0 +1,353 @@
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+#include <getopt.h>
+#include <stdlib.h>
+#include <math.h>
+
+#include "norms.h"
+
+
+typedef float VAR_TYPE;
+
+
+//to keep float accuracy, execute with
+//values n*m ~ 10^6 or less
+
+//compilation instructions
+//	$ gcc mat_norms_serial.c -lm
+
+//CUDA functions
+
+extern VAR_TYPE norms_cu(VAR_TYPE*, int, int, double*, int, int, int);
+
+
+//CORE functions
+
+//different ways of calculating norms
+
+VAR_TYPE max_norm(VAR_TYPE*, int, int);
+VAR_TYPE frobenius_norm(VAR_TYPE*, int, int);
+VAR_TYPE one_norm(VAR_TYPE*, int, int);
+VAR_TYPE infinite_norm(VAR_TYPE*, int, int);
+
+void print_matrix(VAR_TYPE*, int, int);
+
+
+//EXTRA functions
+void print_usage(){
+  printf("./mat_norms_serial [-n N] [-m M] [-s] [-t] [-T NR_THREADS_PER_B]\n");
+}
+
+
+
+int main(int argc, char** argv){
+
+  //time-measuring variables
+  struct timeval begin, end;
+  double d_t, d_t_cu;
+  double *d_t_cuda = &d_t;
+
+  //used by getopt
+  int option;
+  
+  //general purpose counter
+  int i;
+  
+  //pointer to the matrix elems
+  VAR_TYPE* M;
+  
+  int n_rows = 10, m_cols = 10;
+  time_t seed = 123456;
+  int to_time = 0;
+  
+  //buffer to store the different norms
+  VAR_TYPE norm_buff;
+  
+  int params_counter = 0;
+  int nr_threads_per_block;
+
+  //checking input params
+  if(argc > 9){
+    printf("ERROR: number of input params not allowed.\n");
+    return 0;
+  }
+
+  //extracting params and flags from args
+  while ((option = getopt(argc, argv,"stn:m:T:")) != -1) {
+    switch (option) {
+      case 's':
+        //setting seed to number of milliseconds
+        seed = time(NULL)*1000;
+        params_counter++;
+        break;
+      case 't':
+        to_time = 1;
+        params_counter++;
+        break;
+      case 'n':
+        n_rows = atoi(optarg);
+        params_counter += 2;
+        break;
+      case 'm':
+        m_cols = atoi(optarg);
+        params_counter += 2;
+        break;
+      case 'T':
+        nr_threads_per_block = atoi(optarg);
+        params_counter += 2;
+        break;
+      default: print_usage();
+        printf("ERROR: incorrect input flags.\n");
+        return 0;
+    }
+  }
+
+  //checking number of params
+  if( (argc-1) != params_counter ){
+    printf("ERROR: wrong input params.\n");
+    print_usage();
+    return 0;
+  }
+
+  //printf("nr threads p block: %d\n", nr_threads_per_block);
+
+  //TODO: check here if n_rows, n_cols and seed have the
+  //appropriate values
+
+  //setting seed
+  srand48(seed);
+
+  printf("\ndone seeding!\n");
+
+  //allocating memory for matrix
+  gettimeofday(&begin, NULL);
+  M = (VAR_TYPE*) malloc(n_rows*m_cols*sizeof(VAR_TYPE));
+  gettimeofday(&end, NULL);
+  d_t = (end.tv_sec - begin.tv_sec) + ((end.tv_usec -begin.tv_usec)/1000000.0);
+  if(to_time){
+    printf("malloc time: %f\n", d_t);
+  }
+  if( M == NULL ){
+    printf("\nERROR: malloc wasn't able to allocate memory for matrix\n\n");
+    return 0;
+  }
+
+  //initializing matrix
+  gettimeofday(&begin, NULL);
+  for(i=0; i<n_rows*m_cols; i++){
+    M[i] = (VAR_TYPE)(drand48());
+  }
+  gettimeofday(&end, NULL);
+  d_t = (end.tv_sec - begin.tv_sec) + ((end.tv_usec -
+		begin.tv_usec)/1000000.0);
+  if(to_time){
+    printf("randomizing time: %f\n", d_t);
+  }
+
+  //DEBUG print
+  //print_matrix(M, n_rows, m_cols);
+
+  printf("\n");
+
+  //max norm
+  //initial time measurement
+  gettimeofday(&begin, NULL);
+  norm_buff = max_norm(M, n_rows, m_cols);
+  //end time measurement
+  gettimeofday(&end, NULL);
+  printf("max norm: %f\n", norm_buff);
+  if(to_time){
+    d_t = (end.tv_sec - begin.tv_sec) + ((end.tv_usec - begin.tv_usec)/1000000.0);
+    printf("*** execution time for max norm: %f\n", d_t);
+  }
+
+  printf("\n");
+
+  //max norm with CUDA
+  gettimeofday(&begin, NULL);
+  //the last input, i.e. 0, is to choose 'max norm'
+  norm_buff = norms_cu(M, n_rows, m_cols, d_t_cuda, 0, to_time, nr_th);
+  gettimeofday(&end, NULL);
+  d_t_cu = (end.tv_sec - begin.tv_sec) + ((end.tv_usec -
+		begin.tv_usec)/1000000.0);
+  printf("max norm with CUDA: %f\n", norm_buff);
+  if(to_time){
+    printf("*** execution time for max norm with CUDA (excluding cudaMalloc or cuda mem copy): %f\n", d_t);
+    printf("*** an#include <stdio.h>
+#include <string.h>
+#include <time.h>
+#include <getopt.h>
+#include <stdlib.h>
+#include <math.h>
+
+#include "norms.h"
+
+
+typedef float VAR_TYPE;
+
+
+//to keep float accuracy, execute with
+//values n*m ~ 10^6 or less
+
+//compilation instructions
+//	$ gcc mat_norms_serial.c -lm
+
+//CUDA functions
+
+extern VAR_TYPE norms_cu(VAR_TYPE*, int, int, double*, int, int, int);
+
+
+//CORE functions
+
+//different ways of calculating norms
+
+VAR_TYPE max_norm(VAR_TYPE*, int, int);
+VAR_TYPE frobenius_norm(VAR_TYPE*, int, int);
+VAR_TYPE one_norm(VAR_TYPE*, int, int);
+VAR_TYPE infinite_norm(VAR_TYPE*, int, int);
+
+void print_matrix(VAR_TYPE*, int, int);
+
+
+//EXTRA functions
+void print_usage(){
+  printf("./mat_norms_serial [-n N] [-m M] [-s] [-t] [-T NR_THREADS_PER_B]\n");
+}
+
+
+
+int main(int argc, char** argv){
+
+  //time-measuring variables
+  struct timeval begin, end;
+  double d_t, d_t_cu;
+  double *d_t_cuda = &d_t;
+
+  //used by getopt
+  int option;
+  
+  //general purpose counter
+  int i;
+  
+  //pointer to the matrix elems
+  VAR_TYPE* M;
+  
+  int n_rows = 10, m_cols = 10;
+  time_t seed = 123456;
+  int to_time = 0;
+  
+  //buffer to store the different norms
+  VAR_TYPE norm_buff;
+  
+  int params_counter = 0;
+  int nr_threads_per_block;
+
+  //checking input params
+  if(argc > 9){
+    printf("ERROR: number of input params not allowed.\n");
+    return 0;
+  }
+
+  //extracting params and flags from args
+  while ((option = getopt(argc, argv,"stn:m:T:")) != -1) {
+    switch (option) {
+      case 's':
+        //setting seed to number of milliseconds
+        seed = time(NULL)*1000;
+        params_counter++;
+        break;
+      case 't':
+        to_time = 1;
+        params_counter++;
+        break;
+      case 'n':
+        n_rows = atoi(optarg);
+        params_counter += 2;
+        break;
+      case 'm':
+        m_cols = atoi(optarg);
+        params_counter += 2;
+        break;
+      case 'T':
+        nr_threads_per_block = atoi(optarg);
+        params_counter += 2;
+        break;
+      default: print_usage();
+        printf("ERROR: incorrect input flags.\n");
+        return 0;
+    }
+  }
+
+  //checking number of params
+  if( (argc-1) != params_counter ){
+    printf("ERROR: wrong input params.\n");
+    print_usage();
+    return 0;
+  }
+
+  //printf("nr threads p block: %d\n", nr_threads_per_block);
+
+  //TODO: check here if n_rows, n_cols and seed have the
+  //appropriate values
+
+  //setting seed
+  srand48(seed);
+
+  printf("\ndone seeding!\n");
+
+  //allocating memory for matrix
+  gettimeofday(&begin, NULL);
+  M = (VAR_TYPE*) malloc(n_rows*m_cols*sizeof(VAR_TYPE));
+  gettimeofday(&end, NULL);
+  d_t = (end.tv_sec - begin.tv_sec) + ((end.tv_usec -begin.tv_usec)/1000000.0);
+  if(to_time){
+    printf("malloc time: %f\n", d_t);
+  }
+  if( M == NULL ){
+    printf("\nERROR: malloc wasn't able to allocate memory for matrix\n\n");
+    return 0;
+  }
+
+  //initializing matrix
+  gettimeofday(&begin, NULL);
+  for(i=0; i<n_rows*m_cols; i++){
+    M[i] = (VAR_TYPE)(drand48());
+  }
+  gettimeofday(&end, NULL);
+  d_t = (end.tv_sec - begin.tv_sec) + ((end.tv_usec -
+		begin.tv_usec)/1000000.0);
+  if(to_time){
+    printf("randomizing time: %f\n", d_t);
+  }
+
+  //DEBUG print
+  //print_matrix(M, n_rows, m_cols);
+
+  printf("\n");
+
+  //max norm
+  //initial time measurement
+  gettimeofday(&begin, NULL);
+  norm_buff = max_norm(M, n_rows, m_cols);
+  //end time measurement
+  gettimeofday(&end, NULL);
+  printf("max norm: %f\n", norm_buff);
+  if(to_time){
+    d_t = (end.tv_sec - begin.tv_sec) + ((end.tv_usec - begin.tv_usec)/1000000.0);
+    printf("*** execution time for max norm: %f\n", d_t);
+  }
+
+  printf("\n");
+
+  //max norm with CUDA
+  gettimeofday(&begin, NULL);
+  //the last input, i.e. 0, is to choose 'max norm'
+  norm_buff = norms_cu(M, n_rows, m_cols, d_t_cuda, 0, to_time, nr_th);
+  gettimeofday(&end, NULL);
+  d_t_cu = (end.tv_sec - begin.tv_sec) + ((end.tv_usec -
+		begin.tv_usec)/1000000.0);
+  printf("max norm with CUDA: %f\n", norm_buff);
+  if(to_time){
+    printf("*** execution time for max norm with CUDA (excluding cudaMalloc or cuda mem copy): %f\n", d_t);
+    printf("*** an

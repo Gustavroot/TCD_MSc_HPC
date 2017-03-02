@@ -1,31 +1,42 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
-#include <sys/time.h>
 #include <getopt.h>
 #include <stdlib.h>
 #include <math.h>
 
+#include "norms.h"
+
+
+typedef float VAR_TYPE;
+
+
+//to keep float accuracy, execute with
+//values n*m ~ 10^6 or less
 
 //compilation instructions
 //	$ gcc mat_norms_serial.c -lm
+
+//CUDA functions
+
+extern VAR_TYPE norms_cu(VAR_TYPE*, int, int, double*, int, int, int);
 
 
 //CORE functions
 
 //different ways of calculating norms
 
-float max_norm(float*, int, int);
-float frobenius_norm();
-float one_norm(float*, int, int);
-float infinite_norm(float*, int, int);
+VAR_TYPE max_norm(VAR_TYPE*, int, int);
+VAR_TYPE frobenius_norm(VAR_TYPE*, int, int);
+VAR_TYPE one_norm(VAR_TYPE*, int, int);
+VAR_TYPE infinite_norm(VAR_TYPE*, int, int);
 
-void print_matrix(float*, int, int);
+void print_matrix(VAR_TYPE*, int, int);
 
 
 //EXTRA functions
 void print_usage(){
-  printf("./mat_norms_serial [-n N] [-m M] [-s] [-t]\n");
+  printf("./mat_norms_serial [-n N] [-m M] [-s] [-t] [-T NR_THREADS_PER_B]\n");
 }
 
 
@@ -34,7 +45,8 @@ int main(int argc, char** argv){
 
   //time-measuring variables
   struct timeval begin, end;
-  double d_t;
+  double d_t, d_t_cu;
+  double *d_t_cuda = &d_t;
 
   //used by getopt
   int option;
@@ -43,25 +55,26 @@ int main(int argc, char** argv){
   int i;
   
   //pointer to the matrix elems
-  float* M;
+  VAR_TYPE* M;
   
   int n_rows = 10, m_cols = 10;
   time_t seed = 123456;
   int to_time = 0;
   
   //buffer to store the different norms
-  float norm_buff;
+  VAR_TYPE norm_buff;
   
   int params_counter = 0;
+  int nr_threads_per_block = -1;
 
   //checking input params
-  if(argc > 7){
+  if(argc > 9){
     printf("ERROR: number of input params not allowed.\n");
     return 0;
   }
 
   //extracting params and flags from args
-  while ((option = getopt(argc, argv,"stn:m:")) != -1) {
+  while ((option = getopt(argc, argv,"stn:m:T:")) != -1) {
     switch (option) {
       case 's':
         //setting seed to number of milliseconds
@@ -80,44 +93,67 @@ int main(int argc, char** argv){
         m_cols = atoi(optarg);
         params_counter += 2;
         break;
+      case 'T':
+        nr_threads_per_block = atoi(optarg);
+        params_counter += 2;
+        break;
       default: print_usage();
         printf("ERROR: incorrect input flags.\n");
         return 0;
     }
   }
-  
+
   //checking number of params
   if( (argc-1) != params_counter ){
     printf("ERROR: wrong input params.\n");
     print_usage();
     return 0;
   }
-  
+
+  //printf("nr threads p block: %d\n", nr_threads_per_block);
+  if(nr_threads_per_block == -1){
+    nr_threads_per_block = 32;
+  }
+
   //TODO: check here if n_rows, n_cols and seed have the
   //appropriate values
-  
+
   //setting seed
   srand48(seed);
-  
+
+  printf("\ndone seeding!\n");
+
   //allocating memory for matrix
-  M = (float*) malloc(n_rows*m_cols*sizeof(float));
-  
+  gettimeofday(&begin, NULL);
+  M = (VAR_TYPE*) malloc(n_rows*m_cols*sizeof(VAR_TYPE));
+  gettimeofday(&end, NULL);
+  d_t = (end.tv_sec - begin.tv_sec) + ((end.tv_usec -begin.tv_usec)/1000000.0);
+  if(to_time){
+    printf("malloc time: %f\n", d_t);
+  }
   if( M == NULL ){
     printf("\nERROR: malloc wasn't able to allocate memory for matrix\n\n");
     return 0;
   }
-  
+
   //initializing matrix
+  gettimeofday(&begin, NULL);
   for(i=0; i<n_rows*m_cols; i++){
-    M[i] = (float)(drand48());
+    M[i] = (VAR_TYPE)(drand48());
   }
-  
+  gettimeofday(&end, NULL);
+  d_t = (end.tv_sec - begin.tv_sec) + ((end.tv_usec -
+		begin.tv_usec)/1000000.0);
+  if(to_time){
+    printf("randomizing time: %f\n", d_t);
+  }
+
   //DEBUG print
   //print_matrix(M, n_rows, m_cols);
-  
+
   printf("\n");
-  
-  //matrix norm
+
+  //max norm
   //initial time measurement
   gettimeofday(&begin, NULL);
   norm_buff = max_norm(M, n_rows, m_cols);
@@ -130,7 +166,22 @@ int main(int argc, char** argv){
   }
 
   printf("\n");
-  
+
+  //max norm with CUDA
+  gettimeofday(&begin, NULL);
+  //the last input, i.e. 0, is to choose 'max norm'
+  norm_buff = norms_cu(M, n_rows, m_cols, d_t_cuda, 0, to_time, nr_threads_per_block);
+  gettimeofday(&end, NULL);
+  d_t_cu = (end.tv_sec - begin.tv_sec) + ((end.tv_usec -
+		begin.tv_usec)/1000000.0);
+  printf("max norm with CUDA: %f\n", norm_buff);
+  if(to_time){
+    printf("*** execution time for max norm with CUDA (excluding cudaMalloc or cuda mem copy): %f\n", d_t);
+    printf("*** and including cudaMalloc and mem copytiming: %f\n", d_t_cu);
+  }
+
+  printf("\n");
+
   //frobenius norm
   //initial time measurement
   gettimeofday(&begin, NULL);
@@ -141,6 +192,20 @@ int main(int argc, char** argv){
   if(to_time){
     d_t = (end.tv_sec - begin.tv_sec) + ((end.tv_usec - begin.tv_usec)/1000000.0);
     printf("*** execution time for Frobenius norm: %f\n", d_t);
+  }
+
+  printf("\n");
+
+  //frobenius norm with CUDA
+  gettimeofday(&begin, NULL);
+  norm_buff = norms_cu(M, n_rows, m_cols, d_t_cuda, 1, to_time, nr_threads_per_block);
+  gettimeofday(&end, NULL);
+  d_t_cu = (end.tv_sec - begin.tv_sec) + ((end.tv_usec -
+                begin.tv_usec)/1000000.0);
+  printf("Frobenius norm with CUDA: %f\n", norm_buff);
+  if(to_time){
+    printf("*** execution time for Frobenius norm with CUDA (excluding cudaMalloc and cuda mem copy): %f\n", d_t);
+    printf("*** and including cudaMalloc and mem copy timing: %f\n", d_t_cu);
   }
 
   printf("\n");
@@ -159,6 +224,20 @@ int main(int argc, char** argv){
 
   printf("\n");
 
+  //one norm with CUDA
+  gettimeofday(&begin, NULL);
+  norm_buff = norms_cu(M, n_rows, m_cols, d_t_cuda, 2, to_time, nr_threads_per_block);
+  gettimeofday(&end, NULL);
+  d_t_cu = (end.tv_sec - begin.tv_sec) + ((end.tv_usec -
+                begin.tv_usec)/1000000.0);
+  printf("one norm with CUDA: %f\n", norm_buff);
+  if(to_time){
+    printf("*** execution time for one norm with CUDA (excluding cudaMalloc and cuda mem copy): %f\n", d_t);
+    printf("*** and including cudaMalloc and mem copy timing: %f\n", d_t_cu);
+  }
+
+  printf("\n");
+
   //infinite norm
   //initial time measurement
   gettimeofday(&begin, NULL);
@@ -171,14 +250,33 @@ int main(int argc, char** argv){
     printf("*** execution time for infinite norm: %f\n", d_t);
   }
 
+  printf("\n");
+
+  //infinite norm with CUDA
+  gettimeofday(&begin, NULL);
+  norm_buff = norms_cu(M, n_rows, m_cols, d_t_cuda, 3, to_time, nr_threads_per_block);
+  gettimeofday(&end, NULL);
+  d_t_cu = (end.tv_sec - begin.tv_sec) + ((end.tv_usec -
+                begin.tv_usec)/1000000.0);
+  printf("infinite norm with CUDA: %f\n", norm_buff);
+  if(to_time){
+    printf("*** execution time for infinite norm with CUDA (excluding cudaMalloc and cuda mem copy): %f\n", d_t);
+    printf("*** and including cudaMalloc and mem copy timing: %f\n", d_t_cu);
+  }
+
+  printf("\n");
+
+  //releasing memory
+  free(M);
+
   return 0;
 }
 
 
 
 
-float max_norm(float* M, int n, int m){
-  float abs_val = 0;
+VAR_TYPE max_norm(VAR_TYPE* M, int n, int m){
+  VAR_TYPE abs_val = 0;
   int i, j;
   //looping over the integral to get the max abs value
   for(i=0; i<n; i++){
@@ -191,8 +289,8 @@ float max_norm(float* M, int n, int m){
   return abs_val;
 }
 
-float frobenius_norm(float* M, int n, int m){
-  float norm = 0;
+VAR_TYPE frobenius_norm(VAR_TYPE* M, int n, int m){
+  VAR_TYPE norm = 0;
   int i, j;
   
   for(i=0; i<n; i++){
@@ -206,10 +304,10 @@ float frobenius_norm(float* M, int n, int m){
   return norm;
 }
 
-float one_norm(float* M, int n, int m){
+VAR_TYPE one_norm(VAR_TYPE* M, int n, int m){
   int i, j;
   
-  float norm = 0, norm_buff = 0;
+  VAR_TYPE norm = 0, norm_buff = 0;
   
   for(j=0; j<m; j++){
     for(i=0; i<n; i++){
@@ -224,10 +322,10 @@ float one_norm(float* M, int n, int m){
   return norm;
 }
 
-float infinite_norm(float* M, int n, int m){
+VAR_TYPE infinite_norm(VAR_TYPE* M, int n, int m){
   int i, j;
   
-  float norm = 0, norm_buff = 0;
+  VAR_TYPE norm = 0, norm_buff = 0;
   
   for(i=0; i<m; i++){
     for(j=0; j<n; j++){
@@ -244,11 +342,11 @@ float infinite_norm(float* M, int n, int m){
 
 
 
-void print_matrix(float* M, int n, int m){
+void print_matrix(VAR_TYPE* M, int n, int m){
   int i, j;
   for(i=0; i<n; i++){
     for(j=0; j<m; j++){
-      printf("%.2f\t", M[i*n + j]);
+      printf("%.4f\t", M[i*n + j]);
     }
     printf("\n");
   }
