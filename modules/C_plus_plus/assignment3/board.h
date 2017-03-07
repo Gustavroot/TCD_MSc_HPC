@@ -1,4 +1,6 @@
 #include <iostream>
+#include <chrono>
+#include <random>
 
 using namespace std;
 
@@ -18,9 +20,6 @@ class Board{
     
     int row_size;
     int col_size;
-
-    //value of column to insert, and char
-    void set_value(int, char);
 
     void display();
     

@@ -1,12 +1,6 @@
 #include "board.h"
 
 
-
-//EXTRA functions
-
-void aux_check(){}
-
-
 //CORE Board methods
 
 Board::Board(int x, int y){
@@ -25,11 +19,7 @@ Board::Board(int x, int y){
 //destructor
 Board::~Board(){
   delete[] grid_info;
-  cout << "Board destroyed!" << endl;
 }
-
-
-void Board::set_value(int, char){}
 
 
 void Board::display(){
@@ -52,11 +42,13 @@ int Board::check_if_end(char* winner_token){
   //checking if end of game
   
   int i, j, k;
-  char current = ' ', previous = ' ';
+  char current, previous;
   int counter;
 
+  cout << "columns!" << endl;
   //check columns
   for(j=0; j<col_size; j++){
+    current = ' ', previous = ' ';
     counter = 0;
     for(i=0; i<row_size; i++){
       //*****
@@ -73,9 +65,10 @@ int Board::check_if_end(char* winner_token){
     }
   }
   
-  current = ' ', previous = ' ';
+  cout << "rows!" << endl;
   //check rows
   for(i=0; i<row_size; i++){
+    current = ' ', previous = ' ';
     counter = 0;
     for(j=0; j<col_size; j++){
       //*****
@@ -94,14 +87,14 @@ int Board::check_if_end(char* winner_token){
 
   //CHECK DIAGONALS! ----------
 
-  current = ' ', previous = ' ';
   // # right up
-  for(j=0; j<(col_size-(4-1)); j++){
+  cout << "right up!" << endl;
+  for(j=0; j<col_size; j++){
     k = j;
+    current = ' ', previous = ' ';
     counter = 0;
     for(i=0; i<row_size && k<col_size; i++){
       //*****
-      //cout << i << " " << k << ", ";
       current = grid_info[i*col_size + k];
       if(current != ' ' && current == previous){
         if(counter == 0){counter += 2;}else{counter++;}
@@ -117,14 +110,14 @@ int Board::check_if_end(char* winner_token){
     //cout << endl;
   }
   
-  current = ' ', previous = ' ';
   // # left down
+  cout << "left down!" << endl;
   for(i=1; i<row_size; i++){
     k = i;
+    current = ' ', previous = ' ';
     counter = 0;
     for(j=0; j<col_size && k<row_size; j++){
       //*****
-      //cout << j << " " << k << ", ";
       current = grid_info[k*col_size + j];
       if(current != ' ' && current == previous){
         if(counter == 0){counter += 2;}else{counter++;}
@@ -140,14 +133,14 @@ int Board::check_if_end(char* winner_token){
     //cout << endl;
   }
 
-  current = ' ', previous = ' ';
   // # left up
+  cout << "left up!" << endl;
   for(i=row_size-1; i>=0; i--){
     k = i;
+    current = ' ', previous = ' ';
     counter = 0;
     for(j=0; j<col_size && k>=0; j++){
       //*****
-      //cout << k << " " << j << ", ";
       current = grid_info[k*col_size + j];
       if(current != ' ' && current == previous){
         if(counter == 0){counter += 2;}else{counter++;}
@@ -163,14 +156,14 @@ int Board::check_if_end(char* winner_token){
     //cout << endl;
   }
 
-  current = ' ', previous = ' ';
   // # right down
+  cout << "right down!" << endl;
   for(j=1; j<col_size; j++){
     k = j;
+    current = ' ', previous = ' ';
     counter = 0;
     for(i=(row_size-1); i>=0 && k<col_size; i--){
       //*****
-      //cout << i << " " << k << ", ";
       current = grid_info[i*col_size + k];
       if(current != ' ' && current == previous){
         if(counter == 0){counter += 2;}else{counter++;}
