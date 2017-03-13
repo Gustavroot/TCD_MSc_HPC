@@ -1,0 +1,5 @@
+Execution instructions:
+
+ ** to generate data, run: 'python data_gen.py'
+
+ ** to plot (must have matplotlib installed): 'python plotter.py'
