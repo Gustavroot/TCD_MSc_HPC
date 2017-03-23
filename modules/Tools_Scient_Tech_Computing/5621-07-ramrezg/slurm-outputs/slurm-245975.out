@@ -1,0 +1,573 @@
+-------------------------------------
+Compiling for arch=lonsdale_gcc_openmpi_mkl
+-------------------------------------
+Loaded apps, libs, cports
+Loaded compilers and openmpi/mpi support
+Loaded blas support
+ar: creating /home/users/mschpc/2016/ramrezg/Desktop/5621-07-ramrezg/hpl-2.1/lib/lonsdale_gcc_openmpi_mkl/libhpl.a
+../HPL_packL.c: In function ‘HPL_packL’:
+../HPL_packL.c:172:13: warning: ‘MPI_Address’ is deprecated (declared at /home/support/apps/cports/rhel-6.x86_64/gnu4.9.3/openmpi/1.8.6/include/mpi.h:1178): MPI_Address is superseded by MPI_Get_address in MPI-2.0 [-Wdeprecated-declarations]
+             ierr =   MPI_Address( bufs[nbufs], &disp[nbufs] );
+             ^
+../HPL_packL.c:186:16: warning: ‘MPI_Address’ is deprecated (declared at /home/support/apps/cports/rhel-6.x86_64/gnu4.9.3/openmpi/1.8.6/include/mpi.h:1178): MPI_Address is superseded by MPI_Get_address in MPI-2.0 [-Wdeprecated-declarations]
+                ierr =   MPI_Address( bufs[nbufs], &disp[nbufs] );
+                ^
+../HPL_packL.c:200:13: warning: ‘MPI_Address’ is deprecated (declared at /home/support/apps/cports/rhel-6.x86_64/gnu4.9.3/openmpi/1.8.6/include/mpi.h:1178): MPI_Address is superseded by MPI_Get_address in MPI-2.0 [-Wdeprecated-declarations]
+             ierr =   MPI_Address( bufs[nbufs], &disp[nbufs] );
+             ^
+../HPL_packL.c:211:10: warning: ‘MPI_Type_struct’ is deprecated (declared at /home/support/apps/cports/rhel-6.x86_64/gnu4.9.3/openmpi/1.8.6/include/mpi.h:1787): MPI_Type_struct is superseded by MPI_Type_create_struct in MPI-2.0 [-Wdeprecated-declarations]
+          ierr =   MPI_Type_struct( nbufs, blen, disp, type,
+          ^
+Compilation successful!
+Executing xhpl now:
+================================================================================
+HPLinpack 2.1  --  High-Performance Linpack benchmark  --   October 26, 2012
+Written by A. Petitet and R. Clint Whaley,  Innovative Computing Laboratory, UTK
+Modified by Piotr Luszczek, Innovative Computing Laboratory, UTK
+Modified by Julien Langou, University of Colorado Denver
+================================================================================
+
+An explanation of the input/output parameters follows:
+T/V    : Wall time / encoded variant.
+N      : The order of the coefficient matrix A.
+NB     : The partitioning blocking factor.
+P      : The number of process rows.
+Q      : The number of process columns.
+Time   : Time in seconds to solve the linear system.
+Gflops : Rate of execution for solving the linear system.
+
+The following parameter values will be used:
+
+N      :   56000 
+NB     :      90      140      180      220 
+PMAP   : Row-major process mapping
+P      :       2        4 
+Q      :       8        4 
+PFACT  :    Left    Crout    Right 
+NBMIN  :       2        4 
+NDIV   :       2 
+RFACT  :    Left    Crout    Right 
+BCAST  :   1ring 
+DEPTH  :       0 
+SWAP   : Mix (threshold = 64)
+L1     : transposed form
+U      : transposed form
+EQUIL  : yes
+ALIGN  : 8 double precision words
+
+--------------------------------------------------------------------------------
+
+- The matrix A is randomly generated for each test.
+- The following scaled residual check will be computed:
+      ||Ax-b||_oo / ( eps * ( || x ||_oo * || A ||_oo + || b ||_oo ) * N )
+- The relative machine precision (eps) is taken to be               1.110223e-16
+- Computational tests pass if scaled residuals are less than                16.0
+
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00L2L2       56000    90     2     8            1062.93              1.101e+02
+HPL_pdgesv() start time Tue Mar 21 14:32:49 2017
+
+HPL_pdgesv() end time   Tue Mar 21 14:50:32 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0027220 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00L2L4       56000    90     2     8            1064.74              1.100e+02
+HPL_pdgesv() start time Tue Mar 21 14:51:02 2017
+
+HPL_pdgesv() end time   Tue Mar 21 15:08:47 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0026770 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00L2C2       56000    90     2     8            1062.91              1.102e+02
+HPL_pdgesv() start time Tue Mar 21 15:09:17 2017
+
+HPL_pdgesv() end time   Tue Mar 21 15:27:00 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0027220 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00L2C4       56000    90     2     8            1062.79              1.102e+02
+HPL_pdgesv() start time Tue Mar 21 15:27:30 2017
+
+HPL_pdgesv() end time   Tue Mar 21 15:45:13 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0026770 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00L2R2       56000    90     2     8            1063.15              1.101e+02
+HPL_pdgesv() start time Tue Mar 21 15:45:44 2017
+
+HPL_pdgesv() end time   Tue Mar 21 16:03:27 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0027220 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00L2R4       56000    90     2     8            1062.44              1.102e+02
+HPL_pdgesv() start time Tue Mar 21 16:03:57 2017
+
+HPL_pdgesv() end time   Tue Mar 21 16:21:40 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0026770 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00C2L2       56000    90     2     8            1062.87              1.102e+02
+HPL_pdgesv() start time Tue Mar 21 16:22:10 2017
+
+HPL_pdgesv() end time   Tue Mar 21 16:39:53 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0027220 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00C2L4       56000    90     2     8            1062.97              1.101e+02
+HPL_pdgesv() start time Tue Mar 21 16:40:23 2017
+
+HPL_pdgesv() end time   Tue Mar 21 16:58:06 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0026770 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00C2C2       56000    90     2     8            1063.18              1.101e+02
+HPL_pdgesv() start time Tue Mar 21 16:58:36 2017
+
+HPL_pdgesv() end time   Tue Mar 21 17:16:20 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0027220 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00C2C4       56000    90     2     8            1062.87              1.102e+02
+HPL_pdgesv() start time Tue Mar 21 17:16:50 2017
+
+HPL_pdgesv() end time   Tue Mar 21 17:34:33 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0026770 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00C2R2       56000    90     2     8            1062.69              1.102e+02
+HPL_pdgesv() start time Tue Mar 21 17:35:03 2017
+
+HPL_pdgesv() end time   Tue Mar 21 17:52:46 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0027220 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00C2R4       56000    90     2     8            1062.87              1.102e+02
+HPL_pdgesv() start time Tue Mar 21 17:53:16 2017
+
+HPL_pdgesv() end time   Tue Mar 21 18:10:59 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0026770 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00R2L2       56000    90     2     8            1062.84              1.102e+02
+HPL_pdgesv() start time Tue Mar 21 18:11:29 2017
+
+HPL_pdgesv() end time   Tue Mar 21 18:29:12 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0027220 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00R2L4       56000    90     2     8            1062.94              1.101e+02
+HPL_pdgesv() start time Tue Mar 21 18:29:42 2017
+
+HPL_pdgesv() end time   Tue Mar 21 18:47:25 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0026770 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00R2C2       56000    90     2     8            1063.60              1.101e+02
+HPL_pdgesv() start time Tue Mar 21 18:47:56 2017
+
+HPL_pdgesv() end time   Tue Mar 21 19:05:39 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0027220 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00R2C4       56000    90     2     8            1062.75              1.102e+02
+HPL_pdgesv() start time Tue Mar 21 19:06:10 2017
+
+HPL_pdgesv() end time   Tue Mar 21 19:23:52 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0026770 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00R2R2       56000    90     2     8            1062.72              1.102e+02
+HPL_pdgesv() start time Tue Mar 21 19:24:23 2017
+
+HPL_pdgesv() end time   Tue Mar 21 19:42:05 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0027220 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00R2R4       56000    90     2     8            1062.49              1.102e+02
+HPL_pdgesv() start time Tue Mar 21 19:42:36 2017
+
+HPL_pdgesv() end time   Tue Mar 21 20:00:18 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0026770 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00L2L2       56000   140     2     8            1020.82              1.147e+02
+HPL_pdgesv() start time Tue Mar 21 20:00:49 2017
+
+HPL_pdgesv() end time   Tue Mar 21 20:17:49 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0027089 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00L2L4       56000   140     2     8            1020.55              1.147e+02
+HPL_pdgesv() start time Tue Mar 21 20:18:20 2017
+
+HPL_pdgesv() end time   Tue Mar 21 20:35:20 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0023186 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00L2C2       56000   140     2     8            1020.60              1.147e+02
+HPL_pdgesv() start time Tue Mar 21 20:35:50 2017
+
+HPL_pdgesv() end time   Tue Mar 21 20:52:51 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0027089 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00L2C4       56000   140     2     8            1020.50              1.147e+02
+HPL_pdgesv() start time Tue Mar 21 20:53:21 2017
+
+HPL_pdgesv() end time   Tue Mar 21 21:10:21 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0023186 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00L2R2       56000   140     2     8            1020.35              1.147e+02
+HPL_pdgesv() start time Tue Mar 21 21:10:52 2017
+
+HPL_pdgesv() end time   Tue Mar 21 21:27:52 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0027089 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00L2R4       56000   140     2     8            1019.74              1.148e+02
+HPL_pdgesv() start time Tue Mar 21 21:28:22 2017
+
+HPL_pdgesv() end time   Tue Mar 21 21:45:22 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0023186 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00C2L2       56000   140     2     8            1020.84              1.147e+02
+HPL_pdgesv() start time Tue Mar 21 21:45:52 2017
+
+HPL_pdgesv() end time   Tue Mar 21 22:02:53 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0027089 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00C2L4       56000   140     2     8            1020.35              1.147e+02
+HPL_pdgesv() start time Tue Mar 21 22:03:23 2017
+
+HPL_pdgesv() end time   Tue Mar 21 22:20:23 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0023186 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00C2C2       56000   140     2     8            1022.08              1.146e+02
+HPL_pdgesv() start time Tue Mar 21 22:20:53 2017
+
+HPL_pdgesv() end time   Tue Mar 21 22:37:56 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0027089 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00C2C4       56000   140     2     8            1020.17              1.148e+02
+HPL_pdgesv() start time Tue Mar 21 22:38:26 2017
+
+HPL_pdgesv() end time   Tue Mar 21 22:55:26 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0023186 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00C2R2       56000   140     2     8            1020.47              1.147e+02
+HPL_pdgesv() start time Tue Mar 21 22:55:56 2017
+
+HPL_pdgesv() end time   Tue Mar 21 23:12:57 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0027089 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00C2R4       56000   140     2     8            1019.77              1.148e+02
+HPL_pdgesv() start time Tue Mar 21 23:13:27 2017
+
+HPL_pdgesv() end time   Tue Mar 21 23:30:26 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0023186 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00R2L2       56000   140     2     8            1020.50              1.147e+02
+HPL_pdgesv() start time Tue Mar 21 23:30:57 2017
+
+HPL_pdgesv() end time   Tue Mar 21 23:47:57 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0027089 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00R2L4       56000   140     2     8            1020.38              1.147e+02
+HPL_pdgesv() start time Tue Mar 21 23:48:27 2017
+
+HPL_pdgesv() end time   Wed Mar 22 00:05:28 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0023186 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00R2C2       56000   140     2     8            1020.53              1.147e+02
+HPL_pdgesv() start time Wed Mar 22 00:05:58 2017
+
+HPL_pdgesv() end time   Wed Mar 22 00:22:58 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0027089 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00R2C4       56000   140     2     8            1020.17              1.148e+02
+HPL_pdgesv() start time Wed Mar 22 00:23:28 2017
+
+HPL_pdgesv() end time   Wed Mar 22 00:40:29 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0023186 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00R2R2       56000   140     2     8            1020.35              1.147e+02
+HPL_pdgesv() start time Wed Mar 22 00:40:59 2017
+
+HPL_pdgesv() end time   Wed Mar 22 00:57:59 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0027089 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00R2R4       56000   140     2     8            1019.98              1.148e+02
+HPL_pdgesv() start time Wed Mar 22 00:58:29 2017
+
+HPL_pdgesv() end time   Wed Mar 22 01:15:29 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0023186 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00L2L2       56000   180     2     8            1022.25              1.145e+02
+HPL_pdgesv() start time Wed Mar 22 01:15:59 2017
+
+HPL_pdgesv() end time   Wed Mar 22 01:33:02 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0020449 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00L2L4       56000   180     2     8            1021.82              1.146e+02
+HPL_pdgesv() start time Wed Mar 22 01:33:32 2017
+
+HPL_pdgesv() end time   Wed Mar 22 01:50:34 2017
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0023587 ...... PASSED
+slurmstepd: error: Job 245975 exceeded memory limit (15381552 > 15360000), being killed
+slurmstepd: error: Exceeded job memory limit
+slurmstepd: error: *** JOB 245975 ON lonsdale-n147 CANCELLED AT 2017-03-22T01:51:08 ***
+
+
+###############################################################################
+TCHPC Cluster: lonsdale
+Job 245975 (all-combinations-16-cores) for User 'ramrezg' in Account 'mschpc'
+Finished at: Wed Mar 22 01:51:08 GMT 2017
+
+Job completion status:
+======================
+
+       JobID    JobName AllocCPUS NTasks NNodes     MaxRSS    MaxRSSNode  MaxDiskRead MaxDiskWrite    Elapsed      State ExitCode 
+------------ ---------- --------- ------ ------ ---------- ------------- ------------ ------------ ---------- ---------- -------- 
+245975       all-combi+        16             2                                                      11:19:01 CANCELLED+      0:0 
+245975.0          orted         1      1      1                                                      11:18:34  CANCELLED      0:0 
+
+
+Job details:
+============
+
+JobId=245975 JobName=all-combinations-16-cores
+   UserId=ramrezg(5879) GroupId=ramrezg(9684) MCS_label=N/A
+   Priority=10795552 Nice=0 Account=mschpc QOS=normal
+   JobState=COMPLETING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   DerivedExitCode=0:0
+   RunTime=11:19:01 TimeLimit=1-08:00:00 TimeMin=N/A
+   SubmitTime=2017-03-21T14:32:07 EligibleTime=2017-03-21T14:32:07
+   StartTime=2017-03-21T14:32:07 EndTime=2017-03-22T01:51:08 Deadline=N/A
+   PreemptTime=None SuspendTime=None SecsPreSuspend=0
+   Partition=compute AllocNode:Sid=lonsdale01:16788
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=lonsdale-n[147-148]
+   BatchHost=lonsdale-n147
+   NumNodes=2 NumCPUs=16 NumTasks=16 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   TRES=cpu=16,mem=30000M,node=2
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+     Nodes=lonsdale-n[147-148] CPU_IDs=0-7 Mem=15000
+   MinCPUsNode=1 MinMemoryNode=15000M MinTmpDiskNode=0
+   Features=(null) Gres=(null) Reservation=application
+   OverSubscribe=NO Contiguous=0 Licenses=(null) Network=(null)
+   Command=/home/users/mschpc/2016/ramrezg/Desktop/5621-07-ramrezg/sbatch.sh
+   WorkDir=/home/users/mschpc/2016/ramrezg/Desktop/5621-07-ramrezg
+   StdErr=/home/users/mschpc/2016/ramrezg/Desktop/5621-07-ramrezg/slurm-245975.out
+   StdIn=/dev/null
+   StdOut=/home/users/mschpc/2016/ramrezg/Desktop/5621-07-ramrezg/slurm-245975.out
+   Power=
+
+
+Disk quota details:
+===================
+
+Quota Type           Name  Filesystem     Usage in MB     Limit in MB    % Used
+-------------------------------------------------------------------------------
+USER              ramrezg       /home              93          51,200     0.18%
+
+GROUP              mschpc   /projects          23,731          51,200    46.35%
+
+
+SLURM Bank Statement:
+=====================
+
+User           Usage |        Account     Usage | Account Limit Available (CPU hrs)
+---------- --------- + -------------- --------- + ------------- ---------
+anastasd           0 |         MSCHPC     8,486 |       400,000   391,514
+aocurran           0 |         MSCHPC     8,486 |       400,000   391,514
+boiani            61 |         MSCHPC     8,486 |       400,000   391,514
+brijithu           0 |         MSCHPC     8,486 |       400,000   391,514
+croninro       6,041 |         MSCHPC     8,486 |       400,000   391,514
+dalyso             0 |         MSCHPC     8,486 |       400,000   391,514
+donaghek           0 |         MSCHPC     8,486 |       400,000   391,514
+donnelj1           0 |         MSCHPC     8,486 |       400,000   391,514
+doylej20           0 |         MSCHPC     8,486 |       400,000   391,514
+hannigs           14 |         MSCHPC     8,486 |       400,000   391,514
+hargados           0 |         MSCHPC     8,486 |       400,000   391,514
+holtonmi           0 |         MSCHPC     8,486 |       400,000   391,514
+howardrj           0 |         MSCHPC     8,486 |       400,000   391,514
+jabehan            0 |         MSCHPC     8,486 |       400,000   391,514
+jbulava            0 |         MSCHPC     8,486 |       400,000   391,514
+jfagan             0 |         MSCHPC     8,486 |       400,000   391,514
+jose               0 |         MSCHPC     8,486 |       400,000   391,514
+jwinkelm           0 |         MSCHPC     8,486 |       400,000   391,514
+kcleary            0 |         MSCHPC     8,486 |       400,000   391,514
+lernihae         471 |         MSCHPC     8,486 |       400,000   391,514
+liul1              0 |         MSCHPC     8,486 |       400,000   391,514
+lomalle            0 |         MSCHPC     8,486 |       400,000   391,514
+makirby            0 |         MSCHPC     8,486 |       400,000   391,514
+manninmi           0 |         MSCHPC     8,486 |       400,000   391,514
+mooneykn           0 |         MSCHPC     8,486 |       400,000   391,514
+morahanl           0 |         MSCHPC     8,486 |       400,000   391,514
+oduilln            0 |         MSCHPC     8,486 |       400,000   391,514
+ofionnad       1,556 |         MSCHPC     8,486 |       400,000   391,514
+opwonyal           0 |         MSCHPC     8,486 |       400,000   391,514
+osullm40           0 |         MSCHPC     8,486 |       400,000   391,514
+phalpin            0 |         MSCHPC     8,486 |       400,000   391,514
+pharnett           2 |         MSCHPC     8,486 |       400,000   391,514
+pommee             0 |         MSCHPC     8,486 |       400,000   391,514
+poneill9           0 |         MSCHPC     8,486 |       400,000   391,514
+prenderr           1 |         MSCHPC     8,486 |       400,000   391,514
+purdyd             0 |         MSCHPC     8,486 |       400,000   391,514
+ramrezg          275 |         MSCHPC     8,486 |       400,000   391,514
+rooneydt           0 |         MSCHPC     8,486 |       400,000   391,514
+sharding           0 |         MSCHPC     8,486 |       400,000   391,514
+sikelleh           0 |         MSCHPC     8,486 |       400,000   391,514
+simpsoao           0 |         MSCHPC     8,486 |       400,000   391,514
+smurray4           0 |         MSCHPC     8,486 |       400,000   391,514
+spellacl           0 |         MSCHPC     8,486 |       400,000   391,514
+thorntn            0 |         MSCHPC     8,486 |       400,000   391,514
+tiernemi           0 |         MSCHPC     8,486 |       400,000   391,514
+tubberts          34 |         MSCHPC     8,486 |       400,000   391,514
+venkatas          31 |         MSCHPC     8,486 |       400,000   391,514
+walsheki           0 |         MSCHPC     8,486 |       400,000   391,514
+xihu               0 |         MSCHPC     8,486 |       400,000   391,514
+zhuang             0 |         MSCHPC     8,486 |       400,000   391,514
+
+
+Acknowledgements:
+=================
+
+Note that usage of TCHPC Resources *must* be acknowledged in all publications.
+
+Please see this page for details relevant to this cluster:
+
+http://www.tchpc.tcd.ie/resources/acknowledgementpolicy
+
+################################################################################

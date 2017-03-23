@@ -1,0 +1,4 @@
+lonsdale_gcc_openmpi_acml, gcc, 4.9.3-gnu, acml, 4.3.0, 4.9.3-1.8.6, WR00R2C4, 28000, 140, 2, 4, 252.44, 5.798e+01
+lonsdale_gcc_openmpi_mkl, gcc, 4.9.3-gnu, mkl, 11.0.074, 4.9.3-1.8.6, WR00C2R4, 28000, 140, 2, 4, 264.06, 5.543e+01 
+lonsdale_intel11_openmpi_acml, icc, 11.0.074, acml, 4.3.0, 1.6.5-intel12.1.3, WR00L2C4, 28000, 140, 2, 4, 252.84, 5.789e+01
+lonsdale_intel11_openmpi_mkl, icc, 11.0.074, mkl, 11.0.074, 1.6.5-intel12.1.3, WR00C2L4, 28000, 140, 2, 4, 271.06, 5.400e+01

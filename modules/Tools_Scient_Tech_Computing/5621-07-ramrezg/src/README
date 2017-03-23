@@ -1,0 +1,24 @@
+
+HPL simulations:
+
+ ** either through the use of sbatch.sh or general.sh (directly),
+    this implementation runs a full set of combinations of values
+    for testing HPL, for a given number of cores
+
+Steps:
+
+ -- locate the hpl-2.1.tar.gz file at the same level of this
+	README file
+ -- if submitting with SLURM: in the file sbatch.sh, modify the
+	lines starting with '#SBATCH -n' and '#SBATCH -t' to
+	configure for the specific number of cores and JOB's time,
+        and also modify the last line to pass the number of cores
+	to the general.sh bash script
+ -- in the Python script 'hpl_dat_config.py', at line 19 the value
+	28000 corresponds to 80% of the total RAM per node; modify
+	accordingly. Also in that file, modify lines 25, 27 and 29
+	to set the combinations for PxQ, and lines 21 and 23 to
+	set the NBs values
+ -- if running manually (i.e. not using the 'sbatch.sh' script),
+	then simply run './general.sh NR_CORES' on the terminal,
+	after specifying values in hpl_dat_config.py
