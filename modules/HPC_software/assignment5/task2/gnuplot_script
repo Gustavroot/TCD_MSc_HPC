@@ -1,0 +1,12 @@
+set style line 1 lc rgb '#0060ad' lt 1 lw 2 pt 7 ps 1.5
+
+f(x)=a*exp(x*b)+c
+fit f(x) 'times.dat' via a,b,c
+
+set term png
+set output 'times.png'
+
+#set term postscript
+#set output times.ps'
+
+plot f(x), 'times.dat' with linespoints ls 1

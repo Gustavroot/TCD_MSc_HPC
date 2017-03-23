@@ -149,7 +149,7 @@ int main(int argc, char** argv){
   d_t = (end.tv_sec - begin.tv_sec) + ((end.tv_usec - begin.tv_usec)/1000000.0);
   
 
-  printf("Execution time: %.4f\n", d_t);
+  printf("Execution time: %f\n", d_t);
 
   //releasing memory
   free(cities_info);
