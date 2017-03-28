@@ -4,6 +4,9 @@
 #include <time.h>
 #include <sys/time.h>
 #include <math.h>
+#include <string.h>
+#include <float.h> 
+#include <ctype.h>
 
 
 //Compilation instructions:
@@ -13,7 +16,7 @@
 //EXTRA functions
 
 void print_usage(){
-  printf("USAGE: ./tsp-serial -n POSITIVE_INT\n");
+  printf("USAGE: ./tsp-serial -n POSITIVE_INT [-f FILENAME]\n");
 }
 
 //The following two functions are used for
@@ -71,17 +74,22 @@ int main(int argc, char** argv){
   int i, j;
 
   int option, N = -1;
+  char filename[100];
+  filename[0] = -1;
 
-  if(argc != 3){
+  if(argc != 3 && argc != 5){
     print_usage();
     return 0;
   }
 
   //getting value of N with getopt
-  while ((option = getopt(argc, argv,"n:")) != -1) {
-    switch (option) {
-      case 'n' :
+  while((option = getopt(argc, argv,"n:f:")) != -1){
+    switch(option){
+      case 'n':
         N = atoi(optarg);
+        break;
+      case 'f':
+        strcpy(filename, optarg);
         break;
       default:
         print_usage();
@@ -104,20 +112,70 @@ int main(int argc, char** argv){
   
   //allocating array of size 2*N for information on cities
   double* cities_info = (double*)malloc(N*2*sizeof(double));
-  
-  //cities allocated in a 1x1-size map
-  for(i = 0; i<2*N; i++){
-    cities_info[i] = (double) rand()/RAND_MAX;
+
+  //data points
+  if(filename[0] != -1){
+    printf("file passed: %s\n", filename);
+
+    FILE *fp = fopen(filename, "r");
+    
+    //check if file exists, and if not, exit
+    if( fp == NULL ){
+      print_usage();
+      return 0;
+    }
+    
+    int ch = 0;
+    char line_buff[100];
+    //buffer char pointers to extract data points info
+    char *char_buff, *char_buff2;
+    
+    i = 0; j = 0;
+    while(( ch = fgetc(fp) ) != EOF){
+      //in case there are more lines than the specified value of N
+      if(j/2 >= N){
+        break;
+      }
+      line_buff[i] = ch;
+      i++;
+      if(ch == '\n'){
+        line_buff[i] = '\0';
+        i=0;
+        //in case of the non-header entries of the file
+        if(isdigit(line_buff[0])){
+          //extraction of x,y values from file
+          char_buff = strstr(line_buff, " ");
+          char_buff2 = strstr(char_buff+1, " ");
+          *char_buff2 = '\0';
+          cities_info[j+1] = strtod(char_buff2+1, NULL);
+          cities_info[j] = strtod(char_buff+1, NULL);
+          //because of two values, x and y, per line
+          j += 2;
+        }
+      }
+    }
+    fclose(fp);
   }
-  
+  else{
+    //cities allocated in a 1x1-size map
+    for(i = 0; i<2*N; i++){
+      cities_info[i] = (double) rand()/RAND_MAX;
+    }
+  }
+
   //DEBUG print
   for(i=0; i<N; i++){
-    //printf("%.4f %.4f\n", cities_info[2*i], cities_info[2*i+1]);
+    printf("%.4f %.4f\n", cities_info[2*i], cities_info[2*i+1]);
   }
 
   printf("\nBrute force implementation of TSP (N = %d):\n\n", N);
-
-  gettimeofday(&begin, NULL);
+  
+  if(filename[0] == -1){
+    printf("(using random points, on a 1x1 grid)\n\n");
+  }
+  else{
+    printf("(using points loaded from %s)\n\n", filename);
+  }
 
   //--------------------
   int* cities_labels = (int*)malloc(N*sizeof(int));
@@ -128,12 +186,14 @@ int main(int argc, char** argv){
   //Initially, set distance to max possible value,
   //in this case meaning travelling only through
   //the diagonal of the 1x1 square
-  double distance = N*sqrt(2.0);
+  double distance = DBL_MAX; //N*sqrt(2.0);
   double* ptr_distance = &distance;
 
   int* best_path = (int*)malloc(N*sizeof(int));
 
+  gettimeofday(&begin, NULL);
   permutations(cities_labels, 0, N, ptr_distance, cities_info, best_path);
+  gettimeofday(&end, NULL);
   
   //print best path and distance
   printf("PATH = ");
@@ -145,7 +205,6 @@ int main(int argc, char** argv){
   printf("Distance = %f\n", distance);
   //--------------------
 
-  gettimeofday(&end, NULL);
   d_t = (end.tv_sec - begin.tv_sec) + ((end.tv_usec - begin.tv_usec)/1000000.0);
   
 
