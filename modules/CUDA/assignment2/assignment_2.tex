@@ -1,0 +1,182 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage{verbatim}
+\usepackage{textcomp}
+\usepackage{changepage}
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+
+\usepackage{setspace}
+\renewcommand{\baselinestretch}{1.3}
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{color}
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{TRINITY COLLEGE DUBLIN, school of Mathematics} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Assignment \#2, Module: MA5615 \\ % The assignment title
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Gustavo Ramirez} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+\begin{comment}
+\section{Problem description}
+
+\begin{enumerate}
+\item 
+\item 
+\item 
+\item 
+\end{enumerate}
+
+\end{comment}
+
+\newpage
+
+
+\begin{comment}
+
+USEFUL LINKS:
+
+official sources for terminology:
+-----
+http://www.intel.com/content/www/us/en/support/topics/glossary.html
+https://www-01.ibm.com/software/globalization/terminology/a.html
+-----
+
+
+
+
+about IMB processors:
+-----
+
+insert in google: list of ibm processors
+https://en.wikipedia.org/wiki/List_of_IBM_products
+https://www-01.ibm.com/software/passportadvantage/guide_to_identifying_processor_family.html
+http://www.nextplatform.com/2015/08/10/ibm-roadmap-extends-power-chips-to-2020-and-beyond/
+http://www.theverge.com/2015/7/9/8919091/ibm-7nm-transistor-processor
+https://www.ibm.com/developerworks/ibmi/library/i-ibmi-7_2-and-ibm-power8/
+-----
+
+
+
+
+\end{comment}
+
+
+\section{Part 1: serial}
+
+As can be seen in the file ./part1/cyl\_rad.c, the serial implementation is a symple straighforward composition of \textbf{for} loops, representing the propagation of energy (i.e. heat) tangentially on the surface of the cylinder. Alghough the implementation of each step in the evolution of the energy through the surface of the cylinder is, in this serial case, performed by an external (from the main scop) function, this brings up an overhead in the execution of the evolution of the system; for this reason, in the serial part on the file for the parallel implementation, all the code in that external function is moved within the main code.
+
+
+
+
+\section{Part 2: parallel}
+
+As can be seen at ./part2/, a Makefile has been created for the automated build (and delete) of the executable and object files in the project.
+
+The core of the parallel implementation lies within the kernel function \_\_global\_\_ void system\_evolution\_gpu(...). For the specific problem at hand, a combination of global and shared memory was used. Due to the restriction in size for the shared memory, a series of \textbf{if} statements were used to select between using either shared or global memory. The criteria used was based on a roughly size of $16 \ kb$ for the shared memory, restricting to a max size of roughly 2048 on the component $m$ of the matrices.
+
+The previous design criteria is based on the general scheme used on the creation of the grid as a whole: the number of blocks used were one for each row in the matrix M, and for each block (i.e. each row), shared memory was used in case $m<2048$; if $m$ goes beyond that value by say one order of magnitude, then shared memory can't be properly dynamically allocated.
+
+After running executions with 1000 iterations, one important fact is that the error propagates out, and after the 1000 iterations the parallel and serial results are virtually the same.
+
+\subsection{Execution examples}
+
+In general, to display the thermostat, timings and a simple execution:
+
+./cyl\_rad -n N -m M -t -a -p NR\_ITERATIONS
+
+and specifically, for the reference case given at the description of this assignment:
+
+./cyl\_rad -n 15360 -m 15360 -t -a -p 1000 >> file.txt 2>\&1 \&
+
+becase the execution time for the serial case was of around 69 minutes.
+
+
+\section{Part 3: performance improvement}
+
+Different combinations of $n$, $m$ and number of threads per block were used. All the resulting performances for each case of study can be seen at the file ./part3/timing.dat.
+
+As can be seen in that file, speedups ranged from 6 to an interesting and rare case of 55; this latter case might be a mistake, but sounds plausible from the symmetry of the constructed grid and the matrix M of energies under consideration. In particular, for the case given as reference in the description of the assignment, a speedup of around 14 was obtained.
+
+On the precision side, no errors greater than 1.E-5 were encountered.
+
+
+
+
+\section{Part 4: double precision testing}
+
+
+A few more tests were executed for the case of double precision; the code for this case can be found at ./part4/. The resulting extra runs for this double case can be found in the file ./timing\_double.dat.
+
+As can be seen from that file, the speedups were better in the case of float precision, than in the case of double precision.
+
+
+
+
+
+
+\end{document}

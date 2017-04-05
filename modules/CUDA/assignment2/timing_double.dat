@@ -1,0 +1,5 @@
+using_shared	n	m	nr_iterations	serial_time	CUDA_events	total_par_time	threads_p_block	net_speedup	total_speedup
+		n	m	p		t_s		t_p_n		t_p_t		t_p_b		t_s/t_p_n	t_s/t_p_t
+no		1920	7680	1000		175.060435	21.164590	76.367213	512		8.27		2.3
+yes		1024	1024	1000		10.914390	0.268866	2.677121	1024		40.6		4.08
+yes		2048	2048	1000		48.109633	1.293134	1.403453	1024		37.2		34.28

@@ -1,9 +1,0 @@
-BQCD:
-
-https://arxiv.org/pdf/1310.5839.pdf
-https://www.rrz.uni-hamburg.de/services/hpc/bqcd
-http://www.montblanc-project.eu/applications/bqcd
-https://arxiv.org/pdf/1508.05075.pdf
-
-Conjugate gradient descent:
-https://www.cs.cmu.edu/~quake-papers/painless-conjugate-gradient.pdf
