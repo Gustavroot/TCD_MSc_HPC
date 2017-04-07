@@ -1,4 +1,9 @@
 #include "fish.h"
+#include <vector>
+
+
+//Extra functions
+void coordinates_decode(vector<int> &, int);
 
 
 using namespace std;
@@ -32,9 +37,18 @@ class Grid{
 
     int get_nr_points();
 
+    //vector storing the grid info
+    vector< vector< vector<Fish> > > grid_info;
+
+    vector< vector< vector<int> > > possible_moves;
+
     //randomizing the grid for a set of three possible values
     //for amounts of fishes
     void randomize(int, int, int);
+
+    //Implement one fish move, with equal probability in
+    //each possible direction
+    void move_fish(Fish&);
 
   protected:
 
