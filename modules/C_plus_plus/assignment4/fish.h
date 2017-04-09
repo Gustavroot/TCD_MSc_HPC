@@ -13,6 +13,8 @@ class Fish{
 
   public:
 
+    Fish();
+
     //Constructor: receives string with type of fish, and
     //position of the fish
     Fish(const string &, int, int, int);
@@ -26,12 +28,14 @@ class Fish{
     //Physical dimension
     int steps_without_food;
 
+    int total_steps;
+    int total_meals;
+
     vector<int> get_position();
     string get_type();
     void set_type(const string &);
 
-    //Side_length^2 is the number of points in the grid
-    //int side_length;
+    void destroy();
 
   private:
 

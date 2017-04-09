@@ -4,6 +4,7 @@
 
 //Extra functions
 void coordinates_decode(vector<int> &, int);
+int coordinates_encode(const vector<int>);
 
 
 using namespace std;
@@ -22,14 +23,14 @@ class Grid{
     //Set value at specific point of the grid
     void insert_fish(int, int, int);
 
-    //print the grid
+    //TODO: print the grid
     void print();
 
     //Return total sum: just performs a summation
     //of the values in each point of the grid
     //double get_total_sum();
 
-    //print a small report on total info of one point
+    //TODO: print a small report on total info of one point
     void get_point_info(int, int, int);
 
     //'get' operator
@@ -48,7 +49,13 @@ class Grid{
 
     //Implement one fish move, with equal probability in
     //each possible direction
-    void move_fish(Fish&);
+    void move_fish(Fish&, int, int, int);
+
+    //get total number of each species of fish
+    vector<int> fishes_count();
+
+    //delete all info within grid
+    void reset();
 
   protected:
 
@@ -56,8 +63,4 @@ class Grid{
     //double *grid_info;
 
     int number_points;
-
-    //TODO: the Grid consists of a vector of vectors, and each
-    //vector corresponding to each point, consists of a set of
-    //fishes
 };

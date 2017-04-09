@@ -51,10 +51,10 @@ $(DEP4): $(SRC4) $(HEAD4)
 
 #tests
 test:
-	./$(TARG) #-s 100000 -i 0.1 -f 8 -d 0.05 -D 2 -L 2 -b 100
+	./$(TARG)
 #	python $(DIR)/plot.py
 
 #removing objects and target
 clean:
-	rm $(DIR)/*.o #2>/dev/null
-	rm $(TARG) #2> /dev/null
+	rm $(DIR)/*.o
+	rm $(TARG)

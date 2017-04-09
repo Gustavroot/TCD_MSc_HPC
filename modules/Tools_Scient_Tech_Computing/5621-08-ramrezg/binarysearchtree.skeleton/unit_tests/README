@@ -1,0 +1,25 @@
+1) Edit the Makefile
+	- add any "../*.c" source files which you wish to test.
+
+2) Edit the ./t/wvtest.t.c
+	- include any "../*.h" header files which are required for your code
+	- write your tests by writing code to use your functions, and
+	  check results/values against the wvtest macros:
+
+	  WVPASS(1);
+	  WVFAIL(0);
+	  WVPASSEQ(1, 1);
+	  WVPASSNE(1, 2);
+	  WVPASSLT(1, 2);
+	  WVPASSEQSTR("hello", "hello");
+	  WVPASSNESTR("hello", "hello2");
+	  WVPASSLTSTR("hello", "hello2");
+
+	- enclose groups of tests together inside WVTEST_MAIN sections. The
+	  string is printed while the test is running. For example:
+
+	  WVTEST_MAIN("hashtable insert tests") { .... }
+	  WVTEST_MAIN("hashtable retrieval tests") { .... }
+
+3) Type 'make test' to compile and run.
+

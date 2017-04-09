@@ -18,20 +18,26 @@ void point_boundary_conditions(vector<int> &point){
 }
 
 
-//constructor
+//constructors
+
+Fish::Fish(){
+}
+
 Fish::Fish(const string & fish_type_, int x_, int y_, int z_){
 
   //set values of fish
   fish_type = fish_type_;
   steps_without_food = 0;
+  total_steps = 0;
+  total_meals = 0;
   
-  //cout << "Initialized fish!" << endl;
+  x = x_;
+  y = y_;
+  z = z_;
 }
 
 //destructor
 Fish::~Fish(){
-  //delete[] grid_info;
-  //cout << "Fish destroyed!" << endl;
 }
 
 
@@ -56,4 +62,8 @@ string Fish::get_type(){
 
 void Fish::set_type(const string& fish_type_){
   fish_type = fish_type_;
+}
+
+void Fish::destroy(){
+  delete this;
 }
