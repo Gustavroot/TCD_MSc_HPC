@@ -235,3 +235,63 @@ WVTEST_MAIN("binary search tree tests - create/destroy")
 	bst_destroy(my_tree);
 }
 
+WVTEST_MAIN("binary search tree tests - find minimum")
+{
+	/* init the hash table */
+	bst *my_tree = NULL;
+	my_tree = bst_create();
+
+	bst_insert(my_tree, 7);
+	bst_insert(my_tree, 2);
+	bst_insert(my_tree, 11);
+	bst_insert(my_tree, 3);
+
+	WVPASSEQ(bst_find_min(my_tree), 2);
+
+	/* tidy up */
+	bst_destroy(my_tree);
+}
+
+WVTEST_MAIN("binary search tree tests - find maximum")
+{
+	/* init the hash table */
+	bst *my_tree = NULL;
+	my_tree = bst_create();
+
+	bst_insert(my_tree, 7);
+	bst_insert(my_tree, 2);
+	bst_insert(my_tree, 11);
+	bst_insert(my_tree, 3);
+
+	WVPASSEQ(bst_find_max(my_tree), 11);
+
+	/* tidy up */
+	bst_destroy(my_tree);
+}
+
+
+WVTEST_MAIN("binary search tree tests - remove entry")
+{
+	/* init the hash table */
+	bst *my_tree = NULL;
+	my_tree = bst_create();
+
+	bst_insert(my_tree, 7);
+	bst_insert(my_tree, 2);
+	bst_insert(my_tree, 45);
+	bst_insert(my_tree, 6);
+	bst_insert(my_tree, 11);
+	bst_insert(my_tree, 19);
+	bst_insert(my_tree, 23);
+
+	//remove existing elements
+	WVPASS(bst_remove(my_tree, 11));
+	WVPASS(bst_remove(my_tree, 7));
+
+	//try to remove non-existing elements
+	WVFAIL(bst_remove(my_tree, 7));
+	WVFAIL(bst_remove(my_tree, 11));
+
+	/* tidy up */
+	bst_destroy(my_tree);
+}

@@ -1,0 +1,24 @@
+After execution of 'make graph', the comparison of performances for
+the cases of random and linear sets of data being stored in the BST,
+can be seen from the file ./performances.png.
+
+From the two plots, and taking into consideration that the scale
+is logarithmic, the difference in execution time for both versions
+of the execution is of many orders of magnitude. This leads to the
+conclusion that a naive implementation of the BST is, in general,
+not appropriate.
+
+There are other methods for increasing the performance of the BST.
+
+One simple (and next to leading order on naiveness) method is to
+balance the tree after each insertion (or deletion, if implemented
+or used) of a node. If the tree is balanced, the exec times can be
+lowered up to a maximum factor of log(N)/N; balacing the tree leads
+to a minimum number of levels.
+
+Another option is using self-balacing trees, e.g. a red-black tree;
+the way these trees are usually balanced is not that different from
+the naive balancing method mentioned before, but is just a re-ordering
+of the steps taken to balance the tree in a not so obvious way,
+which can decrease the exec times depending on the problem to be
+solved.

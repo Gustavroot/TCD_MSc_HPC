@@ -23,6 +23,8 @@ bst.o:           bst.h
 .PHONY: clean
 clean:
 	$(RM) $(objects) $(target)
+	@ #extra elements created from 'make graph'
+	$(RM) output.dat
 
 test: $(target)
 	./$(target) -n 1000
@@ -30,3 +32,13 @@ test: $(target)
 unit_tests: $(target).o
 	make -C unit_tests test
 
+graph: $(target)
+	@make
+	@echo "step n_i random n_i linear" > output.dat
+	@echo "Performing tests..."
+	@for i in $$(seq 1000 500 20000) ; do \
+		./$(target) -n $$i; \
+	done >> output.dat
+	@gnuplot plot_performances.gp
+	@echo "...done."
+	@make clean
