@@ -1,0 +1,2 @@
+#TradeId,TradeType,Maturity,MaturityTime,NPV,NpvCurrency,NPV(Base),BaseCurrency
+Swap_20y,Swap,2036-03-03,20.073770,360.945858,EUR,360.945858,EUR

@@ -10,7 +10,7 @@ void command_parse();
 //CORE functions
 void own_shell(char*, char*, char*, char*, char*, FILE*);
 void cd(char*, char*, char*, char*, char*, char*);
-void ls(char*, FILE*);
+void ls(char*, FILE*, char*);
 
 
 
@@ -53,6 +53,9 @@ void own_shell(char* command, char* cwd_rel, char* cwd_abs_current, char* cwd_ab
 
   //printf("%s\n", command);
 
+  //check in advance if command_root exists in any bin/
+  
+
   //implement according to given command
   if(strcmp(command, "clear\n") == 0){
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &terminal_size);
@@ -69,16 +72,17 @@ void own_shell(char* command, char* cwd_rel, char* cwd_abs_current, char* cwd_ab
     cd(command_root, command, cwd_rel, cwd_abs_current, cwd_abs_previous, cwd_rel_previous);
   }
   else if(strcmp(command_root, "ls") == 0){
-    ls(cwd_abs_current, out);
+    ls(cwd_abs_current, out, command);
   }
-
-  //TODO: elifs here
-
   //for general purpose executables
+  //else if(){
+  //  //printf("%s: command not found... execute from bin/ directories!\n", command_root);
+  //  printf("[[using %s from bin/ directories]]\n", command_root);
+  //  //system(command);
+  //  
+  //}
   else{
-    //printf("%s: command not found... execute from bin/ directories!\n", command_root);
-    printf("[[using %s from bin/ directories]]\n", command_root);
-    system(command);
+    printf("[[NOT IMPLEMENTED]]\n");
   }
 }
 
@@ -180,14 +184,65 @@ void cd(char* command_root, char* command, char* cwd_rel, char* cwd_abs_current,
 }
 
 
-void ls(char* cwd_abs_current, FILE* out){
+void ls(char* cwd_abs_current, FILE* out, char* command){
   DIR* d;
   struct dirent* dir;
-  d = opendir(cwd_abs_current);
-  if (d){
+  char path_i[254];
+  char inpts[254];
+  char *buff2;
+  strcpy(inpts, command);
+  inpts[strlen(inpts)-1] = '\0';
+  buff2 = substring(inpts, ' ', strlen(inpts));
+  //TODO: finish following implementation of absolute
+  //and relative paths with ls
+  //if a param has been passed to ls
+  /*
+  if(buff2 != NULL){
+    strcpy(inpts, buff2+1);
+    buff2 = substring(inpts, ' ', strlen(inpts));
+    if(buff2 != NULL){
+      buff2[0] = '\0';
+    }
+    d = opendir(inpts);
+    if(d){
+      strcpy(path_i, inpts);
+      strcpy(inpts, "");
+    }
+    else{
+      //decode if rel or abs paths, and extract abs part
+      if(inpts[0] == '/'){
+        strcpy(path_i, inpts);
+        buff2 = strstr(path_i, "/");
+        strcpy(inpts, buff2+1);
+        buff2[1] = '\0';
+      }
+    }
+    closedir(d);
+  }
+  else{
+    strcpy(path_i, cwd_abs_current);
+    strcpy(inpts, "");
+  }
+  */
+
+  strcpy(path_i, cwd_abs_current);
+  strcpy(inpts, "");
+
+  //printf("path: <%s>\n", cwd_abs_current);
+  //printf("specific file: <%s>\n", inpts);
+
+  d = opendir(path_i);
+  if(d){
     while((dir = readdir(d)) != NULL){
       if((dir->d_name)[0] == '.'){continue;}
-      fprintf(out, "%s\n", dir->d_name);
+      if(strcmp(inpts, "") == 0){
+        fprintf(out, "%s\n", dir->d_name);
+      }
+      else{
+        if(strcmp(dir->d_name, inpts) == 0){
+          fprintf(out, "%s\n", dir->d_name);
+        }
+      }
     }
     closedir(d);
   }

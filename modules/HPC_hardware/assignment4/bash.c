@@ -32,7 +32,7 @@ int main(){
   char cwd_abs[254], cwd_rel[32], cwd_rel_previous[32], cwd_abs_previous[254], cwd_abs_current[286];
   //'command_root' is the command without params
   char command[254];
-  char filename[254];
+  char filename[254], filename_buff[254];
   int size;
   
   //bin directories
@@ -90,6 +90,15 @@ int main(){
       if(i == 2){buff += 1;}
       strcpy(filename, buff);
       filename[strlen(filename)-1] = '\0';
+      //check if relative or absolute path
+      if(filename[0] != '/'){
+        strcpy(filename_buff, filename);
+        strcpy(filename, cwd_abs_current);
+        strcat(filename, "/");
+        strcat(filename, filename_buff);
+        printf("%s\n", filename);
+      }
+      //overwrite or not
       if(i == 1){
         out = fopen(filename, "w");
       }
