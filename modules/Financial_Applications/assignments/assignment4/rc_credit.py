@@ -17,4 +17,4 @@ if __name__ == '__main__':
 
     print "\nProgram to calculate RC credit from ORE output.\n\n"
 
-    print rc_credit(alpha, pd)
+    print rc_credit(alpha, pd)*20*0.05

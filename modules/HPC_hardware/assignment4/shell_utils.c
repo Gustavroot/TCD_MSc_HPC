@@ -193,29 +193,35 @@ void ls(char* cwd_abs_current, FILE* out, char* command){
   strcpy(inpts, command);
   inpts[strlen(inpts)-1] = '\0';
   buff2 = substring(inpts, ' ', strlen(inpts));
-  //TODO: finish following implementation of absolute
-  //and relative paths with ls
+  //Implementation of absolute and relative paths with ls
   //if a param has been passed to ls
-  /*
   if(buff2 != NULL){
     strcpy(inpts, buff2+1);
     buff2 = substring(inpts, ' ', strlen(inpts));
     if(buff2 != NULL){
       buff2[0] = '\0';
     }
-    d = opendir(inpts);
-    if(d){
+    //absolute or relative
+    if(inpts[0] == '/'){
       strcpy(path_i, inpts);
+    }
+    else{
+      strcpy(path_i, cwd_abs_current);
+      strcat(path_i, "/");
+      strcat(path_i, inpts);
+    }
+    strcpy(inpts, path_i);
+    realpath(inpts, path_i);
+    //matching with files
+    d = opendir(path_i);
+    if(d){
       strcpy(inpts, "");
     }
     else{
-      //decode if rel or abs paths, and extract abs part
-      if(inpts[0] == '/'){
-        strcpy(path_i, inpts);
-        buff2 = strstr(path_i, "/");
-        strcpy(inpts, buff2+1);
-        buff2[1] = '\0';
-      }
+      //if file, then put that name in 'inpts'
+      buff2 = strrchr(path_i, '/');
+      strcpy(inpts, buff2+1);
+      buff2[0] = '\0';
     }
     closedir(d);
   }
@@ -223,13 +229,9 @@ void ls(char* cwd_abs_current, FILE* out, char* command){
     strcpy(path_i, cwd_abs_current);
     strcpy(inpts, "");
   }
-  */
 
-  strcpy(path_i, cwd_abs_current);
-  strcpy(inpts, "");
-
-  //printf("path: <%s>\n", cwd_abs_current);
-  //printf("specific file: <%s>\n", inpts);
+  printf("path: <%s>\n", path_i);
+  printf("specific file: <%s>\n", inpts);
 
   d = opendir(path_i);
   if(d){

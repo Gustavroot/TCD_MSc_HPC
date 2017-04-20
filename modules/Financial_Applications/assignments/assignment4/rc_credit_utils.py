@@ -111,16 +111,18 @@ def phi_factor(pd):
     return norm.cdf(phi_arg) - pd
 
 #LGD
-def lgd():
+def lgd(pd):
     #TODO: implement, calculate using CVA and reading other info from files
-    ore_outs = ore_outputs("Examples/Example_1/Output/", ["CVA", "EPE", "t_k"])
-    print
-    print ore_outs[0]
-    print
+    ore_outs = ore_outputs("Examples/Example_1/Output/", ["CVA", "EPE"])
+    #extracting PD*sum(EPE)
+    den1 = 0
+    for elem in ore_outs[1]:
+        den1 += elem
+    den1 *= pd
 
-    #for 
+    print ore_outs[0]/den1
 
-    return 1.0
+    return ore_outs[0]/den1 #1.0
 
 #EEPE basel
 def eepe_b():
@@ -135,7 +137,7 @@ def eepe_b_stressed():
 
 #K
 def k_function(pd):
-    return lgd()*phi_factor(pd)*g_function(pd)
+    return lgd(pd)*phi_factor(pd)*g_function(pd)
 
 #EAD factor
 def ead(alpha):

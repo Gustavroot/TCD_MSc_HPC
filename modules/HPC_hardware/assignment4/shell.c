@@ -11,7 +11,7 @@
 
 #include <fcntl.h>
 
-#include "shell_aux.c"
+#include "shell_utils.c"
 
 
 
