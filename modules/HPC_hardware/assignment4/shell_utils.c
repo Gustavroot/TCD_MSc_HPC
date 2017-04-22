@@ -1,21 +1,79 @@
-//Aux functions
-char* substring(char*, char, int);
-void strip(char*, int);
-void output_file(char*);
-void get_current_dir(char*, char*, int);
-int redirection(char*);
-void command_parse();
+#include "shell_utils.h"
 
 
-//CORE functions
-void own_shell(char*, char*, char*, char*, char*, FILE*);
-void cd(char*, char*, char*, char*, char*, char*);
-void ls(char*, FILE*, char*);
-
-
+//TODO: add implemented system utils from 5621 module
 
 
 //----------------------CORE FUNCTIONS---------------------------------------------
+
+
+void modular_shell(char* command, char* cwd_rel, char* cwd_abs_current, char* cwd_abs_previous, char* cwd_rel_previous){
+
+  //All this code will be called by multiple modularizations
+  //of the named pipes
+
+  FILE* out;
+
+  int i;
+  char* buff;
+  int size;
+
+  char filename[254], filename_buff[254];
+
+  i = redirection(command);
+
+  //if no redirection
+  if(i == 0){
+    out = stdout;
+    own_shell(command, cwd_rel, cwd_abs_current, cwd_abs_previous, cwd_rel_previous, out);
+  }
+  //depending on the redirection case, create the appropriate file first
+  else if(i == 1 || i == 2){
+    //create file with filename given
+    buff = substring(command, '>', strlen(command))+2;
+    if(i == 2){buff += 1;}
+    strcpy(filename, buff);
+    filename[strlen(filename)-1] = '\0';
+    //check if relative or absolute path
+    if(filename[0] != '/'){
+      strcpy(filename_buff, filename);
+      strcpy(filename, cwd_abs_current);
+      strcat(filename, "/");
+      strcat(filename, filename_buff);
+      printf("%s\n", filename);
+    }
+    //overwrite or not
+    if(i == 1){
+      out = fopen(filename, "w");
+    }
+    else{
+      out = fopen(filename, "a");
+    }
+    //cut 'command' variable to only execute the command
+    if(*(buff-1) == ' '){
+      *(buff-2) = '\n';
+      *(buff-1) = '\0';
+    }
+    else{
+      *(buff-1) = '\n';
+      *(buff) = '\0';
+    }
+    //printf("%s\n", filename);
+    //printf("%s\n", command);
+    own_shell(command, cwd_rel, cwd_abs_current, cwd_abs_previous, cwd_rel_previous, out);
+    fclose(out);
+    //continue;
+  }
+  else{
+    printf("redirection wants to be used!\n");
+    //continue;
+    //TODO: implement pending redirections. For now, redirection is set into stdout
+    out = stdout;
+    own_shell(command, cwd_rel, cwd_abs_current, cwd_abs_previous, cwd_rel_previous, out);
+  }
+
+  //own_shell(command, cwd_rel, cwd_abs_current, cwd_abs_previous, cwd_rel_previous, out);
+}
 
 
 
@@ -24,6 +82,19 @@ void ls(char*, FILE*, char*);
 void own_shell(char* command, char* cwd_rel, char* cwd_abs_current, char* cwd_abs_previous, char* cwd_rel_previous, FILE* out){
 
   int i;
+
+  //bin directories
+  /*
+  char bin1[32];
+  strcpy(bin1, "/bin");
+  char bin2[32];
+  strcpy(bin2, "/usr/bin");
+  char bin3[32];
+  struct passwd *pw = getpwuid(getuid());
+  const char *homedir = pw->pw_dir;
+  strcpy(bin3, homedir);
+  strcat(bin3, "/bin");
+  */
 
   struct winsize terminal_size;
 
@@ -50,8 +121,6 @@ void own_shell(char* command, char* cwd_rel, char* cwd_abs_current, char* cwd_ab
   //TODO: construct file to which output will be sent
   //out = output_file(command);
   //output_file(command);
-
-  //printf("%s\n", command);
 
   //check in advance if command_root exists in any bin/
   
@@ -229,9 +298,6 @@ void ls(char* cwd_abs_current, FILE* out, char* command){
     strcpy(path_i, cwd_abs_current);
     strcpy(inpts, "");
   }
-
-  printf("path: <%s>\n", path_i);
-  printf("specific file: <%s>\n", inpts);
 
   d = opendir(path_i);
   if(d){
