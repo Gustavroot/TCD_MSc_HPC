@@ -1,9 +1,6 @@
 #include "shell_utils.h"
 
 
-//TODO: add implemented system utils from 5621 module
-
-
 //----------------------CORE FUNCTIONS---------------------------------------------
 
 
@@ -40,7 +37,6 @@ void modular_shell(char* command, char* cwd_rel, char* cwd_abs_current, char* cw
       strcpy(filename, cwd_abs_current);
       strcat(filename, "/");
       strcat(filename, filename_buff);
-      printf("%s\n", filename);
     }
     //overwrite or not
     if(i == 1){
@@ -58,15 +54,11 @@ void modular_shell(char* command, char* cwd_rel, char* cwd_abs_current, char* cw
       *(buff-1) = '\n';
       *(buff) = '\0';
     }
-    //printf("%s\n", filename);
-    //printf("%s\n", command);
     own_shell(command, cwd_rel, cwd_abs_current, cwd_abs_previous, cwd_rel_previous, out);
     fclose(out);
     //continue;
   }
   else{
-    printf("redirection wants to be used!\n");
-    //continue;
     //TODO: implement pending redirections. For now, redirection is set into stdout
     out = stdout;
     own_shell(command, cwd_rel, cwd_abs_current, cwd_abs_previous, cwd_rel_previous, out);
@@ -84,7 +76,8 @@ void own_shell(char* command, char* cwd_rel, char* cwd_abs_current, char* cwd_ab
   int i;
 
   //bin directories
-  /*
+  char* bin_buff;
+  int in_bin;
   char bin1[32];
   strcpy(bin1, "/bin");
   char bin2[32];
@@ -94,7 +87,6 @@ void own_shell(char* command, char* cwd_rel, char* cwd_abs_current, char* cwd_ab
   const char *homedir = pw->pw_dir;
   strcpy(bin3, homedir);
   strcat(bin3, "/bin");
-  */
 
   struct winsize terminal_size;
 
@@ -102,7 +94,6 @@ void own_shell(char* command, char* cwd_rel, char* cwd_abs_current, char* cwd_ab
   char command_root[16];
   //file to which output will be sent.. can be pipe, stdout, etc.
   //FILE* out;
-
   //Extract root of inserted command.. NULL if no
   //separation by ' '
   str_ptr = substring(command, ' ', strlen(command));
@@ -118,12 +109,26 @@ void own_shell(char* command, char* cwd_rel, char* cwd_abs_current, char* cwd_ab
     command_root[strlen(command)-1] = '\0';
   }
 
+  //printf("<root command: %s>\n", command_root);
+
   //TODO: construct file to which output will be sent
   //out = output_file(command);
   //output_file(command);
 
-  //check in advance if command_root exists in any bin/
-  
+  //Check in advance if command_root exists in any bin/
+  in_bin = 0;
+  if(file_in_dir(bin1, command_root)){
+    bin_buff = bin1;
+    in_bin = 1;
+  }
+  else if(file_in_dir(bin2, command_root)){
+    bin_buff = bin2;
+    in_bin = 1;
+  }
+  else if(file_in_dir(bin3, command_root)){
+    bin_buff = bin3;
+    in_bin = 1;
+  }
 
   //implement according to given command
   if(strcmp(command, "clear\n") == 0){
@@ -141,17 +146,79 @@ void own_shell(char* command, char* cwd_rel, char* cwd_abs_current, char* cwd_ab
     cd(command_root, command, cwd_rel, cwd_abs_current, cwd_abs_previous, cwd_rel_previous);
   }
   else if(strcmp(command_root, "ls") == 0){
-    ls(cwd_abs_current, out, command);
+
+  //printf("works!\n");
+
+    pid_t pid;
+    //because printf() is buffered, flush
+    fflush(stdout);
+    pid = fork();
+    if(pid == -1){
+      printf("failed to fork!\n");
+      exit(1);
+    }
+    else if(pid == 0){
+      //the child is in charge of executing the execution of commands
+      ls(cwd_abs_current, out, command);
+      exit(0);
+    }
+    //the parent persists to exist
+    else{
+      wait(NULL);
+      return;
+    }
   }
   //for general purpose executables
-  //else if(){
-  //  //printf("%s: command not found... execute from bin/ directories!\n", command_root);
-  //  printf("[[using %s from bin/ directories]]\n", command_root);
-  //  //system(command);
-  //  
-  //}
+  else if(in_bin){
+    int j;
+    //str_ptr++;
+    char** arguments;
+    int count_char = 0;
+    if(str_ptr == NULL){
+      arguments = (char**)malloc((count_char+2)*sizeof(char*));
+      arguments[0] = (char*)malloc(strlen(command_root)*sizeof(char));
+      strcpy(arguments[0], command_root);
+    }
+    else{
+      char args_buff[254];
+      strcpy(args_buff, str_ptr);
+      char* buff_ptr = args_buff;
+      args_buff[strlen(args_buff)-1] = '\0';
+      //The child is in charge of executing the commands
+      //First, construct array of params
+      for(; *buff_ptr; count_char += (*buff_ptr++ == ' '));
+      arguments = (char**)malloc((count_char+2)*sizeof(char*));
+      arguments[0] = (char*)malloc(strlen(command_root)*sizeof(char));
+      strcpy(arguments[0], command_root);
+      //Next line is due to last argument being NULL in arguments
+      j = count_char;
+      for(i=strlen(args_buff)-1; i>=0; i--){
+        //for each space, create a argument
+        if(args_buff[i] == ' '){
+          arguments[j] = (char*)malloc(strlen(args_buff+i+1)*sizeof(char));
+          strcpy(arguments[j], args_buff+i+1);
+          args_buff[i] = '\0';
+          j--;
+        }
+      }
+      //arguments[count_char+1] = (char*)malloc(sizeof(char));
+    }
+    arguments[count_char+1] = NULL;
+
+    //fork()?
+    //execute program
+    if(execvp(arguments[0], arguments)){
+      printf("ERROR: %s\n", strerror(errno));
+    }
+
+    //release memory
+    for(j = 0; j<count_char+1; j++){
+      free(arguments[j]);
+    }
+    free(arguments);
+  }
   else{
-    printf("[[NOT IMPLEMENTED]]\n");
+    printf("%s: command not found\n", command_root);
   }
 }
 
@@ -250,6 +317,7 @@ void cd(char* command_root, char* command, char* cwd_rel, char* cwd_abs_current,
       //opendir() failed for some other reason
     }
   }
+  chdir(cwd_abs_current);
 }
 
 
@@ -323,6 +391,8 @@ void ls(char* cwd_abs_current, FILE* out, char* command){
 
 
 //----------------------AUX FUNCTIONS---------------------------------------------
+
+
 void get_current_dir(char* dir_abs, char* dir_rel, const int size){
 
   int i = 0;
@@ -429,5 +499,22 @@ int redirection(char* command){
   }
   else{
     return 0;
+  }
+}
+
+
+int file_in_dir(char* path_i, char* filename){
+  DIR* d;
+  struct dirent* dir;
+  d = opendir(path_i);
+  if(d){
+    while((dir = readdir(d)) != NULL){
+      if(strcmp(dir->d_name, filename) == 0){
+        //fprintf(stdout, "%s\n", dir->d_name);
+        closedir(d);
+        return 1;
+      }
+    }
+    closedir(d);
   }
 }
