@@ -18,13 +18,11 @@ int main(int argc, char** argv){
 
   int i, j;
   char* buff;
+  int wait_child;
   //data for pipe
   int count_pipes, pipe1[2], pipe2[2];
 
   pid_t pid;
-
-  //general pipe
-  int pd[2];
 
   //use of PATH_MAX?
 
@@ -52,9 +50,11 @@ int main(int argc, char** argv){
   int k = 0;
 
   while(1){
+    if(wait_child == 0){usleep(300000);}
     //if no previous call to readline()
     printf("[user@computer %s]$ ", cwd_rel);
     fflush(stdin);
+    wait_child = 1;
     //get a line from the user
     if(command != (char*)NULL){free(command);}
     command = readline("");
@@ -68,20 +68,30 @@ int main(int argc, char** argv){
 
     //after the user inputs command, strip
     strip(command, strlen(command));
-    if(command[strlen(command)-1] != '\n'){
-      i = strlen(command);
-      command[i] = '\n';
-      command[i+1] = '\0';
-    }
 
     //count number of pipes
     count_pipes = 0;
     buff = command;
     for(; *buff; count_pipes += (*buff++ == '|'));
 
+    //checking if putting process in background
+    if(command[strlen(command)-1] == '&'){
+      i = strlen(command)-1;
+      command[i-1] = '\0';
+      wait_child = 0;
+    }
+
+    //put a '\n' at the end
+    if(command[strlen(command)-1] != '\n'){
+      i = strlen(command);
+      command[i] = '\n';
+      command[i+1] = '\0';
+    }
+
     //creating a copy of command
     strcpy(command_buff, command);
     command_buff[strlen(command_buff)-1] = '\0';
+    
     //From the number of commands to be executed due to pipes
     partial_commands = (char**)malloc((count_pipes+1)*sizeof(char*));
     j = count_pipes;
@@ -114,13 +124,9 @@ int main(int argc, char** argv){
 
     //don't let the child to execute the last command
     strcpy(command_buff, partial_commands[0]);
+    int pd[2];
     for(i=0; i<count_pipes; i++){
       pipe(pd);
-
-      /* implement cd data here
-      if(command_buff[0] == 'c' && command_buff[1] == 'd'){
-      }
-      */
 
       pid = fork();
       if(pid == -1){
@@ -145,7 +151,8 @@ int main(int argc, char** argv){
       }
     }
 
-    //if cd, execute by parent process
+    //If 'cd', then execute by parent
+    //This command is either the last when using pipes, or the only command
     if(!(command_buff[0] == 'c' && command_buff[1] == 'd')){
       pid = fork();
       if(pid == -1){
@@ -156,12 +163,21 @@ int main(int argc, char** argv){
         exit(0);
       }
       else{
-        wait(NULL);
+        //for the last or only command, if '&' then don't wait for child
+        if(wait_child){
+          wait(NULL);
+        }
+        //else{printf("not waiting for child!\n");}
       }
     }
     else{
       modular_shell(command_buff, cwd_rel, cwd_abs_current, cwd_abs_previous, cwd_rel_previous);
     }
+
+
+    //restore stdin
+    dup2(pd[0], 0);
+    close(pd[0]);
 
     //release memory
     for(j = 0; j<count_pipes+1; j++){

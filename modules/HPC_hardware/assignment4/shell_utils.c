@@ -211,6 +211,8 @@ void own_shell(char* command, char* cwd_rel, char* cwd_abs_current, char* cwd_ab
       printf("ERROR: %s\n", strerror(errno));
     }
 
+    //following code to execvp() won't execute... will dissapear...
+
     //release memory
     for(j = 0; j<count_char+1; j++){
       free(arguments[j]);
